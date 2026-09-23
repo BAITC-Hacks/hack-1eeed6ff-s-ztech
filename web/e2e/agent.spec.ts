@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { openWorkspace } from '../test-support/workspace';
 import { mockApi, fixture, A, B } from './fixture';
 const answer = () => ({ run_id: fixture.meta.run_id, model: 'synthetic-agent-test', status: 'answered', answer: 'Проверенное тестовое основание.', citations: [
   { id: 's1', kind: 'observation', text: `Тестовое наблюдение для ${B}.`, url: `/api/v1/nodes/${B}`, source_refs: ['tx:1'] },
@@ -12,7 +13,7 @@ async function setup(page: import('@playwright/test').Page, enabled: boolean) {
 test('agent disabled state is honest and opening never makes a paid request', async ({ page }) => {
   await setup(page, false); let calls = 0;
   await page.route('**/api/v1/agent/query', async route => { calls++; await route.abort(); });
-  await page.goto('/'); await page.getByRole('button', { name: 'Открыть AI-аналитика' }).click();
+  await openWorkspace(page); await page.getByRole('button', { name: 'Открыть AI-аналитика' }).click();
   await expect(page.getByRole('dialog', { name: 'AI-аналитик' })).toBeVisible();
   await expect(page.getByText('AI-аналитик не включён на этом сервере.')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Задать вопрос', exact: true })).toBeDisabled();
@@ -27,7 +28,7 @@ test('agent request shows exact context, pending state, sources, tools and saved
     calls++; expect(route.request().postDataJSON()).toEqual({ question: 'Какие основания?', gid: B });
     await wait; await route.fulfill({ json: answer() });
   });
-  await page.goto('/'); const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
+  await openWorkspace(page); const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
   await search.fill(B); await search.press('Enter'); await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
   await page.getByRole('button', { name: 'Открыть AI-аналитика' }).click();
   await page.getByLabel('Вопрос аналитику', { exact: true }).fill('Какие основания?');
@@ -49,7 +50,7 @@ test('agent busy failure retries; insufficient data is a distinct supported answ
   await page.route('**/api/v1/agent/query', route => {
     calls++; return route.fulfill(calls === 1 ? { status: 429, json: { error: { code: 'AGENT_BUSY', message: 'Аналитик уже обрабатывает другой вопрос.' } } } : { json: { ...answer(), status: 'insufficient_data' } });
   });
-  await page.goto('/'); await page.getByRole('button', { name: 'Открыть AI-аналитика' }).click();
+  await openWorkspace(page); await page.getByRole('button', { name: 'Открыть AI-аналитика' }).click();
   await page.getByLabel('Вопрос аналитику', { exact: true }).fill('Чего не хватает?');
   await page.getByRole('button', { name: 'Задать вопрос', exact: true }).click();
   await expect(page.getByRole('dialog').getByRole('alert')).toContainText('другой вопрос');
@@ -60,13 +61,13 @@ test('agent busy failure retries; insufficient data is a distinct supported answ
 test('agent snapshot mismatch clears stale evidence and requires refresh', async ({ page }) => {
   await setup(page, true);
   await page.route('**/api/v1/agent/query', route => route.fulfill({ json: { ...answer(), run_id: 'changed-run' } }));
-  await page.goto('/'); await page.getByRole('button', { name: 'Открыть AI-аналитика' }).click();
+  await openWorkspace(page); await page.getByRole('button', { name: 'Открыть AI-аналитика' }).click();
   await page.getByLabel('Вопрос аналитику', { exact: true }).fill('Вопрос'); await page.getByRole('button', { name: 'Задать вопрос', exact: true }).click();
   await expect(page.getByText(/Расчёт изменился/).first()).toBeVisible();
   await expect(page.getByText(`Тестовое наблюдение для ${B}.`, { exact: true })).toHaveCount(0);
 });
 test('agent panel fits desktop sizes and closing preserves the selected graph', async ({ page }, info) => {
-  await setup(page, true); await page.goto('/');
+  await setup(page, true); await openWorkspace(page);
   const search = page.getByRole('textbox', { name: 'Поиск по полному gid' }); await search.fill(A); await search.press('Enter');
   await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', A);
   for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 1024, height: 768 }]) {
@@ -83,7 +84,7 @@ test('agent pending request survives closing and reopening without a second char
   await setup(page, true); let calls = 0; let release!: () => void;
   const wait = new Promise<void>(resolve => { release = resolve; });
   await page.route('**/api/v1/agent/query', async route => { calls++; await wait; await route.fulfill({ json: answer() }); });
-  await page.goto('/'); const trigger = page.getByRole('button', { name: 'Открыть AI-аналитика' });
+  await openWorkspace(page); const trigger = page.getByRole('button', { name: 'Открыть AI-аналитика' });
   const bounds = await trigger.boundingBox(); expect(bounds).not.toBeNull();
   const viewport = page.viewportSize()!; expect(bounds!.x).toBeGreaterThan(viewport.width - 240); expect(bounds!.y).toBeGreaterThan(viewport.height - 100);
   await trigger.click(); await page.getByLabel('Вопрос аналитику', { exact: true }).fill('Проверь основания');
@@ -98,7 +99,7 @@ test('agent never shows a late answer after the selected context changes', async
   await setup(page, true); let release!: () => void;
   const wait = new Promise<void>(resolve => { release = resolve; });
   await page.route('**/api/v1/agent/query', async route => { await wait; await route.fulfill({ json: answer() }).catch(() => {}); });
-  await page.goto('/'); const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
+  await openWorkspace(page); const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
   await search.fill(B); await search.press('Enter'); await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
   await page.getByRole('button', { name: 'Открыть AI-аналитика' }).click();
   await page.getByLabel('Вопрос аналитику', { exact: true }).fill('Проверь основания');
@@ -113,16 +114,24 @@ test('agent never shows a late answer after the selected context changes', async
 });
 
 test('role legend is readable and AI dock does not cover the workspace', async ({ page }) => {
-  await setup(page, true); await page.goto('/');
+  await setup(page, true); await openWorkspace(page);
   const search = page.getByRole('textbox', { name: 'Поиск по полному gid' }); await search.fill(B); await search.press('Enter');
   await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
   for (const viewport of [{ width:1440,height:900 }, { width:1280,height:800 }, { width:1024,height:768 }]) {
     await page.setViewportSize(viewport);
     if (viewport.width <= 1050) await page.getByRole('button', { name:'Сеть', exact:true }).click();
-    const legend = page.getByRole('list', { name:'Цвета ролей узлов' });
-    await expect(legend.getByRole('listitem')).toHaveCount(6); await expect(legend).toBeInViewport();
+    const legend = page.locator('.role-legend');
+    if ((await legend.getAttribute('open')) === null) await legend.locator('summary').click();
+    await expect(legend.locator('.role')).toHaveCount(6); await expect(legend).toBeInViewport();
     const button = await page.getByRole('button', { name:'Открыть AI-аналитика' }).boundingBox();
     const workspace = await page.getByRole('main').boundingBox();
     expect(button!.y).toBeGreaterThanOrEqual(workspace!.y + workspace!.height);
   }
+});
+
+test('expanded graph hides AI dock and Escape restores its entry', async ({ page }) => {
+  await setup(page, true); await openWorkspace(page);
+  await page.getByRole('button', { name: 'Развернуть граф', exact:true }).click();
+  await expect(page.getByRole('button', { name:'Открыть AI-аналитика' })).toBeHidden();
+  await page.keyboard.press('Escape'); await expect(page.getByRole('button', { name:'Открыть AI-аналитика' })).toBeVisible();
 });

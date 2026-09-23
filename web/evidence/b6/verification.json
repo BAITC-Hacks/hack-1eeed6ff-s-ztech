@@ -1,0 +1,68 @@
+{
+  "stage": "B6",
+  "checked_at": "2026-09-23T11:57:36.529812+00:00",
+  "backend_main_sha": "2e79ed4381d27ca6100d30d285e95ad34b2fae73",
+  "backend_runtime_code_sha": "57a9ccf1bcf315add266b177578d9984aacf1b13",
+  "backend_code_note": "All changes 57a9ccf..2e79ed4 are documentation/notices; app, contracts and run.py unchanged. API process started at 57a9ccf. Final integration uses dist of B6.",
+  "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
+  "os": "macOS 27.0 (26A428)",
+  "hardware": "Apple M2",
+  "python": "3.12.14",
+  "node": "25.2.1",
+  "npm": "11.6.2",
+  "chromium": "140.0.7339.186",
+  "checks": {
+    "python_pytest": {
+      "passed": 130,
+      "seconds": 9.01,
+      "warning": "Starlette/httpx deprecation"
+    },
+    "frontend_unit": {
+      "passed": 21
+    },
+    "build": {
+      "passed": true,
+      "warning": "Vite chunk >500KB",
+      "js_kb": 694.06
+    },
+    "contract_browser": {
+      "passed": 42,
+      "seconds": 48.8
+    },
+    "real_api_browser": {
+      "passed": 4,
+      "seconds": 12.2,
+      "mock_routes": false
+    },
+    "offline": "API and browser process trees under sandbox-exec; external network denied, loopback allowed",
+    "dimensions": [
+      [
+        1440,
+        900
+      ],
+      [
+        1280,
+        800
+      ],
+      [
+        1024,
+        768
+      ]
+    ],
+    "welcome_extra_width": 360,
+    "real_csv": "3 saved downloads match API and result files byte for byte",
+    "independent_review": "Read-only source and final PNG review; no open P0/P1/P2 after layer fix",
+    "manual_browser": "Codex IAB: intro, entry, overview, theme and graph reviewed"
+  },
+  "not_repeated": [
+    "fresh clone of B6",
+    "full timed demo with human speech",
+    "Safari/Firefox/other OS"
+  ],
+  "artifacts_sha256": {
+    "web/dist/index.html": "c2aa7b921705e8c0e8221198f21f65168cb289acc70158867e7bf6def2ccc279",
+    "web/dist/assets/index-D-8lZgHJ.js": "f28ace1663e6a533333da721a1f2bd166c3bda7b7bbecc06ad6acd3f7968300c",
+    "web/dist/assets/index-hKDeiOyC.css": "9288f18f271b5fbc25d591ec14c0a4458e656e10ec76af287e01a8dc8f282ff8"
+  },
+  "screenshots": 29
+}

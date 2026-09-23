@@ -54,3 +54,5 @@
 
 .agent-trigger ~ footer { min-height: 64px; flex-shrink: 0; padding-right: 150px; }
 .agent-scope { margin: 0 0 16px; color: var(--muted); font-size: 11px; }
+
+.graph-is-expanded > .agent-trigger { display: none; }

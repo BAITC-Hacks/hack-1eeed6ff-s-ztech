@@ -1,0 +1,45 @@
+{
+  "checked_at": "2026-09-23T17:06:02+05:00",
+  "parents": [
+    "55be1e0",
+    "7de8a2b"
+  ],
+  "backend_version": "1.0.2",
+  "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+  "unit_frontend": 33,
+  "contract_browser": {
+    "initial_pass": 58,
+    "initial_fail": 2,
+    "failure": "B canvas test used old fixed relative y coordinate after AI dock reserved footer space",
+    "fix": "Rechecked actual screenshot: source at 18% canvas height; actual canvas clicks retained",
+    "targeted_recheck_pass": 2,
+    "all_60_cases_validated": true
+  },
+  "real_offline_integration": {
+    "passed": 4,
+    "seconds": 10.5,
+    "server_port": 8007,
+    "profile": "web/scripts/offline-macos.sb",
+    "external_network_denied_for": [
+      "server",
+      "chromium"
+    ],
+    "both_themes": true,
+    "sizes": [
+      1440,
+      1280,
+      1024
+    ],
+    "csv_api_disk_equal": true
+  },
+  "build": "PASS",
+  "paid_calls_for_b6": 0,
+  "review": "Independent read-only B6 review found no P0/P1; API unchanged; source/history preserved",
+  "integration": [
+    "B welcome/graph behavior preserved",
+    "B role legend retained; duplicate A legend removed",
+    "AI trigger hidden during expanded graph and restored on Escape",
+    "agent tests use real welcome entry helper",
+    "new bundle rebuilt from merged source"
+  ]
+}
