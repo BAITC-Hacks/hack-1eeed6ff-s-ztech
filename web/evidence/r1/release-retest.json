@@ -1,0 +1,23 @@
+{
+  "main_and_backend_commit": "ae48cab648c6c938951723d563a0a87386ef38b7",
+  "integration_merge": "5254e0498d6c90b69f7d29d00d6cbe1f8c2399af",
+  "date": "2026-09-23",
+  "timezone": "Asia/Almaty UTC+5",
+  "fresh_clone": "readme-release, official SSH remote, no copied .env/.venv/node_modules",
+  "readme_branch_command": "git switch codex/analysis-core",
+  "runtime_command": "python run.py",
+  "initial_pipeline_wall_seconds": 3.8531,
+  "pipeline_only_wall_seconds": 0.941375,
+  "offline_pipeline_wall_seconds": 1.028045,
+  "backend_tests": 78,
+  "frontend_unit_tests": 18,
+  "contract_browser_tests": 12,
+  "real_api_browser_tests": 3,
+  "real_api_browser_tests_repeated_under_network_isolation": 3,
+  "other_checks": ["pip check", "ruff", "compileall", "verify-only", "npm ci", "build", "dist matches Git", "three CSV downloads byte-equal API/results"],
+  "resolved_readme_findings": ["SSH clone alternative", "documented branch now contains complete UI", "explicit Chromium installation and integration test command"],
+  "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+  "feature_flags": {"agent": false, "brief": true, "removal": false, "temporal": false},
+  "network_method": "sandbox-exec deny network* with localhost exception, applied to Python server and Node/Chromium process tree; system Wi-Fi unchanged",
+  "limitations": ["Human spoken demo not measured", "No claim of platform submission", "Other OS/browser acceptance not performed", "Vite >500 KB bundle warning and upstream Starlette/httpx deprecation remain"]
+}
