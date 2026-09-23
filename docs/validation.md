@@ -56,3 +56,11 @@ Offline-runtime: macOS sandbox-exec с `(deny network-outbound)` и исключ
 ## Остаётся до релиза
 
 Принять optional E1 UI если успевает и повторить его сквозную проверку; зафиксировать окончательный SHA и подтверждение подачи. Устное демо человеком не измерено. E2/LLM не включены. G6 не заявляется.
+
+## Заключительная проверка main на A — 2026-09-23T15:28:38+05:00
+
+Новый clone **main dc99cf2857091c5e8086117f7ddd8be744e3e0fa**, отдельный venv, установка runtime/dev locks. Первый pipeline 5.273589 s; verify-only valid; 94 pytest PASS (1 известный warning), ruff/compileall/pip check PASS. Python run.py обслужил включённый web/dist без установки Node/npm в этот clone.
+
+Сервер и Chromium test process запущены под опубликованным B профилем web/scripts/offline-macos.sb: все 3 настоящих integration tests PASS за 4.2 s, три downloads совпали с API/файлами. E1 meta=true и реальный POST=200 также проверены на этом isolated server. После dc99cf2 до этой записи менялась только документация; приложение и locks не менялись. Evidence: docs/hackalem/evidence/release-a/.
+
+Финальный read-only README-review проверил команды/флаги/версии и 31 локальную Markdown-ссылку: битых ссылок и P0/P1 нет. Две устаревшие фразы про ожидающийся второй clone/R1 integration исправлены в 398b4b4. Скан tracked-files по сигнатурам private keys/GitHub/OpenAI tokens и личным окружениям не дал находок (это ограниченный scan, не гарантия отсутствия любого секрета).
