@@ -1,0 +1,66 @@
+{
+  "snapshot_date": "2026-09-23",
+  "purpose": "Official HackAlem Finance materials and read-only audit; not completed application",
+  "files": [
+    {
+      "path": "data/README.md",
+      "bytes": 2556,
+      "sha256": "b75c54a5b2e653c21bc0fb87a7d422ee590daf4d380d224abbb4fa6d393df26e"
+    },
+    {
+      "path": "data/edges.parquet",
+      "bytes": 34187,
+      "sha256": "4e71dde5cd3115bcb26e91202665532ee6581cf8233a9fc8059ea59fb7358a38"
+    },
+    {
+      "path": "data/nodes.parquet",
+      "bytes": 11905,
+      "sha256": "d2a45b0df6e9352832d5fb09839d10b9e23f898156c3bab263b051b31cc0296d"
+    },
+    {
+      "path": "data/transactions.parquet",
+      "bytes": 40745,
+      "sha256": "c30c5317b5439591dde86f2058dc47a3d19b2900c055ded994fe547f6fb7e7da"
+    },
+    {
+      "path": "docs/hackalem/evidence/baseline-audit.json",
+      "bytes": 1225,
+      "sha256": "7013d2cf6c0ed5dba4e368459b5509641cdd2148088582ffc254fc160ca93711"
+    },
+    {
+      "path": "docs/hackalem/evidence/data-audit.json",
+      "bytes": 4736,
+      "sha256": "bf4cd8dabeb1a3af073d51db95393dc10481284e66d02f58fb3670f89b164faf"
+    },
+    {
+      "path": "docs/hackalem/sources/official-case.ru.txt",
+      "bytes": 21965,
+      "sha256": "7189fd844b156b131cc0c10d836448e81243e8d8e813c88ca3cd60df7c666fd6"
+    },
+    {
+      "path": "docs/hackalem/sources/official-case.txt",
+      "bytes": 58707,
+      "sha256": "7f55dd0d9d25fd4d898bed0829eea4bdf9a67f87ab4671428c8840dcd4703ccb"
+    },
+    {
+      "path": "docs/hackalem/sources/rules-extracted.txt",
+      "bytes": 78777,
+      "sha256": "c00a045d6c9279a02e8b853b30b9faf086c79b1766c48eebf24c5ceff0c8963e"
+    },
+    {
+      "path": "starter/README.md",
+      "bytes": 5024,
+      "sha256": "7e7024ab0ff98cb435a291112c55ece7f09a2c640490cd218a343b0c8a3d5a3c"
+    },
+    {
+      "path": "starter/requirements.txt",
+      "bytes": 601,
+      "sha256": "ea287c15a50d9d30b0bac2eacf3f29f8515b0107e27597b9b6efa10bf6cd47a9"
+    },
+    {
+      "path": "starter/starter.py",
+      "bytes": 8545,
+      "sha256": "21a16355f8c6a7f19f6ab29163ab864638bdea20c55ae52262c591f93b95ee46"
+    }
+  ]
+}

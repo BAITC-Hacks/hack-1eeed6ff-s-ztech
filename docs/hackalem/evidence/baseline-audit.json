@@ -1,0 +1,67 @@
+{
+  "nodes": 2248,
+  "edges": 3119,
+  "transactions": 4840,
+  "schemas": {
+    "nodes": [
+      "gid",
+      "depth",
+      "is_seed"
+    ],
+    "edges": [
+      "src",
+      "dst",
+      "sum_kzt",
+      "n_tx",
+      "depth"
+    ],
+    "transactions": [
+      "src",
+      "dst",
+      "date",
+      "sum_kzt"
+    ]
+  },
+  "missing_values": {
+    "nodes": 0,
+    "edges": 0,
+    "transactions": 0
+  },
+  "duplicate_nodes": 0,
+  "duplicate_edges": 0,
+  "missing_endpoints": 0,
+  "pair_mismatch": 0,
+  "sum_mismatch_gt_001": 0,
+  "count_mismatch": 0,
+  "turnover": 365890012.01,
+  "seed": 81,
+  "depth_distribution": {
+    "0": 81,
+    "1": 472,
+    "2": 462,
+    "3": 789,
+    "4": 444
+  },
+  "orphan_nodes": 19,
+  "orphan_seeds": 19,
+  "components_with_edges": 16,
+  "components_with_all_nodes": 35,
+  "min_date": "2026-07-01",
+  "max_date": "2026-07-31",
+  "min_tx": 5000.0,
+  "runtime_versions": {
+    "python": "3.12.14",
+    "pandas": "2.2.3",
+    "numpy": "2.3.5",
+    "networkx": "3.7"
+  },
+  "starter_exit": 1,
+  "starter_with_scipy_exit": 0,
+  "starter_with_scipy_seconds": 2.457,
+  "starter_outputs": {
+    "top_nodes.csv": 0,
+    "clusters.csv": 0,
+    "nodes_roles.csv": 2248
+  },
+  "starter_empty_roles": 2248
+}
