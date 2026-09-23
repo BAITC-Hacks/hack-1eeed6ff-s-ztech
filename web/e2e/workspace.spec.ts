@@ -158,3 +158,83 @@ test('card section links work with keyboard and keep the selected node at every 
     expect(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight)).toBe(true);
   }
 });
+
+
+test('theme follows system, persists a keyboard choice, and preserves the active graph without API reload', async ({ page }, info) => {
+  await page.goto('/');
+  const initial = info.project.name;
+  await expect(page.locator('html')).toHaveAttribute('data-theme', initial);
+  const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
+  await search.fill(B); await search.press('Enter');
+  await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
+  await expect(page.getByTestId('network-canvas')).toBeVisible();
+  const canvas = await page.getByTestId('network-canvas').elementHandle();
+  const calls: string[] = []; page.on('request', request => { if (request.url().includes('/api/')) calls.push(request.url()); });
+  const toggle = page.getByRole('switch', { name: 'Тёмная тема', exact: true });
+  await toggle.focus(); await page.keyboard.press('Enter');
+  const next = initial === 'dark' ? 'light' : 'dark';
+  await expect(page.locator('html')).toHaveAttribute('data-theme', next);
+  await expect(toggle).toHaveAttribute('aria-checked', String(next === 'dark'));
+  await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
+  expect(await canvas!.evaluate(el => el.isConnected)).toBe(true);
+  expect(calls).toEqual([]);
+  await page.reload(); await expect(page.locator('html')).toHaveAttribute('data-theme', next);
+  await toggle.focus(); await page.keyboard.press('Space');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', initial);
+});
+
+test('theme remains usable when browser preference storage is blocked', async ({ page }, info) => {
+  await page.addInitScript(() => { Object.defineProperty(window, 'localStorage', { get() { throw new DOMException('Storage blocked', 'SecurityError'); } }); });
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/'); await expect(page.getByRole('list', { name: 'Очередь узлов' })).toBeVisible();
+  await page.getByRole('switch', { name: 'Тёмная тема', exact: true }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', info.project.name === 'dark' ? 'light' : 'dark');
+  expect(errors).toEqual([]);
+});
+
+test('home arrow returns from a node and cluster, clears the context and keeps the theme at every size', async ({ page }, info) => {
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 1024, height: 768 }]) {
+    await page.setViewportSize(viewport); await page.goto('/');
+    const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
+    const home = page.getByRole('button', { name: 'На главный экран', exact: true });
+    await search.fill(B); await search.press('Enter');
+    await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
+    await page.getByRole('link', { name: 'Основания', exact: true }).click();
+    await home.focus(); await page.keyboard.press('Enter');
+    await expect(search).toBeFocused(); await expect(search).toHaveValue('');
+    await expect(page.getByRole('heading', { name: 'Обзор кластеров', exact: true })).toBeVisible();
+    await expect(page.getByTestId('node-detail')).toHaveCount(0);
+    await expect(page.locator('.queue-item.selected')).toHaveCount(0);
+    await expect(page.getByTestId('network-canvas')).toHaveAttribute('aria-label', /2 узлов, 0 связей/);
+    await expect(home).toHaveCount(0); expect(new URL(page.url()).hash).toBe('');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', info.project.name);
+    await search.fill(B); await search.press('Enter');
+    await page.getByTestId('node-detail').getByRole('button', { name: /^Кластер / }).click();
+    await expect(page.getByText('Приоритетные узлы кластера', { exact: true })).toBeVisible();
+    await home.click();
+    await expect(page.getByRole('heading', { name: 'Обзор кластеров', exact: true })).toBeVisible();
+    await expect(page.getByText('Приоритетные узлы кластера', { exact: true })).toHaveCount(0);
+    await expect(page.getByLabel('Кластер', { exact: true })).toHaveValue('');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  }
+});
+
+test('home arrow cancels a pending node and its late response cannot reopen the card', async ({ page }) => {
+  let release!: () => void; let finished!: () => void;
+  const delayed = new Promise<void>(resolve => { release = resolve; });
+  const settled = new Promise<void>(resolve => { finished = resolve; });
+  await page.route(`**/api/v1/nodes/${A}`, async route => {
+    await delayed;
+    await route.fulfill({ json: nodeDetail(A) }).catch(() => {});
+    finished();
+  });
+  await page.goto('/'); const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
+  await search.fill(A); await search.press('Enter');
+  await expect(page.getByText(`Загрузка узла ${A}…`)).toBeVisible();
+  await page.getByRole('button', { name: 'На главный экран', exact: true }).click();
+  release(); await settled;
+  await expect(page.getByRole('heading', { name: 'Обзор кластеров', exact: true })).toBeVisible();
+  await expect(page.getByTestId('node-detail')).toHaveCount(0);
+  await expect(page.getByTestId('network-canvas')).toHaveAttribute('aria-label', /2 узлов, 0 связей/);
+  await expect(search).toHaveValue('');
+});

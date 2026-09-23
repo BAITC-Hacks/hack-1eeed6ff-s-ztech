@@ -1,0 +1,73 @@
+{
+  "checked_at": "2026-09-23T16:19:01.023198+05:00",
+  "main_backend_sha": "57a9ccf1bcf315add266b177578d9984aacf1b13",
+  "implementation_base": "51d6d03; fast-forwarded to57a9ccf before final backend and real API checks",
+  "results": {
+    "python_pytest": 130,
+    "frontend_unit": 19,
+    "contract_e2e": 34,
+    "real_api_e2e": 3,
+    "build": "pass",
+    "git_diff_check": "pass"
+  },
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "viewport_sizes": [
+    [
+      1440,
+      900
+    ],
+    [
+      1280,
+      800
+    ],
+    [
+      1024,
+      768
+    ]
+  ],
+  "theme_checks": [
+    "system initial preference",
+    "persisted explicit choice",
+    "Enter and Space",
+    "blocked localStorage",
+    "same Cytoscape instance, elements, selection, zoom and pan",
+    "no API reload"
+  ],
+  "home_checks": [
+    "node and cluster return at all sizes in both themes",
+    "transfer view return with real API",
+    "cleared filters/query/card/hash",
+    "focus to search",
+    "late response cannot reopen node",
+    "theme retained"
+  ],
+  "external_network": "Denied for API and browser/test process by sandbox-exec with web/scripts/offline-macos.sb; loopback allowed",
+  "pipeline_wall_seconds": 1.157374,
+  "review": "Independent read-only subagent source and rendered screenshot review; no P0/P1. Two P2 fixed: light count text contrast and graph lines. New home action/race reviewed separately; no additional findings.",
+  "intermediate_failure": "Manual browser view caught overbroad CSS replacement compressing the graph and displaying transfers simultaneously; restored flex and panel visibility rules before final tests.",
+  "brand_reference": "https://bankffin.kz/build/assets/core-1e8e4380.css",
+  "limits": [
+    "No new clean clone in B5; previous R1 evidence kept as history",
+    "No full timed demo repeat or human speech measurement in B5",
+    "Safari/Firefox/other OS not tested",
+    "Vite JS chunk warning 681.98 KB before gzip",
+    "Optional agent API/CLI exists upstream; agent UI not connected and API runs disabled here",
+    "E1 UI/E2 absent"
+  ],
+  "environment": {
+    "os": "macOS27.0 (26A428)",
+    "cpu": "Apple M2",
+    "python": "3.12.14",
+    "node": "25.2.1",
+    "npm": "11.6.2",
+    "chromium": "140.0.7339.186"
+  },
+  "dist_sha256": {
+    "web/dist/index.html": "e99871179894e47b16a1e66e4cdfc53c4c53e7c24b77db007884972bf17651b6",
+    "web/dist/assets/index-D1lFkpSl.css": "1b93ef14c03d7e1a100a8605f6ae394b1c58e0d10c81fed56270656b6a75cd84",
+    "web/dist/assets/index-BlhoVejJ.js": "dddae9fc6a83bbcff386ab339880ace621101930185ee9432f1b8a5a3c033469"
+  }
+}

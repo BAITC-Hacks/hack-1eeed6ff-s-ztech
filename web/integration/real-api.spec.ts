@@ -13,8 +13,10 @@ test('real data at three desktop sizes; exact search, graph and evidence', async
   const node = parseNodeDetail(await (await request.get(`/api/v1/nodes/${nodes.items[0].gid}`)).json());
   const graph = parseGraph(await (await request.get(`/api/v1/graph?mode=ego&gid=${node.gid}&hops=1&limit=250`)).json());
   expect(node.run_id).toBe(meta.run_id);
-  for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 1024, height: 768 }]) {
+  for (const theme of ['light', 'dark']) for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 1024, height: 768 }]) {
     await page.setViewportSize(viewport); await page.goto('/');
+    const themeSwitch = page.getByRole('switch', { name: 'Тёмная тема', exact: true });
+    if ((await themeSwitch.getAttribute('aria-checked')) !== String(theme === 'dark')) await themeSwitch.click();
     await expect(page.getByText(/Тестовый контракт ·/)).toHaveCount(0);
     await expect(page.locator('.status-strip')).toContainText(formatKzt(meta.total_kzt));
     const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
@@ -22,15 +24,21 @@ test('real data at three desktop sizes; exact search, graph and evidence', async
     const detail = page.getByTestId('node-detail'); await expect(detail).toHaveAttribute('data-gid', node.gid);
     await expect(detail).toContainText(node.evidence); await expect(detail).toContainText(score(node.priority_score));
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
-    await page.screenshot({ path: info.outputPath(`real-card-${viewport.width}.png`), fullPage: true });
+    await page.screenshot({ path: info.outputPath(`real-card-${theme}-${viewport.width}.png`), fullPage: true });
     if (viewport.width <= 1050) await page.getByRole('button', { name: 'Сеть', exact: true }).click();
     await expect(page.getByTestId('network-canvas')).toBeVisible();
     await expect(page.getByLabel('Направленный граф', { exact: true })).toContainText(`Показано ${graph.counts.shown_nodes} из ${graph.counts.matched_nodes} узлов`);
     const graphCounts = page.locator('.graph-counts'); await expect(graphCounts).toBeInViewport();
-    await page.screenshot({ path: info.outputPath(`real-network-${viewport.width}.png`), fullPage: true });
+    await page.screenshot({ path: info.outputPath(`real-network-${theme}-${viewport.width}.png`), fullPage: true });
     await page.getByRole('navigation', { name: 'Граф и переводы', exact: true }).getByRole('button', { name: 'Переводы', exact: true }).click();
     await expect(page.getByRole('table', { name: 'Исходные переводы' })).toBeVisible();
-    await page.screenshot({ path: info.outputPath(`real-transfers-${viewport.width}.png`), fullPage: true });
+    await page.screenshot({ path: info.outputPath(`real-transfers-${theme}-${viewport.width}.png`), fullPage: true });
+    await page.getByRole('button', { name: 'На главный экран', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Обзор кластеров', exact: true })).toBeVisible();
+    await expect(page.getByTestId('network-canvas')).toBeVisible();
+    await expect(page.getByTestId('node-detail')).toHaveCount(0);
+    await expect(search).toHaveValue('');
+    await expect(page.locator('html')).toHaveAttribute('data-theme', theme);
   }
   expect(errors).toEqual([]);
   await writeFile(info.outputPath('run.json'), JSON.stringify({ run_id: meta.run_id, counts: meta.counts, gid: node.gid, checkedAt: new Date().toISOString() }, null, 2));
@@ -42,12 +50,14 @@ test('real boundary, isolated seed, arbitrary gids, source totals and cluster', 
   const isolated = seeds.items.find(node => node.flags.includes('isolated'))!;
   expect(isolated).toBeTruthy(); await page.goto('/');
   const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
-  for (const node of [boundary, isolated]) {
+  for (const theme of ['light', 'dark']) for (const node of [boundary, isolated]) {
+    const themeSwitch = page.getByRole('switch', { name: 'Тёмная тема', exact: true });
+    if ((await themeSwitch.getAttribute('aria-checked')) !== String(theme === 'dark')) await themeSwitch.click();
     await search.fill(node.gid); await search.press('Enter');
     await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', node.gid);
     await expect(page.getByTestId('node-detail')).toContainText(node === boundary ? 'Граница выборки' : 'Изолированный узел');
     if (node === isolated) await expect(page.getByTestId('network-canvas')).toHaveAttribute('aria-label', /1 узлов, 0 связей/);
-    await page.screenshot({ path: info.outputPath(node === boundary ? 'real-boundary.png' : 'real-isolate.png'), fullPage: true });
+    await page.screenshot({ path: info.outputPath(node === boundary ? `real-boundary-${theme}.png` : `real-isolate-${theme}.png`), fullPage: true });
   }
   const arbitrary = parseNodePage(await (await request.get('/api/v1/nodes?offset=537&limit=3')).json());
   for (const row of arbitrary.items) {

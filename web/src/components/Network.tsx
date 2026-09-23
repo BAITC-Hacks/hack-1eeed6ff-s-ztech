@@ -1,21 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
-import { createNetwork, fitNetwork, updateNetwork } from '../network';
+import { applyNetworkTheme, createNetwork, fitNetwork, updateNetwork } from '../network';
 import { formatKzt, roleLabels, type Gid, type GraphResponse } from '../domain';
 import { Icon } from './Icon';
+import type { Theme } from '../theme';
 
-export function Network({ graph, selected, select, openCluster }: { graph: GraphResponse; selected: Gid | null; select: (gid: Gid) => void; openCluster: (id: number) => void }) {
+export function Network({ theme, graph, selected, select, openCluster }: { theme: Theme; graph: GraphResponse; selected: Gid | null; select: (gid: Gid) => void; openCluster: (id: number) => void }) {
   const container = useRef<HTMLDivElement>(null);
   const instance = useRef<ReturnType<typeof createNetwork> | null>(null);
   const callbacks = useRef({ select, openCluster });
   callbacks.current = { select, openCluster };
   const [table, setTable] = useState(false);
   useEffect(() => {
-    const network = createNetwork(container.current!, gid => callbacks.current.select(gid), id => callbacks.current.openCluster(id));
+    const network = createNetwork(container.current!, gid => callbacks.current.select(gid), id => callbacks.current.openCluster(id), theme);
     instance.current = network;
     const observer = new ResizeObserver(() => fitNetwork(network.cy));
     observer.observe(container.current!);
     return () => { observer.disconnect(); network.dispose(); instance.current = null; };
   }, []);
+  useEffect(() => { if (instance.current) applyNetworkTheme(instance.current.cy, theme); }, [theme]);
   useEffect(() => { if (instance.current) updateNetwork(instance.current.cy, graph, selected); }, [graph, selected]);
   useEffect(() => { if (!table && instance.current) fitNetwork(instance.current.cy); }, [table]);
   return <div className="network-content">
