@@ -1,0 +1,415 @@
+{
+  "synthetic": true,
+  "notice": "ТЕСТОВЫЙ КОНТРАКТ. Все gid и значения вымышлены. Production fallback запрещён.",
+  "schema_version": "1",
+  "health": {
+    "status": "ready",
+    "schema_version": "1",
+    "run_id": "example-synthetic-contract-only"
+  },
+  "meta": {
+    "run_id": "example-synthetic-contract-only",
+    "schema_version": "1",
+    "config_version": "v1",
+    "algorithm_version": "1.0.0",
+    "counts": {
+      "nodes": 3,
+      "edges": 1,
+      "transactions": 2,
+      "seeds": 1,
+      "isolates": 1,
+      "boundary": 1,
+      "clusters": 2
+    },
+    "period": {
+      "start": "2026-07-01",
+      "end": "2026-07-31"
+    },
+    "total_kzt": "20000.00",
+    "limitations": [
+      "Тестовый контракт"
+    ],
+    "duration_seconds": 0,
+    "source_hashes": {},
+    "features": {
+      "brief": true,
+      "removal": false,
+      "temporal": false,
+      "agent": false
+    }
+  },
+  "nodes": {
+    "run_id": "example-synthetic-contract-only",
+    "items": [
+      {
+        "gid": "900000000000000001",
+        "role": "peripheral",
+        "role_score": 0.2,
+        "cluster_id": 1,
+        "priority_score": 0.45,
+        "evidence": "Синтетический пример; не результат официальных данных.",
+        "depth": 3,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "900000000000000002",
+        "role": "peripheral",
+        "role_score": 0.2,
+        "cluster_id": 1,
+        "priority_score": 0.45,
+        "evidence": "Вход: 1; выход: 0. Граница выгрузки.",
+        "depth": 4,
+        "is_seed": false,
+        "flags": [
+          "boundary"
+        ]
+      },
+      {
+        "gid": "900000000000000003",
+        "role": "peripheral",
+        "role_score": 0,
+        "cluster_id": 2,
+        "priority_score": 0,
+        "evidence": "Синтетический пример; не результат официальных данных.",
+        "depth": 0,
+        "is_seed": true,
+        "flags": [
+          "isolated",
+          "seed_inflow_incomplete",
+          "low_observation"
+        ]
+      }
+    ],
+    "total": 3,
+    "offset": 0,
+    "limit": 50
+  },
+  "node_detail": {
+    "gid": "900000000000000002",
+    "role": "peripheral",
+    "role_score": 0.2,
+    "cluster_id": 1,
+    "priority_score": 0.45,
+    "evidence": "Вход: 1; выход: 0. Граница выгрузки.",
+    "depth": 4,
+    "is_seed": false,
+    "flags": [
+      "boundary"
+    ],
+    "run_id": "example-synthetic-contract-only",
+    "in_degree": 1,
+    "out_degree": 0,
+    "in_kzt": "20000.00",
+    "out_kzt": "0.00",
+    "in_tx": 2,
+    "out_tx": 0,
+    "observed_ratio": 0.0,
+    "seed_reach_count": 0,
+    "pagerank": 0.4,
+    "betweenness": 0.0,
+    "participation": 0.0,
+    "role_rule_id": "v1:peripheral",
+    "raw_score": 0.2,
+    "score_caps": [
+      {
+        "key": "boundary",
+        "cap": 0.65,
+        "reason": "Граница выгрузки"
+      }
+    ],
+    "candidates": [
+      {
+        "role": "consolidator",
+        "eligible": false,
+        "raw_score": 0.0,
+        "capped_score": 0.0,
+        "checks": [
+          {
+            "key": "depth",
+            "actual": 4,
+            "operator": "<",
+            "threshold": 4,
+            "passed": false,
+            "text": "Только до четвёртого колена"
+          }
+        ]
+      },
+      {
+        "role": "transit",
+        "eligible": false,
+        "raw_score": 0.0,
+        "capped_score": 0.0,
+        "checks": [
+          {
+            "key": "depth",
+            "actual": 4,
+            "operator": "<",
+            "threshold": 4,
+            "passed": false,
+            "text": "Только до четвёртого колена"
+          }
+        ]
+      },
+      {
+        "role": "distributor",
+        "eligible": false,
+        "raw_score": 0.0,
+        "capped_score": 0.0,
+        "checks": [
+          {
+            "key": "depth",
+            "actual": 4,
+            "operator": "<",
+            "threshold": 4,
+            "passed": false,
+            "text": "Только до четвёртого колена"
+          }
+        ]
+      },
+      {
+        "role": "terminal",
+        "eligible": false,
+        "raw_score": 0.0,
+        "capped_score": 0.0,
+        "checks": [
+          {
+            "key": "depth",
+            "actual": 4,
+            "operator": "<",
+            "threshold": 4,
+            "passed": false,
+            "text": "Только до четвёртого колена"
+          }
+        ]
+      },
+      {
+        "role": "coordinator",
+        "eligible": false,
+        "raw_score": 0.0,
+        "capped_score": 0.0,
+        "checks": [
+          {
+            "key": "depth",
+            "actual": 4,
+            "operator": "<",
+            "threshold": 4,
+            "passed": false,
+            "text": "Только до четвёртого колена"
+          }
+        ]
+      },
+      {
+        "role": "peripheral",
+        "eligible": true,
+        "raw_score": 0.2,
+        "capped_score": 0.2,
+        "checks": [
+          {
+            "key": "depth",
+            "actual": 4,
+            "operator": "<",
+            "threshold": 4,
+            "passed": false,
+            "text": "Только до четвёртого колена"
+          }
+        ]
+      }
+    ],
+    "priority_contributions": [
+      {
+        "key": "turnover",
+        "label": "Наблюдаемый оборот",
+        "raw": 20000,
+        "normalized": 1,
+        "weight": 0.3,
+        "contribution": 0.3
+      },
+      {
+        "key": "betweenness",
+        "label": "Посредническая центральность",
+        "raw": 0,
+        "normalized": 0,
+        "weight": 0.25,
+        "contribution": 0.0
+      },
+      {
+        "key": "seed_reach",
+        "label": "Достижимость от seed",
+        "raw": 0,
+        "normalized": 0,
+        "weight": 0.2,
+        "contribution": 0.0
+      },
+      {
+        "key": "degree",
+        "label": "Число контрагентов",
+        "raw": 1,
+        "normalized": 1,
+        "weight": 0.15,
+        "contribution": 0.15
+      },
+      {
+        "key": "participation",
+        "label": "Связи между кластерами",
+        "raw": 0,
+        "normalized": 0,
+        "weight": 0.1,
+        "contribution": 0.0
+      }
+    ],
+    "limitations": [
+      "Тестовый контракт. Не использовать для выводов.",
+      "Отсутствие исходящих на depth=4 — граница выгрузки."
+    ],
+    "next_data_requests": [
+      "Получить исходящие операции за пределами четвёртого колена."
+    ],
+    "supporting_transfers": {
+      "total": 2,
+      "source_refs": [
+        "tx:synthetic000:0",
+        "tx:synthetic000:1"
+      ],
+      "url": "/api/v1/nodes/900000000000000002/transfers"
+    },
+    "alternative": null
+  },
+  "transfers": {
+    "run_id": "example-synthetic-contract-only",
+    "items": [
+      {
+        "source_ref": "tx:synthetic000:0",
+        "source_row": 0,
+        "src": "900000000000000001",
+        "dst": "900000000000000002",
+        "date": "2026-07-01",
+        "sum_kzt": "10000.00"
+      },
+      {
+        "source_ref": "tx:synthetic000:1",
+        "source_row": 1,
+        "src": "900000000000000001",
+        "dst": "900000000000000002",
+        "date": "2026-07-01",
+        "sum_kzt": "10000.00"
+      }
+    ],
+    "total": 2,
+    "offset": 0,
+    "limit": 50,
+    "direction": "all",
+    "sum_kzt": "20000.00",
+    "in_kzt": "20000.00",
+    "out_kzt": "0.00"
+  },
+  "graph": {
+    "run_id": "example-synthetic-contract-only",
+    "scope": {
+      "mode": "ego",
+      "gid": "900000000000000002",
+      "hops": 1
+    },
+    "nodes": [
+      {
+        "id": "n:900000000000000001",
+        "kind": "node",
+        "gid": "900000000000000001",
+        "cluster_id": 1,
+        "label": "900000000000000001",
+        "role": "peripheral",
+        "priority_score": 0.45,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:900000000000000002",
+        "kind": "node",
+        "gid": "900000000000000002",
+        "cluster_id": 1,
+        "label": "900000000000000002",
+        "role": "peripheral",
+        "priority_score": 0.45,
+        "boundary": true,
+        "is_seed": false,
+        "n_nodes": 1
+      }
+    ],
+    "edges": [
+      {
+        "id": "e:900000000000000001:900000000000000002",
+        "source": "n:900000000000000001",
+        "target": "n:900000000000000002",
+        "sum_kzt": "20000.00",
+        "n_tx": 2
+      }
+    ],
+    "counts": {
+      "matched_nodes": 2,
+      "shown_nodes": 2,
+      "matched_edges": 1,
+      "shown_edges": 1
+    },
+    "truncated": false
+  },
+  "clusters": {
+    "run_id": "example-synthetic-contract-only",
+    "items": [
+      {
+        "cluster_id": 1,
+        "n_nodes": 2,
+        "n_seed": 0,
+        "sum_kzt_internal": "20000.00",
+        "top_gids": [
+          "900000000000000001",
+          "900000000000000002"
+        ],
+        "hypothesis": "Синтетический кластер для проверки контракта."
+      },
+      {
+        "cluster_id": 2,
+        "n_nodes": 1,
+        "n_seed": 1,
+        "sum_kzt_internal": "0.00",
+        "top_gids": [
+          "900000000000000003"
+        ],
+        "hypothesis": "Изолированный seed; недостаточно наблюдений."
+      }
+    ]
+  },
+  "cluster_detail": {
+    "cluster_id": 1,
+    "n_nodes": 2,
+    "n_seed": 0,
+    "sum_kzt_internal": "20000.00",
+    "top_gids": [
+      "900000000000000001",
+      "900000000000000002"
+    ],
+    "hypothesis": "Синтетический кластер для проверки контракта.",
+    "run_id": "example-synthetic-contract-only",
+    "role_counts": {
+      "consolidator": 0,
+      "transit": 0,
+      "distributor": 0,
+      "terminal": 0,
+      "coordinator": 0,
+      "peripheral": 2
+    },
+    "boundary_count": 1,
+    "cross_in_kzt": "0.00",
+    "cross_out_kzt": "0.00"
+  },
+  "error": {
+    "run_id": "example-synthetic-contract-only",
+    "error": {
+      "code": "NODE_NOT_FOUND",
+      "message": "Узел не найден",
+      "details": {}
+    }
+  }
+}
