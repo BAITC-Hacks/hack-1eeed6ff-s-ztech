@@ -11,7 +11,6 @@
 ```bash
 git clone https://github.com/BAITC-Hacks/hack-1eeed6ff-s-ztech.git
 cd hack-1eeed6ff-s-ztech
-git switch codex/analysis-core
 python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements.lock
@@ -21,7 +20,7 @@ python run.py
 
 При настроенном SSH вместо HTTPS можно получить тот же репозиторий командой `git clone git@github.com:BAITC-Hacks/hack-1eeed6ff-s-ztech.git`. SSH-вариант проверен Алишером. Аккаунт или ключ не передаётся приложению.
 
-Проверено: Python 3.12.14, macOS 26.6.2 arm64, Apple M4, 16 GiB RAM. Для обычного запуска нужны Python 3.12, зависимости из lock, исходные parquet, свободный локальный порт. Целевой профиль 4 CPU / 8 GB RAM пока не измерен. Windows/Linux отдельно не проверены. На Windows эквивалент: `py -3.12 -m venv .venv`, затем `.venv\Scripts\python.exe -m pip install -r requirements.lock`; использовать этот интерпретатор для всех команд без активации.
+Проверено: Python 3.12.14, macOS 26.6.2 arm64, Apple M4, 16 GiB RAM. Для обычного запуска нужны Python 3.12, зависимости из lock, исходные parquet, свободный локальный порт. Второй clean/offline запуск: Apple M2, 8 CPU, 8 GiB, macOS 27.0 arm64, Python 3.12.14. Точный целевой профиль 4 CPU / 8 GB RAM отдельно не измерен. Windows/Linux отдельно не проверены. На Windows эквивалент: `py -3.12 -m venv .venv`, затем `.venv\Scripts\python.exe -m pip install -r requirements.lock`; использовать этот интерпретатор для всех команд без активации.
 
 Python-зависимости: pandas 2.2.3, NumPy 2.3.5, PyArrow 25.0.1, NetworkX 3.7, SciPy 1.18.1, FastAPI 0.141.1, Pydantic 2.13.5, Uvicorn 0.53.0. Транзитивные зависимости зафиксированы в [requirements.lock](requirements.lock). При запуске пакеты не устанавливаются автоматически.
 
@@ -240,4 +239,6 @@ python run.py --verify-only
 
 Оригинальный starter не является готовым решением команды. Основная функциональность создана в соревновательном окне. [Официальное ТЗ](docs/hackalem/sources/official-case.ru.txt), [положение](docs/hackalem/sources/rules-extracted.txt), [матрица сдачи](docs/hackalem/07_RULES_DELIVERY.md), [полное ТЗ](docs/hackalem/README.md).
 
-Дедлайн **23 сентября 2026, 18:00 Астана (UTC+5)**. История и отчёты отражают фактическую работу. Финальные SHA, чистый запуск, полный UI smoke, пяти минутное демо и подача пока не зафиксированы. Push в GitHub не равен подаче на платформе. После дедлайна изменения не считаются оцениваемой версией.
+Проверенный обязательный MVP опубликован в `main` (ae48cab); дальнейшая интеграция E1 фиксируется отдельными коммитами. Архитектурная схема: [docs/architecture.md](docs/architecture.md), сценарий до пяти минут: [docs/demo.md](docs/demo.md). Устное выступление человека ещё не измерено.
+
+Дедлайн **23 сентября 2026, 18:00 Астана (UTC+5)**. История и отчёты отражают фактическую работу. Подача на платформе не подтверждена: push в GitHub не равен отправке решения. После дедлайна изменения не считаются оцениваемой версией.
