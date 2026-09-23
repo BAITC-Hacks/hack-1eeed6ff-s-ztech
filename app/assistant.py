@@ -568,7 +568,8 @@ class Assistant:
                                 )
                                 if value in evidence.nodes or len(value) >= 10
                             }
-                            if query.gid is not None:
+                            # An explicitly listed group takes precedence over the open card.
+                            if query.gid is not None and len(requested) < 2:
                                 requested.add(query.gid)
                             selected_gids = (
                                 arguments.get("gids", []) if isinstance(arguments, dict) else []
@@ -634,7 +635,11 @@ class Assistant:
                     raise ValueError("Missing limitations")
                 if selected.status == "answered" and not any(
                     s["kind"] in {"observation", "hypothesis"}
-                    and (query.gid is None or query.gid in evidence.subjects[s["id"]])
+                    and (
+                        query.gid is None
+                        or query.gid in evidence.subjects[s["id"]]
+                        or s["id"] in evidence.common_summary_ids
+                    )
                     for s in statements
                 ):
                     raise ValueError("Missing observations for the selected subject")

@@ -117,7 +117,8 @@ def test_directed_one_hop_only_and_numeric_tie_break():
     assert [r["gid"] for r in result["items"]] == [C, D]
 
 
-def test_agent_cannot_drop_sources_lower_coverage_or_omit_recipients():
+@pytest.mark.parametrize("context", [None, D])
+def test_agent_cannot_drop_sources_lower_coverage_or_omit_recipients(context):
     import json
 
     from test_assistant import call, final, response
@@ -149,7 +150,7 @@ def test_agent_cannot_drop_sources_lower_coverage_or_omit_recipients():
             return final([next(s["id"] for s in statements if s["kind"] == "limitation")])
 
         answer = Assistant(data, AgentConfig("test-only"), provider).ask(
-            f"Общие получатели от ВСЕХ {A}, {B}, {E}", None
+            f"Общие получатели от ВСЕХ {A}, {B}, {E}", context
         )
         assert answer["tool_trace"][0]["status"] == "error"
         assert answer["tool_trace"][1]["arguments"]["gids"] == [A, B, E]
