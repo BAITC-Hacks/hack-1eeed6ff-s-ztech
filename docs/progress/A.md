@@ -17,4 +17,14 @@ A0 evidence: `pip check` → No broken requirements; imports pandas/numpy/pyarro
 
 ## A1 — 2026-09-23T14:29:36+05:00
 
-Реализованы loader и directed graph. Проверки: `python -m pytest tests -q` → 21 passed; `ruff check app tests` → pass. До реализации тесты не собирались из-за отсутствовавшего app.loader. Проверено D01–D09; официальный audit в `docs/hackalem/evidence/a1-loader.json`. Деньги берутся из всех исходных tx в целых тиынах; расхождение edges до одного тиына фиксируется явно. Исходные source_row стабильны. Review: убран неявный fallback парсинга дат; даты проверяются в ISO-формате. Исправлена ошибочно введённая вручную метка 14:34 в STATUS на фактическое время; история коммитов не менялась. Следующий этап A2.
+Реализованы loader и directed graph. Проверки: `python -m pytest tests -q` → 21 passed; `ruff check app tests` → 2 ошибки сортировки импортов; исправлены и повторно проверяются на A2. До реализации тесты не собирались из-за отсутствовавшего app.loader. Проверено D01–D09; официальный audit в `docs/hackalem/evidence/a1-loader.json`. Деньги берутся из всех исходных tx в целых тиынах; расхождение edges до одного тиына фиксируется явно. Исходные source_row стабильны. Review: убран неявный fallback парсинга дат; даты проверяются в ISO-формате. Исправлена ошибочно введённая вручную метка 14:34 в STATUS на фактическое время; история коммитов не менялась. Следующий этап A2.
+
+## A2 и экспорт A3 — 2026-09-23T14:38:53+05:00
+
+Реализованы взвешенная Louvain-проекция (оба направления суммируются), singleton-кластеры, PageRank, невзвешенный sampled betweenness, seed BFS, participation, шесть критериев ролей/caps, raw-score tie-break, пять вкладов приоритета. Объяснения указывают реальные исходные строки; три CSV и snapshot созданы.
+
+`python -m pytest tests -q` → 43 passed; `ruff check app tests` → All checks passed. Реальный вызов run_pipeline на official: wall 0.808 s (включая проверку и публикацию каталога); 2248 nodes, 3119 edges, 4840 tx, 89 clusters, 50 top. Распределение: consolidator 113, distributor 102, coordinator 8, transit 63, peripheral 884, terminal 1078. Все 444 boundary не terminal. Два запуска и permutation дают одинаковые CSV; 19 изолятов сохранены.
+
+Review: 6 тестов экспорта сначала падали из-за ошибочной fixture, размещавшей out внутри raw. Разнесены тестовые каталоги; защиту raw не ослабляли. До первой реализации модулей соответствующие тесты падали на отсутствии app.clusters/app.pipeline. Исправлены ранее обнаруженные ошибки импортов. Публикация результата: staged validation, смена каталога с rollback; это не filesystem-wide atomic swap. Работающий API будет обслуживать snapshot/CSV из памяти одного run. Чувствительность параметров ещё не выполнена.
+
+Реальный run_id: `cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31`. Следующий этап: типизированный API, run.py и передача endpoints B.
