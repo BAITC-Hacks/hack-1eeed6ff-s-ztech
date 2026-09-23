@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ApiSession, LatestRequest } from '../api';
 import { exportNames, type ExportName } from '../domain';
+import { Icon } from './Icon';
 export function Exports({ api, fail }: { api: ApiSession; fail: (error: unknown) => Error }) {
   const [name, setName] = useState<ExportName>('nodes_roles.csv');
   const [pending, setPending] = useState(false);
@@ -22,6 +23,6 @@ export function Exports({ api, fail }: { api: ApiSession; fail: (error: unknown)
     } catch (error) { if (latest.isCurrent()) { setMessage(fail(error).message); setError(true); } }
     finally { if (latest.isCurrent()) setPending(false); }
   }
-  return <div className="exports"><label className="sr-only" htmlFor="export-name">Файл для выгрузки</label><select id="export-name" value={name} disabled={pending} onChange={e => setName(e.target.value as ExportName)}>{exportNames.map(value => <option key={value}>{value}</option>)}</select><button disabled={pending} onClick={() => void download()}>{pending ? 'Скачивание…' : error ? 'Повторить CSV' : 'Скачать CSV'}</button>
+  return <div className="exports"><label className="sr-only" htmlFor="export-name">Файл для выгрузки</label><select id="export-name" value={name} disabled={pending} onChange={e => setName(e.target.value as ExportName)}>{exportNames.map(value => <option key={value}>{value}</option>)}</select><button disabled={pending} onClick={() => void download()}><Icon name="download" />{pending ? 'Скачивание…' : error ? 'Повторить CSV' : 'Скачать CSV'}</button>
     {message && <p className={`export-message ${error ? 'error' : ''}`} role={error ? 'alert' : 'status'}>{message}<button className="quiet" onClick={() => setMessage('')} aria-label="Закрыть сообщение выгрузки">×</button></p>}</div>;
 }

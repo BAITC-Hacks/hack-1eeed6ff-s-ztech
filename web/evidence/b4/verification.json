@@ -1,0 +1,51 @@
+{
+  "checked_at": "2026-09-23T15:40:30.013780+05:00",
+  "main_backend_sha": "8f770aa237a4263b60a5e347a6a763175d275d8a",
+  "implementation_base": "28288bb (merged E1 backend 6507384); main 8f770aa merged before final tests",
+  "results": {
+    "python_pytest": 94,
+    "frontend_unit": 18,
+    "contract_e2e": 13,
+    "real_api_e2e": 3,
+    "build": "pass",
+    "git_diff_check": "pass"
+  },
+  "viewport_sizes": [
+    [
+      1440,
+      900
+    ],
+    [
+      1280,
+      800
+    ],
+    [
+      1024,
+      768
+    ]
+  ],
+  "external_network": "Denied for API and browser/test process by sandbox-exec using web/scripts/offline-macos.sb; loopback allowed",
+  "pipeline_wall_seconds": 1.124438,
+  "review": "Separate source and rendered-browser review; adjusted contrast, keyboard jump targets, canvas labels/layout and compact mode. No known P0/P1 in verified scenarios.",
+  "intermediate_failure": "After changing graph spacing/fonts the old canvas test coordinate missed source A. Visually inspected b2-directed.png, changed y from .30 to .25, repeated full 13 contract and 3 real tests successfully.",
+  "limits": [
+    "No new clean clone in B4; prior R1 clean clone remains documented separately",
+    "Safari/Firefox/other operating systems not tested",
+    "Vite chunk warning: 679.85 KB before gzip",
+    "E1 backend available; E1 UI, E2 and agent not implemented",
+    "No repeat of the full timed human presentation; new card navigation verified"
+  ],
+  "environment": {
+    "os": "macOS 27.0 (26A428)",
+    "cpu": "Apple M2",
+    "python": "3.12.14",
+    "node": "25.2.1",
+    "npm": "11.6.2",
+    "chromium": "140.0.7339.186"
+  },
+  "dist_sha256": {
+    "web/dist/assets/index-Bu516hbU.css": "c75074a53b8cd964098f24a0b674ce93cec4e69078548026744236fe411fbd36",
+    "web/dist/assets/index-Cu4DJE1n.js": "5dd161cd83cc48f2440c4717f9ccb072e0863ebb10292a692b60fd100fd42ceb",
+    "web/dist/index.html": "9802bce3883a8e12be7a461cc8103d97a9551ee817d8904bc74d7b6b10fe8f05"
+  }
+}

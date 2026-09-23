@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { createNetwork, fitNetwork, updateNetwork } from '../network';
 import { formatKzt, roleLabels, type Gid, type GraphResponse } from '../domain';
+import { Icon } from './Icon';
 
 export function Network({ graph, selected, select, openCluster }: { graph: GraphResponse; selected: Gid | null; select: (gid: Gid) => void; openCluster: (id: number) => void }) {
   const container = useRef<HTMLDivElement>(null);
@@ -18,9 +19,9 @@ export function Network({ graph, selected, select, openCluster }: { graph: Graph
   useEffect(() => { if (instance.current) updateNetwork(instance.current.cy, graph, selected); }, [graph, selected]);
   useEffect(() => { if (!table && instance.current) fitNetwork(instance.current.cy); }, [table]);
   return <div className="network-content">
-    <div className="graph-toolbar"><div className="button-group"><button onClick={() => instance.current?.cy.zoom(instance.current.cy.zoom() * 1.2)} aria-label="Приблизить граф">+</button><button onClick={() => instance.current?.cy.zoom(instance.current.cy.zoom() / 1.2)} aria-label="Отдалить граф">−</button><button onClick={() => instance.current && fitNetwork(instance.current.cy)}>Вместить</button></div>
-      <button aria-pressed={table} onClick={() => setTable(value => !value)}>{table ? 'Показать граф' : 'Таблица связей'}</button></div>
-    <div className="legend" aria-label="Легенда графа"><span>→ направление переводов</span><span>◎ seed</span><span className="warning">◌ граница</span></div>
+    <div className="graph-toolbar"><div className="button-group"><button onClick={() => instance.current?.cy.zoom(instance.current.cy.zoom() * 1.2)} aria-label="Приблизить граф">+</button><button onClick={() => instance.current?.cy.zoom(instance.current.cy.zoom() / 1.2)} aria-label="Отдалить граф">−</button><button onClick={() => instance.current && fitNetwork(instance.current.cy)}><Icon name="expand" />Вместить</button></div>
+      <button aria-pressed={table} onClick={() => setTable(value => !value)}><Icon name={table ? 'network' : 'table'} />{table ? 'Показать граф' : 'Таблица связей'}</button></div>
+    <div className="legend" aria-label="Легенда графа"><span><i className="legend-arrow">→</i> направление переводов</span><span><i className="legend-seed" /> seed</span><span><i className="legend-boundary" /> граница</span></div>
     <div className="cy-container" ref={container} style={{ display: table ? 'none' : 'block' }} role="img" aria-label={`Направленный граф: ${graph.nodes.length} узлов, ${graph.edges.length} связей. Доступная альтернатива — таблица связей.`} data-testid="network-canvas" />
     {table && <div className="network-table"><table><caption>Узлы текущего среза</caption><thead><tr><th>Узел</th><th>Роль / наблюдение</th></tr></thead><tbody>{graph.nodes.map(n => <tr key={n.id} aria-selected={n.gid === selected}><td><button className="mono link-button" onClick={() => n.kind === 'cluster' ? openCluster(n.cluster_id) : select(n.gid!)}>{n.gid ?? `Кластер ${n.cluster_id}`}</button></td><td>{n.role ? roleLabels[n.role] : `${n.n_nodes} узлов`}{n.boundary ? ' · Граница' : ''}{n.is_seed ? ' · Seed' : ''}</td></tr>)}</tbody></table>
       <table><caption>Исходные направления в срезе</caption><thead><tr><th>Откуда → куда</th><th>Сумма / переводы</th></tr></thead><tbody>{graph.edges.map(e => <tr key={e.id}><td className="mono">{e.source.replace(/^[nc]:/, '')}<br />→ {e.target.replace(/^[nc]:/, '')}</td><td>{formatKzt(e.sum_kzt)}<br />{e.n_tx} переводов</td></tr>)}</tbody></table></div>}
