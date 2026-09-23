@@ -136,3 +136,73 @@ Backend импортирован merge-коммитом `01972337832b0e0a81dd4c5
 3. Предусмотреть SSH-вариант clone для пользователей с настроенным SSH, но без HTTPS
    credential helper. На этой машине HTTPS clone фактически отказал; SSH clone прошёл.
 4. Не заявлять offline/чистый запуск/репетицию по B3. Эти проверки выполняются следующим этапом.
+
+## R1 — независимый clean launch, 23.09.2026, 15:01–15:09 Астана
+
+Проверен новый SSH clone официального remote в `work/readme-clean`. До установки в нём
+не было `.venv`, `.env` и `web/node_modules`; ни окружение, ни файлы с машины Мейрама
+не копировались. Пакеты установлены через pip/npm из lock, с допустимым installer cache;
+Chromium скачан заново в отдельный каталог. Runtime не требует личных подписок/API-ключей.
+
+Фактическая машина B: macOS 27.0 (26A428), arm64, Apple M2, 8 CPU, 8 GiB RAM.
+Python 3.12.14, Node 25.2.1, npm 11.6.2, Git CommandLineTools 2.50.1,
+Chromium 140.0.7339.186. CPython установлен независимо через uv; его bin явно добавлен
+в PATH перед буквальной командой `python3.12 -m venv .venv`. Системный `/usr/bin/git`
+требует принятия Xcode license, поэтому использован уже работающий CLT git. Это
+предпосылки конкретной машины, а не скопированное окружение A.
+
+### Буквальный README и точные ошибки
+
+Проверен README на `01f3216`, затем получены исправления backend `3e8c09a8f169a407b5206f45fd9586055babb15a`.
+
+1. `git clone https://github.com/BAITC-Hacks/hack-1eeed6ff-s-ztech.git` с отключённым
+   интерактивным запросом credentials: exit 128, `fatal: could not read Username for
+   'https://github.com': terminal prompts disabled`. SSH clone того же remote → PASS.
+   SSH не авторизует HTTPS автоматически; инструкция должна предусматривать оба способа.
+2. `git switch codex/analysis-core` первоначально дал B1. `npm ci`, 12 unit и build
+   действительно прошли, но это ещё не полный интерфейс. После `git switch codex/workspace-ui`
+   проверен B3 `3ac6bea`, затем опубликованный merge `95c817c0aaa15e2f10e89e2558306fdd4e9c5ef1`.
+   Финальный README должен указывать интегрированную версию и актуальный статус.
+3. После буквального `npm run test:e2e` все 7 тестов остановились до браузерных действий:
+   `Executable doesn't exist ... chromium_headless_shell-1193/chrome-mac/headless_shell`.
+   Добавленная команда `npx playwright install chromium` выполнена; повтор на полном B3
+   → 12 PASS. Исправленная последовательность есть в `web/README.md`; root README принадлежит A.
+
+Команды Python из README выполнены: установка `requirements.lock`, `pip check`,
+pipeline-only, verify-only, api-only (порт 8001), затем полный `run.py` с готовым dist.
+Режим api-only закономерно вернул 503 UI_NOT_BUILT на `/`; /health/API работали.
+После установки `requirements-dev.lock`: pytest, ruff и compileall.
+
+### Итог повторной проверки на свежем backend
+
+На `95c817c` (backend `3e8c09a`, main `e5f2b4e87127fba734a5a09220010539e0a36060`):
+
+- Python tests → **78 PASS**, ruff/compileall/pip check → PASS.
+- `npm ci` → 0 vulnerabilities; **18 unit PASS**, build PASS, dist совпал с Git.
+- После отдельной установки браузера **12 contract E2E PASS**.
+- **3 real integration E2E PASS** в новом clone с сетью, запрещённой для backend,
+  тестового процесса и дочернего Chromium. Повторены после свежего исправления CSV backend.
+- Полный offline pipeline 0.901199 с; verify-only → valid.
+- UI/API/CSV одного run_id; все три скачанных файла побайтно совпали с API и новым results.
+
+Изоляция: `sandbox-exec` с deny network* и allow localhost. Проверочная внешняя TCP-связь
+получила **EPERM**, переход Chromium на внешний IP — **ERR_ACCESS_DENIED**, localhost health — 200.
+Приложение не запросило внешних ресурсов. Системный Wi-Fi не выключали; сеть отключена
+для проверяемых процессов. Установка пакетов offline не заявляется.
+Команды воспроизведения — `web/README.md`, профиль — `web/scripts/offline-macos.sb`.
+Фактическая среда, run/counts, network proof и SHA-256 скачанных CSV — `web/evidence/r1/`.
+
+### Отдельный review R1
+
+В отдельном проходе сопоставлены команды README, owner-границы, API-оболочки, состояние
+сессии/отмена запросов, CSV snapshot и production imports. Fixture импортируется только
+тестами; в production есть лишь честная метка для явно синтетического run_id.
+Приложение не включает декоративные градиенты; поддержка gradient внутри стороннего
+Cytoscape bundle не означает её использования. P0/P1 в проверенном UI не обнаружены.
+Read-only review backend на A нашёл и исправил CSV snapshot P1; исправление получено
+из GitHub и повторно проверено на B. Отдельного второго AI-reviewer на B не запускали.
+
+README замечания не скрыты: root README и main интегрирует Мейрам. Backend-изменения
+для обязательного UI больше не нужны. Ограничения: Chrome/Chromium на этой macOS,
+не Safari/Firefox/Windows/Linux, не million-scale; Vite предупреждает о chunk >500 KB.
+Устное демо ещё не измерено. Подготовлены architecture.md и сценарий demo.md.

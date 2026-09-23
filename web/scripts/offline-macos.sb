@@ -1,0 +1,7 @@
+; Test harness only. Deny external network for the process and its children.
+; Both the API server and the browser test process must use this profile.
+(version 1)
+(allow default)
+(deny network*)
+(allow network-inbound (local ip "localhost:*"))
+(allow network-outbound (remote ip "localhost:*"))

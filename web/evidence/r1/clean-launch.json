@@ -1,0 +1,62 @@
+{
+  "verified_commit": "95c817c0aaa15e2f10e89e2558306fdd4e9c5ef1",
+  "initial_readme_commit": "01f3216d7871fe37ff362b91329f3e1b74b0e3fb",
+  "clone": "fresh SSH clone of official repository; no .env, .venv, node_modules copied",
+  "os": {
+    "name": "macOS",
+    "version": "27.0",
+    "build": "26A428",
+    "arch": "arm64",
+    "cpu": "Apple M2",
+    "cores": 8,
+    "ram_bytes": 8589934592
+  },
+  "versions": {
+    "python": "3.12.14",
+    "node": "25.2.1",
+    "npm": "11.6.2",
+    "git": "2.50.1",
+    "chromium": "140.0.7339.186"
+  },
+  "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+  "counts": {
+    "boundary": 444,
+    "clusters": 89,
+    "edges": 3119,
+    "isolates": 19,
+    "nodes": 2248,
+    "seeds": 81,
+    "transactions": 4840
+  },
+  "pipeline_wall_seconds_offline": 0.901199,
+  "checks": {
+    "backend_tests": 78,
+    "unit_tests": 18,
+    "contract_browser_tests": 12,
+    "real_api_offline_tests": 3,
+    "ruff": "PASS",
+    "compileall": "PASS",
+    "pip_check": "PASS",
+    "build": "PASS; Vite >500kB chunk warning",
+    "verify_only": "PASS",
+    "dist_matches_commit": true
+  },
+  "network": "sandbox-exec denies all external network for server, test process and child Chromium; loopback allowed; OS Wi-Fi not disabled",
+  "install": "new venv and npm ci; lock files; package installer caches allowed; Chromium separately downloaded",
+  "personal_api_keys_or_accounts_at_runtime": "not required",
+  "readme_errors": {
+    "https_clone": "fatal: could not read Username for https://github.com: terminal prompts disabled",
+    "branch": "codex/analysis-core initially contains only B1; full UI in codex/workspace-ui",
+    "missing_browser_install": "Executable does not exist: chromium_headless_shell-1193/chrome-mac/headless_shell"
+  },
+  "retests": {
+    "SSH_clone": "PASS",
+    "full_UI_branch": "PASS",
+    "npx_playwright_install_chromium_then_test_e2e": "12 PASS"
+  },
+  "limits": [
+    "Root README updates belong to Meiram and are pending integration.",
+    "Human spoken presentation not timed.",
+    "No Safari/Firefox/Windows/Linux acceptance."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "checkedAt": "2026-09-23T10:06:37.944Z",
+  "isolation": "macOS sandbox-exec, external network denied for process and child Chromium",
+  "externalTCP": "EPERM",
+  "localStatus": 200,
+  "browser": "140.0.7339.186",
+  "externalApplicationRequests": [],
+  "browserExternalError": "page.goto: net::ERR_ACCESS_DENIED at https://1.1.1.1/"
+}
