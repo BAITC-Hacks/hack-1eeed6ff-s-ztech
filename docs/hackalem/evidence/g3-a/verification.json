@@ -1,0 +1,23 @@
+{
+  "checked_at": "2026-09-23T15:13:28+05:00",
+  "commit": "cd94bfbb9c8f06d31534d3a82ab6e72a9c56a6a4",
+  "backend_tests": 78,
+  "frontend_unit_tests": 18,
+  "browser_contract_tests": 12,
+  "browser_integration_tests": 3,
+  "clean_clone": "Official GitHub clone in a new directory on A laptop; new venv; no copied environment",
+  "clean_pipeline_wall_seconds": 4.93236,
+  "offline_method": "macOS sandbox-exec denies non-loopback outbound network for API server and Chromium test process; control external socket attempt raised PermissionError",
+  "offline_profile": "(version 1)(allow default)(deny network-outbound)(allow network-outbound (remote ip \"localhost:*\"))",
+  "versions": {
+    "python": "3.12.14",
+    "browser": "Chromium Headless Shell 140.0.7339.186",
+    "browser_test_node": "24.19.0",
+    "os": "macOS 26.6.2 arm64"
+  },
+  "not_claimed": [
+    "Physical laptop network disconnection",
+    "Second-laptop release clean clone",
+    "Platform submission"
+  ]
+}

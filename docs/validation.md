@@ -31,6 +31,16 @@
 
 Восемь отдельных изменений порогов проверены без подбора параметров под ответ. Состав top-20 сохранился 20/20 во всех вариантах; число изменившихся ролей 0–112 (0–4.98%). Louvain resolution 0.8/1.2 даёт 83/98 кластеров вместо 89. Это диагностика устойчивости, не доказательство правильности гипотез. Конфигурация по умолчанию сохранена; результаты — `docs/hackalem/evidence/a2-sensitivity.json`.
 
+## Совместный G3 — 2026-09-23T15:13:28+05:00
+
+Интегрированный commit `cd94bfbb9c8f06d31534d3a82ab6e72a9c56a6a4` содержит B3 (3ac6bea), B2, backend review fixes и изменение заголовка из main. web source не редактировался A. На A: 18 unit PASS, production build PASS; 12 contract E2E PASS (10.2 s); 3 integration E2E PASS (7.2 s). Последние обращаются к настоящему серверу из нового GitHub clone, выбирают gid из данных, проверяют 1440×900/1280×800/1024×768, boundary, isolate, totals, cluster и побайтовое равенство трёх CSV. G3 функционально PASS; окончательный G5/G6 отдельно.
+
+Fresh clone A: независимый каталог, новый venv из установленного CPython 3.12.14, установка только requirements.lock; pip check PASS; pipeline 4.93236 s, verify-only valid, после установки dev lock 78 tests PASS и lint PASS. .venv/.env и результаты не копировались из рабочего checkout. Это та же машина A, не подмена требования второго ноутбука.
+
+Offline-runtime: macOS sandbox-exec с `(deny network-outbound)` и исключением только loopback применён и к Python server, и к Node/Chromium integration процессу. Контрольное внешнее соединение вызвало PermissionError. Все 3 integration сценария проходят с этой политикой, включая CSV downloads. Сеть всего ноутбука не отключалась. Скрипты/стили/шрифты локальные; внешних URL/imports в web/src/index.html не обнаружено. Артефакты A: `docs/hackalem/evidence/g3-a/`.
+
+Сбой окружения: первоначальные 9 E2E не стартовали из-за отсутствующего Chromium. Загрузка под Node 26.9.0 завершилась, распаковка зависла; процесс остановлен. Под Node 24.19.0 установлен Chromium Headless Shell 140.0.7339.186 и FFMPEG в отдельный work/pw-browsers; 12+3 теста затем прошли. Это не исправление приложения. Команды тестов: `node node_modules/playwright/cli.js test` и `node node_modules/playwright/cli.js test --config playwright.integration.config.ts`; заданы только PLAYWRIGHT_BROWSERS_PATH, NEVERLOSE_BASE_URL и NEVERLOSE_RESULTS для данного стенда.
+
 ## Остаётся до релиза
 
-Полный UI/graph/transfers сценарий, реальный браузер после интеграции, E2E на настоящем API, независимый новый clone, offline smoke, актуальная финальная сборка, сведения о демо, окончательный SHA и подтверждение подачи. Полный G3/G5/G6 не заявляются.
+Релизный clean clone на втором ноутбуке, финальная документация архитектуры/демо Алишера, репетиция, окончательный SHA и подтверждение подачи. E1/E2/LLM сейчас не включены. G6 не заявляется.
