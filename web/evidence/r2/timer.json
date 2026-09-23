@@ -1,0 +1,25 @@
+{
+  "code_commit": "95c817c0aaa15e2f10e89e2558306fdd4e9c5ef1",
+  "started_at": "2026-09-23T10:09:51.173Z",
+  "ended_at": "2026-09-23T10:12:12.391Z",
+  "elapsed_seconds": 141.218,
+  "scope": "Actual UI actions, live pipeline, and Chromium download verification; no human spoken presentation",
+  "pipeline_wall_seconds": 1.207676,
+  "random_gid_from_raw": "100000008769636100",
+  "marks": [
+    {"step": "overview", "seconds": 0},
+    {"step": "priority node", "seconds": 13.670},
+    {"step": "live pipeline and directed graph", "seconds": 21.733},
+    {"step": "transfers and evidence", "seconds": 35.373},
+    {"step": "alternative then boundary filter", "seconds": 65.878},
+    {"step": "random raw gid beyond active filter", "seconds": 66.396},
+    {"step": "three CSV handed to embedded browser, persistence not assumed", "seconds": 122.623},
+    {"step": "limitations", "seconds": 123.173},
+    {"step": "three CSV saved in Chromium and byte-compared with API/results", "seconds": 141.218}
+  ],
+  "limitations": [
+    "Embedded browser download event timed out; this was not counted as a saved file.",
+    "Actual persistence and hashes were confirmed by the existing real-CSV browser test in Chromium.",
+    "4:30 spoken presentation is a planned budget, not a measured human performance."
+  ]
+}
