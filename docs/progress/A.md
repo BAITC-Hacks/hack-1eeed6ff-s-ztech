@@ -28,3 +28,11 @@ A0 evidence: `pip check` → No broken requirements; imports pandas/numpy/pyarro
 Review: 6 тестов экспорта сначала падали из-за ошибочной fixture, размещавшей out внутри raw. Разнесены тестовые каталоги; защиту raw не ослабляли. До первой реализации модулей соответствующие тесты падали на отсутствии app.clusters/app.pipeline. Исправлены ранее обнаруженные ошибки импортов. Публикация результата: staged validation, смена каталога с rollback; это не filesystem-wide atomic swap. Работающий API будет обслуживать snapshot/CSV из памяти одного run. Чувствительность параметров ещё не выполнена.
 
 Реальный run_id: `cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31`. Следующий этап: типизированный API, run.py и передача endpoints B.
+
+## A3 API/CLI — 2026-09-23T14:51:09+05:00
+
+Опубликован типизированный API v1 и run.py. 61 тест пройден, lint/compileall/pip check проходят. CLI pipeline-only 0.883114 s; verify-only valid. Реальный Uvicorn HTTP smoke выполнен; все ответы одного run_id. Реальные примеры в contracts/v1.actual.json. Ошибки 404/422 в согласованной оболочке; экспорт whitelist и CSV из того же memory snapshot. GET не пересчитывает аналитику.
+
+B появился: 7266a72, принят контракт 6776169, основан на fd9c760. Прочитаны его domain.ts/api.ts/B.md; несовместимости полей не обнаружены. web не редактировался. Далее merge готового B1 и самостоятельная проверка его сборки; полная графовая UI-функциональность ещё разрабатывается B.
+
+Обновлены README, THIRD_PARTY, validation и контракт передачи. Единственный warning — upstream deprecation Starlette TestClient/httpx, не ошибка runtime. Полный G3/G5/G6 пока не пройден.
