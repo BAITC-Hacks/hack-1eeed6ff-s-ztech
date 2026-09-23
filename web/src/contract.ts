@@ -59,6 +59,16 @@ export function parseNodeDetail(value: unknown): NodeDetail {
     const c = object(contribution, 'contribution'); text(c, 'key'); text(c, 'label');
     for (const key of ['raw', 'normalized', 'weight', 'contribution']) num(c, key);
   }
+  bounded(o, 'raw_score');
+  for (const item of arr(o, 'score_caps')) { const cap = object(item, 'score_cap'); text(cap, 'key'); text(cap, 'reason'); bounded(cap, 'cap'); }
+  const supporting = object(o.supporting_transfers, 'supporting_transfers');
+  num(supporting, 'total', true); strings(supporting, 'source_refs');
+  requireValue(supporting.url === `/api/v1/nodes/${o.gid}/transfers`, 'supporting_transfers.url');
+  if (o.alternative !== null) {
+    const alternative = object(o.alternative, 'alternative');
+    role(alternative.role); bool(alternative, 'eligible'); bounded(alternative, 'raw_score'); bounded(alternative, 'capped_score');
+    for (const item of arr(alternative, 'checks')) { const c = object(item, 'alternative.check'); text(c, 'key'); text(c, 'operator'); text(c, 'text'); bool(c, 'passed'); nullableNumber(c, 'actual'); nullableNumber(c, 'threshold'); }
+  }
   return o as NodeDetail;
 }
 export function parseGraph(value: unknown): GraphResponse {

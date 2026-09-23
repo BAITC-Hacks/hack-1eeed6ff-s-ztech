@@ -21,6 +21,9 @@ export type NodeDetail = NodeSummary & {
   pagerank: number; betweenness: number; participation: number; role_rule_id: string;
   candidates: Candidate[]; priority_contributions: Contribution[];
   limitations: string[]; next_data_requests: string[];
+  raw_score: number; score_caps: { key: string; cap: number; reason: string }[];
+  supporting_transfers: { total: number; source_refs: string[]; url: string };
+  alternative: Candidate | null;
 };
 export type NodePage = { run_id: string; items: NodeSummary[]; total: number; offset: number; limit: number };
 export type Transfer = { source_ref: string; source_row: number; src: Gid; dst: Gid; date: string; sum_kzt: Kzt };

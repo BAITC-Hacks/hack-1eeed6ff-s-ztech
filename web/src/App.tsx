@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react';
 import { ApiError, ApiSession, LatestRequest, SnapshotChanged } from './api';
-import { emptyFilters, validGid, type Filters, type Gid, type NodeDetail, type NodePage } from './domain';
+import { emptyFilters, validGid, type Filters, type Gid, type GraphResponse, type NodeDetail, type NodePage } from './domain';
 import { Queue } from './components/Queue';
 import { NodePanel } from './components/NodePanel';
 import { Failure, Loading } from './components/States';
+import { Network } from './components/Network';
 
 type View = 'network' | 'queue' | 'detail';
 type Remote<T> = { data: T | null; loading: boolean; error: Error | null };
@@ -12,9 +13,14 @@ export function App() {
   const api = useRef(new ApiSession());
   const queueRequest = useRef(new LatestRequest());
   const nodeRequest = useRef(new LatestRequest());
+  const graphRequest = useRef(new LatestRequest());
   const searchRef = useRef<HTMLInputElement>(null);
   const [queue, setQueue] = useState<Remote<NodePage>>(idle);
   const [detail, setDetail] = useState<Remote<NodeDetail>>(idle);
+  const [graph, setGraph] = useState<Remote<GraphResponse>>(idle);
+  const [clusterId, setClusterId] = useState<number | null>(null);
+  const [hops, setHops] = useState(1);
+  const [graphRefresh, setGraphRefresh] = useState(0);
   const [selected, setSelected] = useState<Gid | null>(null);
   const [filters, setFiltersState] = useState<Filters>(emptyFilters);
   const [offset, setOffset] = useState(0);
@@ -28,13 +34,13 @@ export function App() {
   const fail = useCallback((error: unknown) => {
     const err = error instanceof Error ? error : new Error('Неизвестная ошибка API.');
     if (err instanceof SnapshotChanged) {
-      queueRequest.current.cancel(); nodeRequest.current.cancel(); setQueue(idle); setDetail(idle); setSelected(null); setRunId(null); setFatal(err);
+      queueRequest.current.cancel(); nodeRequest.current.cancel(); graphRequest.current.cancel(); setQueue(idle); setDetail(idle); setGraph(idle); setSelected(null); setRunId(null); setFatal(err);
     }
     return err;
   }, []);
   function reset() {
-    queueRequest.current.cancel(); nodeRequest.current.cancel(); api.current = new ApiSession();
-    setQueue(idle); setDetail(idle); setSelected(null); setRunId(null); setFatal(null); setOffset(0); setRefresh(v => v + 1);
+    queueRequest.current.cancel(); nodeRequest.current.cancel(); graphRequest.current.cancel(); api.current = new ApiSession();
+    setQueue(idle); setDetail(idle); setGraph(idle); setSelected(null); setClusterId(null); setRunId(null); setFatal(null); setOffset(0); setRefresh(v => v + 1);
   }
   function setFilters(next: Filters) { setOffset(0); setFiltersState(next); }
   useEffect(() => {
@@ -48,6 +54,14 @@ export function App() {
   }, [filters, offset, refresh, fatal, fail]);
   useEffect(() => () => nodeRequest.current.cancel(), []);
   useEffect(() => {
+    if (fatal) return;
+    const request = graphRequest.current.start(); setGraph({ data: null, loading: true, error: null });
+    api.current.graph(selected, clusterId, hops, request.signal).then(data => {
+      if (request.isCurrent()) { setRunId(data.run_id); setGraph({ data, loading: false, error: null }); }
+    }).catch(error => { if (request.isCurrent()) setGraph({ data: null, loading: false, error: fail(error) }); });
+    return () => graphRequest.current.cancel();
+  }, [selected, clusterId, hops, graphRefresh, refresh, fatal, fail]);
+  useEffect(() => {
     function escape(event: KeyboardEvent) {
       if (event.key === 'Escape') { setView('network'); searchRef.current?.focus(); }
     }
@@ -57,7 +71,7 @@ export function App() {
   async function select(gid: Gid) {
     if (fatal) return;
     const request = nodeRequest.current.start();
-    setSelected(gid); setDetail({ data: null, loading: true, error: null }); setView('detail'); setSearchError('');
+    setSelected(gid); setClusterId(null); setGraph(idle); setGraphRefresh(v => v + 1); setDetail({ data: null, loading: true, error: null }); setView('detail'); setSearchError('');
     try {
       const data = await api.current.node(gid, request.signal);
       if (request.isCurrent()) { setRunId(data.run_id); setDetail({ data, loading: false, error: null }); }
@@ -67,6 +81,10 @@ export function App() {
         setDetail({ data: null, loading: false, error: err });
       }
     }
+  }
+  function openCluster(id: number | null) {
+    nodeRequest.current.cancel(); setSelected(null); setDetail(idle); setGraph(idle); setClusterId(id); setGraphRefresh(v => v + 1);
+    setFilters({ ...emptyFilters, cluster_id: id === null ? '' : String(id) }); setView('network');
   }
   function search(event: FormEvent) {
     event.preventDefault(); const gid = query.trim();
@@ -97,9 +115,10 @@ export function App() {
           {queue.loading && <Loading />}{queue.error && <Failure error={queue.error} retry={() => setRefresh(v => v + 1)} />}
           {queue.data && <Queue page={queue.data} filters={filters} selected={selected} setFilters={setFilters} select={id => void select(id)} offset={offset} setOffset={setOffset} />}
         </div></aside>
-        <section className="panel network-panel" aria-label="Направленный граф"><div className="panel-heading"><h2>Наблюдаемая сеть</h2></div>
-          <div className="graph-placeholder"><span className="empty-symbol" aria-hidden="true">↗</span><h3>Окружение узла</h3><p>Выберите узел в очереди<br />или найдите его по полному gid.</p><p className="caption">Граф подключается на этапе B2.</p></div>
-          <div className="network-note">Исходные переводы и метаданные будут доступны после согласования ответов API с backend.</div>
+        <section className="panel network-panel" aria-label="Направленный граф"><div className="panel-heading"><h2>{selected ? 'Окружение узла' : clusterId ? `Кластер ${clusterId}` : 'Обзор кластеров'}</h2><button className="quiet" onClick={() => openCluster(null)}>Обзор</button></div>
+          {selected && <div className="hop-controls"><span className="mono">{selected}</span><label>Шаги <select aria-label="Число шагов графа" value={hops} onChange={e => setHops(Number(e.target.value))}><option value="1">1</option><option value="2">2</option></select></label></div>}
+          {graph.loading && <Loading text="Загрузка графа…" />}{graph.error && <Failure error={graph.error} retry={() => setGraphRefresh(v => v + 1)} />}
+          {graph.data && <Network graph={graph.data} selected={selected} select={gid => void select(gid)} openCluster={openCluster} />}
         </section>
         <aside className="panel detail-panel" aria-label="Карточка узла"><div className="panel-heading"><h2>Карточка узла</h2><button className="drawer-close quiet" onClick={() => { setView('network'); searchRef.current?.focus(); }}>Закрыть · Esc</button></div><div className="panel-body">
           {detail.loading && <Loading text={`Загрузка узла ${selected}…`} />}{detail.error && <Failure error={detail.error} retry={() => selected && void select(selected)} />}
