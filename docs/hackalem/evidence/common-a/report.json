@@ -1,0 +1,81 @@
+{
+  "checked_at": "2026-09-23T17:40:54+05:00",
+  "code_sha": "e615483ba765fbf0a6288693d830301fd5a023e4",
+  "integrated_b_sha": "0b6a20e",
+  "merge_sha": "9e3dcf9",
+  "tests": {
+    "python": {
+      "passed": 209,
+      "seconds": 7.86
+    },
+    "frontend_unit": {
+      "passed": 43
+    },
+    "browser_contract": {
+      "passed": 62
+    },
+    "real_offline_integration": {
+      "passed": 5,
+      "seconds": 17.8
+    }
+  },
+  "commands": [
+    ".venv/bin/python -m pytest -q",
+    "npm --prefix web test -- --run",
+    "npm --prefix web run build",
+    ".venv/bin/ruff check app tests run.py",
+    "PLAYWRIGHT_BROWSERS_PATH=../work/pw-browsers node node_modules/playwright/cli.js test --output=../work/common-b7-contract",
+    "PLAYWRIGHT_BROWSERS_PATH=../work/pw-browsers NEVERLOSE_BASE_URL=http://127.0.0.1:8007 NEVERLOSE_RESULTS=../work/common-offline sandbox-exec -f scripts/offline-macos.sb node node_modules/playwright/cli.js test --config playwright.integration.config.ts --output=../work/common-b7-integration",
+    ".venv/bin/python run.py --verify-only --out work/common-offline"
+  ],
+  "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+  "counts": {
+    "nodes": 2248,
+    "edges": 3119,
+    "transactions": 4840,
+    "seeds": 81,
+    "isolates": 19,
+    "boundary": 444,
+    "clusters": 89,
+    "top_nodes": 50
+  },
+  "csv_hashes": {
+    "nodes_roles.csv": "d2ed563d2764d1afa4e0115e56123cad9569e14a779acc8efe98f79329bab759",
+    "clusters.csv": "659391a8cf1d6e6c564578a6459ee3e6ead42de25a96431af8baf5a1839d0891",
+    "top_nodes.csv": "8718df3b8b7e78332661300c4b66de382e36464b82c18197940e091457e5c445"
+  },
+  "pipeline_seconds": 1.313384,
+  "new_live_questions": 4,
+  "usage": {
+    "model_calls": 8,
+    "input_tokens": 17013,
+    "output_tokens": 422
+  },
+  "new_feature_browser": [
+    "five exact sources and full raw totals",
+    "AI handoff does not submit or charge",
+    "recipient navigation preserves group and result",
+    "honest empty intersection",
+    "duplicate selection validation",
+    "build group by adding nodes across close and reopen",
+    "six theme/viewport combinations without horizontal overflow"
+  ],
+  "model_comparison_scope": "One equal positive question on mini/Astra; Astra negative case and real browser positive case. Not a quality benchmark.",
+  "reviews": [
+    "independent common calculation:86 raw-data groups and320 synthetic directed graphs",
+    "B7 backend/API/verifier compatibility",
+    "frontend exact-money/scope review; group-persistence fix",
+    "grounding review: full-source/coverage and mandatory recipients; unrelated open card regression"
+  ],
+  "initial_failures": [
+    "Ruff import order fixed before209PASS",
+    "Context=D regression reproduced and fixed; full209PASS",
+    "First live-browser launch preceded server readiness: connection refused before any request; rerun after /health succeeded."
+  ],
+  "warnings": [
+    "Vite JavaScript714.11KB exceeds500KB advisory",
+    "Known Starlette TestClient deprecation warning",
+    "Clean clone after this new publication not yet recorded"
+  ],
+  "submission_confirmed": false
+}

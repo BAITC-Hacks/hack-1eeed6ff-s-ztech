@@ -1,0 +1,119 @@
+{
+  "mode": "offline",
+  "start": "2026-09-23T12:38:37.654Z",
+  "checks": [
+    "five exact sources and full raw totals",
+    "AI handoff does not submit or charge",
+    "recipient navigation preserves group and result",
+    "honest empty intersection",
+    "duplicate selection validation",
+    "build group by adding nodes across close and reopen",
+    "six theme/viewport combinations without horizontal overflow"
+  ],
+  "common_response": {
+    "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+    "source_gids": [
+      "100000003528285100",
+      "100000003880331100",
+      "100000004358004100",
+      "100000008304139100",
+      "100000008748914100"
+    ],
+    "min_sources": 5,
+    "matched_recipients": 1,
+    "shown_recipients": 1,
+    "truncated": false,
+    "items": [
+      {
+        "gid": "100000003684369100",
+        "source_count": 5,
+        "sum_kzt": "2874700.00",
+        "n_tx": 31,
+        "sources": [
+          {
+            "gid": "100000003528285100",
+            "sum_kzt": "203000.00",
+            "n_tx": 3,
+            "source_refs": [
+              "tx:c30c5317b543:2540",
+              "tx:c30c5317b543:3431",
+              "tx:c30c5317b543:3627"
+            ]
+          },
+          {
+            "gid": "100000003880331100",
+            "sum_kzt": "402000.00",
+            "n_tx": 4,
+            "source_refs": [
+              "tx:c30c5317b543:2380",
+              "tx:c30c5317b543:3346",
+              "tx:c30c5317b543:3361",
+              "tx:c30c5317b543:3559"
+            ]
+          },
+          {
+            "gid": "100000004358004100",
+            "sum_kzt": "233000.00",
+            "n_tx": 5,
+            "source_refs": [
+              "tx:c30c5317b543:2904",
+              "tx:c30c5317b543:3355",
+              "tx:c30c5317b543:3728",
+              "tx:c30c5317b543:3734",
+              "tx:c30c5317b543:3894"
+            ]
+          },
+          {
+            "gid": "100000008304139100",
+            "sum_kzt": "454000.00",
+            "n_tx": 10,
+            "source_refs": [
+              "tx:c30c5317b543:2967",
+              "tx:c30c5317b543:3090",
+              "tx:c30c5317b543:3180",
+              "tx:c30c5317b543:3532",
+              "tx:c30c5317b543:3611",
+              "tx:c30c5317b543:3732",
+              "tx:c30c5317b543:3836",
+              "tx:c30c5317b543:3893",
+              "tx:c30c5317b543:3897",
+              "tx:c30c5317b543:3902"
+            ]
+          },
+          {
+            "gid": "100000008748914100",
+            "sum_kzt": "1582700.00",
+            "n_tx": 9,
+            "source_refs": [
+              "tx:c30c5317b543:3500",
+              "tx:c30c5317b543:3502",
+              "tx:c30c5317b543:3730",
+              "tx:c30c5317b543:3733",
+              "tx:c30c5317b543:3811",
+              "tx:c30c5317b543:3880",
+              "tx:c30c5317b543:4081",
+              "tx:c30c5317b543:4200",
+              "tx:c30c5317b543:4337"
+            ]
+          }
+        ]
+      }
+    ],
+    "limitations": [
+      "Учтены только прямые переводы одного шага от выбранных отправителей, без поиска маршрутов.",
+      "Суммы относятся только к выбранным отправителям; это не весь входящий оборот получателя.",
+      "Повторяющиеся строки переводов сохранены. Сумма операций не является объёмом уникальных денег.",
+      "Неполные входящие, граница четырёх колен и порог выгрузки ограничивают вывод; отсутствие совпадений не исключает другие маршруты.",
+      "Общий получатель не доказывает координацию или противоправность. Роли остаются гипотезами."
+    ]
+  },
+  "csv_hashes": {
+    "nodes_roles.csv": "d2ed563d2764d1afa4e0115e56123cad9569e14a779acc8efe98f79329bab759",
+    "clusters.csv": "659391a8cf1d6e6c564578a6459ee3e6ead42de25a96431af8baf5a1839d0891",
+    "top_nodes.csv": "8718df3b8b7e78332661300c4b66de382e36464b82c18197940e091457e5c445"
+  },
+  "paid_requests": 0,
+  "page_errors": [],
+  "finish": "2026-09-23T12:38:40.126Z",
+  "pass": true
+}
