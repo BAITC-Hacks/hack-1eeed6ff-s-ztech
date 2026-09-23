@@ -19,4 +19,4 @@
 
 B подтвердил v1 в журнале коммита 7266a72. Ядро и CSV доступны с 7949dc0. В текущем коммите готовы все обязательные GET endpoints, brief и `python run.py --api-only`. Реальные ответы: contracts/v1.actual.json, полный набор: results/. Запуск: установить requirements.lock, затем `python run.py --api-only`; порт 8000. Все согласованные поля сохранены; несовместимые изменения не внесены. Schemas также доступны через /openapi.json. E1/E2/agent в meta.features=false.
 
-После G3 опубликовано аддитивное [дополнение E1](removal-v1.md). На момент публикации контракт готов, endpoint ещё реализуется; UI включать по фактическому `meta.features.removal` и после проверки.
+После G3 реализовано аддитивное [дополнение E1](removal-v1.md); `meta.features.removal=true`. Три CSV и основные признаки не меняются. 16 E1 tests и реальный HTTP smoke прошли; [пример реального ответа](v1.removal.actual.json). UI включать после проверки новой панели B; E2/agent остаются false.

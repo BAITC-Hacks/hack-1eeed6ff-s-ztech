@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-09-23T15:18:19+05:00",
+  "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+  "gids": [
+    "100000008346837100",
+    "100000003684369100",
+    "100000008165763100"
+  ],
+  "http_ms": 9.976,
+  "csv_unchanged": true,
+  "result": {
+    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "method": "weak_components_remaining_nodes",
+    "removed_gids": [
+      "100000003684369100",
+      "100000008165763100",
+      "100000008346837100"
+    ],
+    "remaining_nodes": 2245,
+    "removed_edges": 152,
+    "before": {
+      "components": 35,
+      "largest_component_size": 1874,
+      "largest_component_fraction": 0.8347438752783964,
+      "connected_pairs": 1791630
+    },
+    "after": {
+      "components": 93,
+      "largest_component_size": 1778,
+      "largest_component_fraction": 0.7919821826280624,
+      "connected_pairs": 1616490
+    },
+    "affected_pairs": 175140,
+    "affected_pairs_fraction": 0.09775455869794544,
+    "limitations": [
+      "Связность считается без учёта направления переводов.",
+      "Сравниваются только оставшиеся узлы; удаляемые узлы не входят в знаменатель.",
+      "Это структурная симуляция, не прогноз предотвращённых потерь и не банковское действие."
+    ]
+  }
+}

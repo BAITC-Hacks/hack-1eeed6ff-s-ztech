@@ -41,6 +41,12 @@ Offline-runtime: macOS sandbox-exec с `(deny network-outbound)` и исключ
 
 Сбой окружения: первоначальные 9 E2E не стартовали из-за отсутствующего Chromium. Загрузка под Node 26.9.0 завершилась, распаковка зависла; процесс остановлен. Под Node 24.19.0 установлен Chromium Headless Shell 140.0.7339.186 и FFMPEG в отдельный work/pw-browsers; 12+3 теста затем прошли. Это не исправление приложения. Команды тестов: `node node_modules/playwright/cli.js test` и `node node_modules/playwright/cli.js test --config playwright.integration.config.ts`; заданы только PLAYWRIGHT_BROWSERS_PATH, NEVERLOSE_BASE_URL и NEVERLOSE_RESULTS для данного стенда.
 
+## E1 backend — 2026-09-23T15:20:11+05:00
+
+16 новых meaningful tests: цепь, треугольник, встречные рёбра, пустой остаток/нулевой знаменатель, полностью удалённая компонента, независимое перечисление путей, exact gid, immutable CSV/snapshot, ошибки тела запроса. Весь backend: 94 PASS. Дополнительный read-only review независимо проверил 448 вариантов удаления во всех 64 трёхвершинных directed графах и bounded LRU eviction. P0/P1/P2 не найдены.
+
+Реальный HTTP smoke: 9.976 ms; 2245 оставшихся узлов, 152 removed edges, 1791630→1616490 connected pairs. Запрос/ответ в contracts/v1.removal.actual.json; evidence в docs/hackalem/evidence/e1-api.json. Три CSV неизменны. E1 UI пока не проверен и не объявляется реализованным.
+
 ## Остаётся до релиза
 
-Релизный clean clone на втором ноутбуке, финальная документация архитектуры/демо Алишера, репетиция, окончательный SHA и подтверждение подачи. E1/E2/LLM сейчас не включены. G6 не заявляется.
+Объединить R1 документацию B (9c4d973: второй ноутбук clean/offline проверен), принять/проверить optional E1 UI если успевает, окончательный SHA и подтверждение подачи. Устное демо человеком не измерено. E2/LLM не включены. G6 не заявляется.
