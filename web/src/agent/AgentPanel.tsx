@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ApiSession, LatestRequest, SnapshotChanged } from '../api';
 import { askAgent, agentMarkdown, type AgentAnswer } from './client';
+import { CommonRecipients } from './CommonRecipients';
 import './agent.css';
 
 const kinds = { observation: 'Наблюдение', hypothesis: 'Гипотеза', limitation: 'Ограничение', next_step: 'Следующий шаг' };
@@ -48,10 +49,11 @@ export function AgentPanel({ api, gid, enabled, runId, select, fail }: Props) {
   return <>
     <button ref={trigger} className="agent-trigger" aria-label="Открыть AI-аналитика" title="AI-аналитик: вопросы по наблюдаемой сети" onClick={() => setOpen(true)}><span aria-hidden="true">AI</span><span className="agent-trigger-label">Аналитик{pending ? '…' : ''}</span></button>
     <dialog ref={dialog} className="agent-dialog" aria-labelledby="agent-title" onCancel={event => { event.preventDefault(); close(); }} onClose={() => setOpen(false)} onKeyDown={event => { if (event.key === 'Escape') event.stopPropagation(); }}>
-      {open && <><div className="agent-heading"><div><span className="eyebrow">Вопрос → факты → основания</span><h2 id="agent-title">AI-аналитик</h2></div><button type="button" onClick={close} aria-label="Закрыть AI-аналитика">Закрыть · Esc</button></div>
+      <><div className="agent-heading"><div><span className="eyebrow">Вопрос → факты → основания</span><h2 id="agent-title">AI-аналитик</h2></div><button type="button" onClick={close} aria-label="Закрыть AI-аналитика">Закрыть · Esc</button></div>
       <div className="agent-body">
         <p className="agent-intro">Разберите гипотезу, проверьте переводы и определите следующий запрос данных. Ответ опирается на текущую наблюдаемую сеть.</p>
-        <details className="agent-scope"><summary>Какие вопросы поддерживаются</summary><p>Роль и альтернатива узла, исходные переводы, соседи, кластер и следующий запрос данных. Обзор ограничен пятью лидерами, соседи — 20 связями за вызов. Поиск общего получателя нескольких счетов, маршрутов и произвольные вычисления пока не поддерживаются. Полноту ответа проверяет аналитик.</p></details>
+        <details className="agent-scope"><summary>Какие вопросы поддерживаются</summary><p>Роль и альтернатива узла, исходные переводы, соседи, кластер, общие прямые получатели 2–5 указанных счетов и следующий запрос данных. Обзор ограничен пятью лидерами, соседи — 20 связями за вызов. Поиск маршрутов и произвольные вычисления пока не поддерживаются. Полноту ответа проверяет аналитик.</p></details>
+        <CommonRecipients api={api} gid={gid} runId={runId} busy={pending} fail={fail} select={id => { close(); select(id); }} prepare={text => { setQuestion(text); setWithNode(false); input.current?.focus(); input.current?.scrollIntoView({ block: 'center' }); }} />
         {gid ? <label className="agent-context"><input type="checkbox" checked={withNode} disabled={pending} onChange={event => setWithNode(event.target.checked)} /><span>Учитывать выбранный узел <strong className="mono">{gid}</strong></span></label> : <p className="agent-context">Контекст: вся наблюдаемая сеть. Для разбора конкретного узла выберите его на графе или в очереди.</p>}
         {!enabled && <div className="agent-disabled" role="status"><strong>AI-аналитик не включён на этом сервере.</strong><p>Граф, объяснения и CSV доступны локально. Для AI нужен настроенный серверный ключ и интернет.</p><details><summary>Как включить</summary><p>Настройте OPENAI_API_KEY на сервере и запустите <code>python run.py --assistant</code>. Ключ не вводится в браузере.</p></details></div>}
         <form onSubmit={event => void submit(event)} className="agent-form">
@@ -74,7 +76,7 @@ export function AgentPanel({ api, gid, enabled, runId, select, fail }: Props) {
           <div className="agent-limits"><h3>Границы ответа</h3><ul>{result.limitations.map((limit, index) => <li key={index}>{limit}</li>)}</ul></div>
           <p className="agent-meta">{result.model} · обращений: {result.usage.model_calls} · токены: {result.usage.input_tokens} вход / {result.usage.output_tokens} выход</p><p className="agent-meta mono">run_id: {result.run_id}</p>
         </section>}
-      </div></>}
+      </div></>
     </dialog>
   </>;
 }

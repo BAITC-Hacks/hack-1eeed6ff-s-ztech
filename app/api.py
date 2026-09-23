@@ -15,6 +15,11 @@ from fastapi.responses import FileResponse, JSONResponse, Response
 from starlette.exceptions import HTTPException
 
 from app.assistant import AgentAnswer, AgentError, AgentQuery
+from app.common_recipients import (
+    CommonRecipientsArgs,
+    CommonRecipientsResult,
+    find_common_recipients,
+)
 from app.experiments import simulate_removal
 from app.explain import ROLE_LABELS, kzt, parse_kzt
 from app.pipeline import export_bytes as snapshot_export_bytes
@@ -169,6 +174,23 @@ def create_app(
         if body.gid is not None:
             node(body.gid)
         return assistant.ask(body.question, body.gid)
+
+    @app.get("/api/v1/analysis/common-recipients", response_model=CommonRecipientsResult)
+    def common_recipients(
+        gid: list[str] = Query(min_length=2, max_length=5),
+        min_sources: int | None = Query(default=None, ge=2, le=5),
+        limit: int = Query(default=10, ge=1, le=10),
+    ):
+        for value in gid:
+            node(value)
+        if len(set(gid)) != len(gid):
+            raise ApiError(422, "DUPLICATE_GID", "Выберите разные gid")
+        minimum = len(gid) if min_sources is None else min_sources
+        if minimum > len(gid):
+            raise ApiError(422, "INVALID_PARAMETER", "Порог превышает число выбранных отправителей")
+        return find_common_recipients(
+            snapshot, CommonRecipientsArgs(gids=gid, min_sources=minimum, limit=limit)
+        )
 
     @lru_cache(maxsize=128)
     def removal_result(calculation_run: str, selected: tuple[str, ...]):

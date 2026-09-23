@@ -56,3 +56,12 @@
 .agent-scope { margin: 0 0 16px; color: var(--muted); font-size: 11px; }
 
 .graph-is-expanded > .agent-trigger { display: none; }
+.agent-common { border: 1px solid var(--border); border-radius: 4px; padding: 12px; margin-bottom: 16px; background: var(--elevated); }
+.agent-common > summary { font-weight: 650; cursor: pointer; }
+.agent-common > p, .common-result > p { margin-block: 10px; font-size: 12px; }
+.agent-common .agent-form { border: 0; padding-bottom: 0; }
+.common-items { list-style: none; padding: 0; margin-block: 12px; }
+.common-items > li { padding-block: 12px; border-block-start: 1px solid var(--border); font-size: 12px; }
+.common-items > li > button { max-width: 100%; overflow-wrap: anywhere; text-align: left; font-size: 12px; }
+.common-items p { margin-block: 6px; }
+.common-source { padding: 8px; border-left: 2px solid var(--border); margin-top: 8px; overflow-wrap: anywhere; }

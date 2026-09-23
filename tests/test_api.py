@@ -26,6 +26,34 @@ def test_long_ids_survive_api_and_real_node_parser(client):
     assert node["out_tx"] == 2 and node["supporting_transfers"]["total"] == 2
 
 
+def test_common_recipients_offline_default_scope_and_exports_unchanged(client):
+    before = client.get("/api/v1/exports/top_nodes.csv").content
+    r = client.get("/api/v1/analysis/common-recipients", params=[("gid", str(A)), ("gid", str(B))])
+    assert r.status_code == 200
+    result = r.json()
+    assert result["source_gids"] == [str(A), str(B)] and result["min_sources"] == 2
+    assert result["items"] == [] and result["matched_recipients"] == 0
+    assert result["run_id"] == client.get("/api/v1/meta").json()["run_id"]
+    assert client.get("/api/v1/exports/top_nodes.csv").content == before
+
+
+@pytest.mark.parametrize(
+    "params,status",
+    [
+        ([("gid", str(A))], 422),
+        ([("gid", str(A)), ("gid", str(A))], 422),
+        ([("gid", str(A)), ("gid", "999")], 404),
+        ([("gid", str(A)), ("gid", "9223372036854775808")], 422),
+        ([("gid", str(A)), ("gid", str(B)), ("min_sources", "3")], 422),
+        ([("gid", str(A)), ("gid", str(B)), ("limit", "11")], 422),
+    ],
+)
+def test_common_recipients_api_errors(client, params, status):
+    response = client.get("/api/v1/analysis/common-recipients", params=params)
+    assert response.status_code == status
+    assert set(response.json()) == {"error", "run_id"}
+
+
 def test_transfer_sums_do_not_depend_on_pagination_and_keep_duplicates(client):
     p1 = client.get(f"/api/v1/nodes/{A}/transfers?limit=1&offset=0").json()
     p2 = client.get(f"/api/v1/nodes/{A}/transfers?limit=1&offset=1").json()

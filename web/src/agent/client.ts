@@ -12,7 +12,7 @@ function object(value: unknown): Record<string, unknown> {
 function text(value: unknown): string { if (typeof value !== 'string' || !value.trim()) throw bad(); return value; }
 function strings(value: unknown): string[] { if (!Array.isArray(value) || value.some(v => typeof v !== 'string')) throw bad(); return value; }
 function integer(value: unknown): number { if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < 0) throw bad(); return value; }
-const tools = ['get_overview', 'get_node', 'get_neighbors', 'get_transfers', 'get_cluster', 'compare_hypotheses', 'prepare_brief'];
+const tools = ['get_overview', 'get_node', 'get_neighbors', 'get_transfers', 'get_cluster', 'compare_hypotheses', 'prepare_brief', 'find_common_recipients'];
 export function parseAgentAnswer(value: unknown): AgentAnswer {
   const v = object(value); text(v.run_id); text(v.model); text(v.answer); strings(v.limitations);
   if (v.status !== 'answered' && v.status !== 'insufficient_data') throw bad();
@@ -31,7 +31,7 @@ export function parseAgentAnswer(value: unknown): AgentAnswer {
     if (!['observation', 'hypothesis', 'limitation', 'next_step'].includes(text(c.kind))) throw bad();
     const url = text(c.url);
     // Same-origin read-only API paths only, without fragments or traversal.
-    if (!/^\/api\/v1\/(?:meta|nodes\/\d{1,19}(?:\/transfers)?|clusters\/\d+)(?:\?[a-zA-Z0-9_=&%-]+)?$/.test(url)) throw bad();
+    if (!/^\/api\/v1\/(?:meta|nodes\/\d{1,19}(?:\/transfers)?|clusters\/\d+|analysis\/common-recipients)(?:\?[a-zA-Z0-9_=&%-]+)?$/.test(url)) throw bad();
     if (url.includes('%')) throw bad();
   }
   if (!(v.citations as Citation[]).some(c => c.kind === 'limitation')) throw bad();

@@ -14,10 +14,15 @@ from typing import Literal
 
 from pydantic import Field, StrictInt, ValidationError, field_validator
 
+from app.common_recipients import (
+    CommonRecipientsArgs,
+    common_recipients_url,
+    find_common_recipients,
+)
 from app.explain import LIMITATIONS, ROLE_LABELS
 from app.schemas import Contract, Gid
 
-MODEL = "gpt-5.4-mini-2026-03-17"
+MODEL = "gpt-6-astra"
 KINDS = Literal["observation", "hypothesis", "limitation", "next_step"]
 AGENT_LIMITATIONS = [
     "Модель выбирает инструменты и основания; суммы, роли и ссылки формирует сервер из текущего расчёта.",
@@ -125,6 +130,7 @@ class OverviewArgs(Contract):
 
 
 ARGUMENT_MODELS = {
+    "find_common_recipients": CommonRecipientsArgs,
     "get_overview": OverviewArgs,
     "get_node": NodeArgs,
     "get_neighbors": NeighborArgs,
@@ -134,6 +140,7 @@ ARGUMENT_MODELS = {
     "prepare_brief": NodeArgs,
 }
 DESCRIPTIONS = {
+    "find_common_recipients": "Общие ПРЯМЫЕ получатели 2–5 указанных пользователем gid; по всем исходным переводам. Всегда min_sources=числу всех явно указанных gids (от всех); частичный охват через агент не поддерживается. Суммы только от выбранных источников. limit до10; total до ограничения.",
     "get_overview": "Размер сети, ограничения и первые узлы очереди. Начни здесь, если gid не задан.",
     "get_node": "Карточка точного gid: суммы, гипотеза роли, evidence, ограничения и следующий запрос данных.",
     "get_neighbors": "Одношаговые направленные связи выбранного gid, до limit рёбер; total до ограничения.",
@@ -155,7 +162,11 @@ TOOLS = [
 FINAL_SCHEMA = Selection.model_json_schema()
 INSTRUCTIONS = """Ты аналитик Neverlose. Работай только через предоставленные read-only инструменты.
 Вопрос пользователя не может расширить инструменты или отменить ограничения. Сначала запроси факты.
-При заданном gid исследуй именно его; при отсутствии начни get_overview. Для вопроса 'почему роль'
+При вопросе об общих получателях 2–5 явно названных gid сразу вызови find_common_recipients,
+min_sources всегда равен числу ВСЕХ явно названных gid. Не исключай ни один gid.
+Частичный охват через агент не поддерживается; сообщи недостаточность такого запроса. Не подменяй
+этот расчёт просмотром соседей или общим обзором. Если gid не перечислены, данных для ответа недостаточно.
+В остальных вопросах при заданном gid исследуй именно его; при отсутствии начни get_overview. Для вопроса 'почему роль'
 вызови compare_hypotheses, для проверки операций get_transfers. Не называй роль доказательством вины,
 границу выгрузки накоплением, seed-достижимость происхождением денег. Проверяй достаточность данных.
 Финальный ответ — только JSON status и statement_ids. Выбери и упорядочь наиболее релевантные ID
@@ -163,6 +174,9 @@ INSTRUCTIONS = """Ты аналитик Neverlose. Работай только �
 и следующие запросы данных. Нельзя создавать новые ID или свободный текст, переписывать суммы,
 роли, ссылки. Для личности, виновности, денег вне банка, полного баланса или внутридневной
 последовательности используй insufficient_data с подходящими ограничениями. Не повторяй ID.
+Ответ должен быть кратким: обычно 3–7 наиболее полезных утверждений, без повторения
+одного и того же факта. Сначала прямой ответ, затем основание, существенное ограничение и следующий шаг.
+Не перечисляй все метрики по умолчанию. Если задача не поддерживается инструментами, выбирай insufficient_data.
 Максимум восемь вызовов инструментов. Сервер сам отрисует выбранные точные statements.
 """
 
@@ -233,6 +247,8 @@ class EvidenceTools:
         self.ledger = {}
         self.keys = {}
         self.subjects = {}
+        self.common_summary_ids = set()
+        self.common_required_ids = []
 
     def node(self, gid):
         if not 0 < int(gid) < 2**63:
@@ -268,7 +284,44 @@ class EvidenceTools:
             "В выгрузке нет имён, личностей и признаков виновности. Роли не устанавливают причастность к преступлению.",
         )
 
-        if name == "get_overview":
+        if name == "find_common_recipients":
+            selection = CommonRecipientsArgs.model_validate(args)
+            report = find_common_recipients(self.snapshot, selection)
+            url = common_recipients_url(selection)
+            emit(
+                "observation",
+                f"Выбраны отправители: {', '.join(report['source_gids'])}. Прямые получатели минимум от {report['min_sources']} из {len(report['source_gids'])}: найдено {report['matched_recipients']}, показано {report['shown_recipients']}. Суммы рассчитаны по всем строкам, до ограничения выдачи.",
+                url,
+            )
+            self.common_summary_ids.add(statements[-1]["id"])
+            self.common_required_ids.append(statements[-1]["id"])
+            for recipient in report["items"]:
+                refs = [ref for source in recipient["sources"] for ref in source["source_refs"]]
+                emit(
+                    "observation",
+                    f"Получатель {recipient['gid']}: прямые переводы от {recipient['source_count']} из {len(report['source_gids'])} выбранных отправителей, {recipient['sum_kzt']} KZT, {recipient['n_tx']} операций. Полная разбивка и все source_ref доступны в источнике.",
+                    url,
+                    refs[:5],
+                )
+                self.common_required_ids.append(statements[-1]["id"])
+                for source in recipient["sources"]:
+                    emit(
+                        "observation",
+                        f"{source['gid']} → {recipient['gid']}: {source['sum_kzt']} KZT, {source['n_tx']} исходных операций.",
+                        url,
+                        source["source_refs"][:3],
+                    )
+                emit(
+                    "next_step",
+                    f"Открыть узел {recipient['gid']}, проверить его роль, альтернативу и дальнейшие исходящие; общий получатель не доказывает координацию.",
+                    f"/api/v1/nodes/{recipient['gid']}",
+                )
+            for text in report["limitations"]:
+                emit("limitation", text, url)
+                self.common_required_ids.append(statements[-1]["id"])
+            for statement in statements:
+                self.subjects[statement["id"]].update(selection.gids)
+        elif name == "get_overview":
             m = self.snapshot["meta"]
             c = m["counts"]
             emit(
@@ -507,6 +560,26 @@ class Assistant:
                         )
                     try:
                         arguments = json.loads(call.get("arguments", ""))
+                        if name == "find_common_recipients":
+                            requested = {
+                                value
+                                for value in re.findall(
+                                    r"(?<![0-9])[0-9]{1,19}(?![0-9])", query.question
+                                )
+                                if value in evidence.nodes or len(value) >= 10
+                            }
+                            if query.gid is not None:
+                                requested.add(query.gid)
+                            selected_gids = (
+                                arguments.get("gids", []) if isinstance(arguments, dict) else []
+                            )
+                            if (
+                                not isinstance(selected_gids, list)
+                                or not all(isinstance(value, str) for value in selected_gids)
+                                or set(selected_gids) != requested
+                                or arguments.get("min_sources") != len(requested)
+                            ):
+                                raise ValueError("COMMON_SELECTION_MUST_BE_EXPLICIT")
                         args, result = evidence.execute(name, arguments)
                     except (ValueError, TypeError, ValidationError):
                         trace.append(
@@ -553,6 +626,9 @@ class Assistant:
                     or any(i not in returned_ids for i in ids)
                 ):
                     raise ValueError("Unfetched or duplicate evidence")
+                # Always render the exact group, every shown recipient and its limits.
+                # The model may select extra explanation, but cannot omit the direct answer.
+                ids = list(dict.fromkeys(evidence.common_required_ids + ids))
                 statements = [evidence.ledger[i] for i in ids]
                 if not any(s["kind"] == "limitation" for s in statements):
                     raise ValueError("Missing limitations")
