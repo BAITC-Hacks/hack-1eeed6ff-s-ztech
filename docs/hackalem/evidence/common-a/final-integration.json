@@ -1,0 +1,28 @@
+{
+  "code_sha": "8e9de4d9333c0b15fe3f99a98be7125f3be8a2c2",
+  "checked_at": "2026-09-23T17:44:49+05:00",
+  "integrated_b": "a8965b12dab01fbb2a8e96ebe9b058342494732c",
+  "python": {
+    "passed": 217,
+    "seconds": 9.49
+  },
+  "frontend_unit": 43,
+  "browser_contract": 64,
+  "real_offline_integration": {
+    "passed": 5,
+    "seconds": 18.1
+  },
+  "common_offline_browser_repeated": true,
+  "new_paid_calls": 0,
+  "verify": {
+    "status": "valid",
+    "nodes": 2248,
+    "clusters": 89,
+    "top_nodes": 50
+  },
+  "build_js_kb": 714.79,
+  "changes": "Verifier role/cap/source_ref consistency, keyboard focus and accessible amounts; agent and common calculations unchanged.",
+  "review": "Separate read-only backend review passed; source frontend review and real browser regression passed.",
+  "clean_clone_after_this_publication": false,
+  "reason_no_more_work": "User requested finish and publish; no new features or paid model repeats."
+}
