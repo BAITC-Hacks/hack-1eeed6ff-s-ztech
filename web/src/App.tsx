@@ -37,6 +37,7 @@ export function App() {
   const clusterRequest = useRef(new LatestRequest());
   const transfersRef = useRef<HTMLElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  useLayoutEffect(() => { if (entered) searchRef.current?.focus(); }, [entered]);
   const [queue, setQueue] = useState<Remote<NodePage>>(idle);
   const [detail, setDetail] = useState<Remote<NodeDetail>>(idle);
   const [graph, setGraph] = useState<Remote<GraphResponse>>(idle);
@@ -176,7 +177,7 @@ export function App() {
     void select(gid);
   }
   if (!entered) return <Welcome theme={theme} toggleTheme={toggleTheme} enter={() => {
-    rememberEntry(); setEntered(true); requestAnimationFrame(() => searchRef.current?.focus());
+    rememberEntry(); setEntered(true);
   }} />;
   const overview = selected === null && clusterId === null;
   return <div className={`app${graphExpanded ? ' graph-is-expanded' : ''}`}>
