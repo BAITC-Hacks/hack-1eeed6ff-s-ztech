@@ -14,3 +14,7 @@ Pre-flight: loader сохраняет int gid/tiyin/source_row → graph/metrics
 Монитор remote каждые 10 минут до 18:00 + ручной fetch перед каждой интеграцией. `web/` не редактируется зоной A.
 
 A0 evidence: `pip check` → No broken requirements; imports pandas/numpy/pyarrow/networkx/scipy/fastapi/pydantic/uvicorn → OK. Manifest всех оригинальных файлов совпадает; fixture JSON разбирается и сохраняет разные длинные gid. G0 со стороны A выполнен, независимое подтверждение B не заявляется. macOS 26.6.2 arm64, Apple M4, 16 GiB RAM.
+
+## A1 — 2026-09-23T14:29:36+05:00
+
+Реализованы loader и directed graph. Проверки: `python -m pytest tests -q` → 21 passed; `ruff check app tests` → pass. До реализации тесты не собирались из-за отсутствовавшего app.loader. Проверено D01–D09; официальный audit в `docs/hackalem/evidence/a1-loader.json`. Деньги берутся из всех исходных tx в целых тиынах; расхождение edges до одного тиына фиксируется явно. Исходные source_row стабильны. Review: убран неявный fallback парсинга дат; даты проверяются в ISO-формате. Исправлена ошибочно введённая вручную метка 14:34 в STATUS на фактическое время; история коммитов не менялась. Следующий этап A2.

@@ -1,0 +1,30 @@
+{
+  "extra_columns": {
+    "nodes": [],
+    "edges": [],
+    "transactions": []
+  },
+  "duplicate_transactions": 97,
+  "rows": {
+    "nodes": 2248,
+    "edges": 3119,
+    "transactions": 4840
+  },
+  "source_hashes": {
+    "nodes.parquet": "d2a45b0df6e9352832d5fb09839d10b9e23f898156c3bab263b051b31cc0296d",
+    "edges.parquet": "4e71dde5cd3115bcb26e91202665532ee6581cf8233a9fc8059ea59fb7358a38",
+    "transactions.parquet": "c30c5317b5439591dde86f2058dc47a3d19b2900c055ded994fe547f6fb7e7da"
+  },
+  "source_bytes": {
+    "nodes.parquet": 11905,
+    "edges.parquet": 34187,
+    "transactions.parquet": 40745
+  },
+  "aggregate_tolerance_pairs": 0,
+  "total_tiyin": 36589001201,
+  "seeds": 81,
+  "profile": "official",
+  "isolates": 19,
+  "weak_components": 35,
+  "boundary": 444
+}
