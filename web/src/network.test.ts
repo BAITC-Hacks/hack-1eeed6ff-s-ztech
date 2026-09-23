@@ -42,3 +42,36 @@ it('changes graph theme without replacing elements, selection, or camera', () =>
   applyNetworkTheme(instance.cy, 'dark'); expect(node.style('color')).toBe(darkColor);
   instance.dispose();
 });
+
+it('highlights only the selected neighborhood without dropping isolates or directions', async () => {
+  const {focusNetwork, labelNetwork, zoomNetwork, describeElement}=await import('./network');
+  const instance=createNetwork(undefined,vi.fn(),vi.fn());
+  const graph=parseGraph(fixture.graph);
+  const isolated={...graph.nodes[0],id:'n:900000000000000003',gid:'900000000000000003'};
+  updateNetwork(instance.cy,{...graph,nodes:[...graph.nodes,isolated]},null);
+  const ids=instance.cy.elements().map(el=>el.id());
+  focusNetwork(instance.cy,graph.nodes[0].id);
+  expect(instance.cy.getElementById(isolated.id).hasClass('faded')).toBe(true);
+  expect(instance.cy.edges().first().hasClass('focused')).toBe(true);
+  expect(instance.cy.elements().map(el=>el.id())).toEqual(ids);
+  expect(describeElement(instance.cy.edges().first())).toContain('900000000000000001 → 900000000000000002');
+  labelNetwork(instance.cy,true); expect(instance.cy.$('node.all-labels').length).toBe(3);
+  focusNetwork(instance.cy,null); expect(instance.cy.$('.faded').length).toBe(0);
+  instance.cy.zoom(2); instance.cy.pan({x:20,y:30});
+  const center={x:instance.cy.width()/2,y:instance.cy.height()/2};
+  const before={x:(center.x-instance.cy.pan().x)/instance.cy.zoom(),y:(center.y-instance.cy.pan().y)/instance.cy.zoom()};
+  zoomNetwork(instance.cy,1.25);
+  expect((center.x-instance.cy.pan().x)/instance.cy.zoom()).toBeCloseTo(before.x);
+  expect((center.y-instance.cy.pan().y)/instance.cy.zoom()).toBeCloseTo(before.y);
+  zoomNetwork(instance.cy,100); expect(instance.cy.zoom()).toBe(4);
+  zoomNetwork(instance.cy,.0001); expect(instance.cy.zoom()).toBe(.15);
+  instance.dispose();
+});
+
+it('does not mark every cluster active when no gid is selected', () => {
+  const instance=createNetwork(undefined,vi.fn(),vi.fn());
+  const graph=parseGraph(fixture.graph);
+  updateNetwork(instance.cy,{...graph,scope:{mode:'overview'},nodes:graph.nodes.map((n,i)=>({...n,id:`c:${i+1}`,kind:'cluster',gid:null,role:null})),edges:[]},null);
+  expect(instance.cy.$('.active').length).toBe(0);
+  instance.dispose();
+});

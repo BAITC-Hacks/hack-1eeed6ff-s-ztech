@@ -9,12 +9,17 @@ import { ClusterPanel } from './components/ClusterPanel';
 import { Transfers } from './components/Transfers';
 import { Exports } from './components/Exports';
 import { Icon } from './components/Icon';
+import { Welcome, enteredSession, rememberEntry } from './components/Welcome';
+import { FreedomLogo } from './components/FreedomLogo';
+import { ThemeSwitch } from './components/ThemeSwitch';
 import { applyTheme, initialTheme, rememberTheme } from './theme';
 
 type View = 'network' | 'queue' | 'detail';
 type Remote<T> = { data: T | null; loading: boolean; error: Error | null };
 const idle = { data: null, loading: false, error: null };
 export function App() {
+  const [entered, setEntered] = useState(enteredSession);
+  const [graphExpanded, setGraphExpanded] = useState(false);
   const [theme, setTheme] = useState(initialTheme);
   useLayoutEffect(() => applyTheme(theme), [theme]);
   function toggleTheme() {
@@ -64,6 +69,7 @@ export function App() {
     return err;
   }, []);
   function reset() {
+    setView('network'); setGraphExpanded(false);
     setCenterView('graph');
     queueRequest.current.cancel(); nodeRequest.current.cancel(); graphRequest.current.cancel(); api.current = new ApiSession();
     metaRequest.current.cancel(); transfersRequest.current.cancel(); clusterRequest.current.cancel(); setMeta(idle); setClusters([]); setTransfers(idle); setCluster(idle);
@@ -114,13 +120,17 @@ export function App() {
   }, [selected, clusterId, graphRefresh, fatal, fail]);
   useEffect(() => {
     function escape(event: KeyboardEvent) {
-      if (event.key === 'Escape') { setView('network'); searchRef.current?.focus(); }
+      if (event.key === 'Escape') {
+        if (graphExpanded) { setGraphExpanded(false); requestAnimationFrame(() => document.getElementById('graph-expand')?.focus()); }
+        else { setView('network'); searchRef.current?.focus(); }
+      }
     }
     window.addEventListener('keydown', escape);
     return () => window.removeEventListener('keydown', escape);
-  }, []);
+  }, [graphExpanded]);
   async function select(gid: Gid) {
     if (fatal) return;
+    setGraphExpanded(false);
     const request = nodeRequest.current.start();
     setSelected(gid); setClusterId(null); setGraph(idle); setGraphRefresh(v => v + 1); setDetail({ data: null, loading: true, error: null }); setView('detail'); setSearchError('');
     setCenterView('graph');
@@ -136,6 +146,7 @@ export function App() {
     }
   }
   function openCluster(id: number | null) {
+    setGraphExpanded(false);
     setCenterView('graph');
     graphRequest.current.cancel(); transfersRequest.current.cancel(); clusterRequest.current.cancel();
     setTransfers(idle); setCluster(idle);
@@ -162,13 +173,17 @@ export function App() {
     }
     void select(gid);
   }
-  return <div className="app">
-    <header className="header"><div className="brand">{selected !== null || clusterId !== null ? <button className="home-button icon-button" onClick={goHome} aria-label="На главный экран" title="На главный экран"><Icon name="back" /></button> : <span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M6 21V7l16 14V7" stroke="currentColor" strokeWidth="2.5" /><path d="M17 7h5v5" stroke="currentColor" strokeWidth="2.5" /></svg></span>}<div><strong>Neverlose</strong><span>Граф денег</span></div></div>
+  if (!entered) return <Welcome theme={theme} toggleTheme={toggleTheme} enter={() => {
+    rememberEntry(); setEntered(true); requestAnimationFrame(() => searchRef.current?.focus());
+  }} />;
+  const overview = selected === null && clusterId === null;
+  return <div className={`app${graphExpanded ? ' graph-is-expanded' : ''}`}>
+    <header className="header"><div className="brand">{selected !== null || clusterId !== null ? <button className="home-button icon-button" onClick={goHome} aria-label="На главный экран" title="На главный экран"><Icon name="back" /></button> : <FreedomLogo compact />}<button className="brand-name" onClick={() => setEntered(false)} aria-label="Стартовый экран Neverlose" title="Стартовый экран"><strong>Neverlose</strong><span>Граф денег</span></button></div>
       <form className="search" onSubmit={search}><label className="sr-only" htmlFor="gid-search">Поиск по полному gid</label>
         <Icon name="search" /><input id="gid-search" ref={searchRef} value={query} onChange={e => setQuery(e.target.value)} placeholder="Найти по полному gid" inputMode="numeric" autoComplete="off" aria-invalid={!!searchError} aria-describedby={searchError ? 'search-error' : undefined} />
         <button type="submit" disabled={!!fatal}>Найти</button></form>
       {meta.data && !fatal && <Exports key={meta.data.run_id} api={api.current} fail={fail} />}
-      <button className="theme-switch" role="switch" aria-label="Тёмная тема" aria-checked={theme === 'dark'} onClick={toggleTheme} title={theme === 'dark' ? 'Включить светлую тему' : 'Включить тёмную тему'}><span className="theme-option sun"><Icon name="sun" /></span><span className="theme-option moon"><Icon name="moon" /></span></button>
+      <ThemeSwitch theme={theme} toggle={toggleTheme} />
       <button className="quiet icon-button" onClick={reset} aria-label="Обновить" title="Обновить данные"><Icon name="refresh" /></button>
     </header>
     <div className="status-strip">{meta.data ? <><div><span className="eyebrow">Узлы</span><p className="kpi">{meta.data.counts.nodes.toLocaleString('ru-RU')}</p></div><div><span className="eyebrow">Связи</span><p className="kpi">{meta.data.counts.edges.toLocaleString('ru-RU')}</p></div><div><span className="eyebrow">Переводы</span><p className="kpi">{meta.data.counts.transactions.toLocaleString('ru-RU')}</p></div><div><span className="eyebrow">Наблюдаемый оборот</span><p className="kpi turnover">{formatKzt(meta.data.total_kzt)}</p></div><div className="period"><span className="eyebrow">Период выгрузки</span><p>{meta.data.period.start} — {meta.data.period.end}</p></div><button className="quiet" aria-expanded={showLimits} onClick={() => setShowLimits(value => !value)}>Ограничения</button></> : <p>{meta.loading ? 'Загрузка метаданных API…' : 'Метаданные не загружены'}</p>}</div>
@@ -178,23 +193,23 @@ export function App() {
     {searchError && <div id="search-error" className="notice error" role="alert">{searchError}</div>}
     {notice && <div className="notice" role="status">{notice}<button className="quiet" onClick={() => setNotice('')} aria-label="Закрыть уведомление">×</button></div>}
     {fatal ? <Failure error={fatal} retry={reset} /> : <>
-      <nav className="mobile-tabs" aria-label="Панели рабочего места">{(['network', 'queue', 'detail'] as const).map(tab => <button key={tab} aria-pressed={view === tab} onClick={() => setView(tab)}>{({ network: 'Сеть', queue: 'Приоритеты', detail: 'Карточка' })[tab]}</button>)}</nav>
-      <main className={`workspace view-${view}`}>
+      <nav className="mobile-tabs" aria-label="Панели рабочего места">{(['network', 'queue', 'detail'] as const).map(tab => <button key={tab} aria-pressed={view === tab} disabled={tab === 'detail' && overview} onClick={() => setView(tab)}>{({ network: 'Сеть', queue: 'Приоритеты', detail: 'Карточка' })[tab]}</button>)}</nav>
+      <main className={`workspace view-${view}${overview ? ' overview' : ''}${graphExpanded ? ' graph-expanded' : ''}`}>
         <aside className="panel queue-panel" aria-label="Приоритеты"><div className="panel-heading"><div><span className="eyebrow">Очередь проверки</span><h1>Приоритеты</h1></div><span className="count-chip">{queue.data?.total ?? '—'}</span></div><div className="panel-body">
           {queue.loading && <Loading />}{queue.error && <Failure error={queue.error} retry={() => setRefresh(v => v + 1)} />}
           {queue.data && <Queue page={queue.data} filters={filters} selected={selected} selectedNode={detail.data} setFilters={setFilters} select={id => void select(id)} offset={offset} setOffset={setOffset} clusters={clusters} />}
         </div></aside>
         <div className={`center-column center-${centerView}`}>{selected && detail.data && <nav className="center-switch" aria-label="Граф и переводы"><button aria-pressed={centerView === 'graph'} onClick={() => setCenterView('graph')}><Icon name="network" />Граф</button><button aria-pressed={centerView === 'transfers'} onClick={() => setCenterView('transfers')}><Icon name="table" />Переводы</button><button className="dual-view" aria-pressed={centerView === 'both'} onClick={() => setCenterView('both')}>Вместе</button></nav>}
-        <section className="panel network-panel" aria-label="Направленный граф"><div className="panel-heading"><div><span className="eyebrow">Наблюдаемая сеть</span><h2>{selected ? 'Окружение узла' : clusterId ? `Кластер ${clusterId}` : 'Обзор кластеров'}</h2></div><button className="quiet" onClick={goHome}>Обзор <Icon name="arrow" /></button></div>
+        <section className="panel network-panel" aria-label="Направленный граф"><div className="panel-heading"><div><span className="eyebrow">Наблюдаемая сеть</span><h2>{selected ? 'Окружение узла' : clusterId !== null ? `Кластер ${clusterId}` : 'Обзор кластеров'}</h2></div><button className="quiet" onClick={goHome}>Обзор <Icon name="arrow" /></button></div>
           {selected && <div className="hop-controls"><span className="mono">{selected}</span><label>Шаги <select aria-label="Число шагов графа" value={hops} onChange={e => setHops(Number(e.target.value))}><option value="1">1</option><option value="2">2</option></select></label></div>}
           {graph.loading && <Loading text="Загрузка графа…" />}{graph.error && <Failure error={graph.error} retry={() => setGraphRefresh(v => v + 1)} />}
-          {graph.data && <Network theme={theme} graph={graph.data} selected={selected} select={gid => void select(gid)} openCluster={openCluster} />}
+          {graph.data && <Network theme={theme} expanded={graphExpanded} toggleExpanded={() => setGraphExpanded(value => !value)} graph={graph.data} selected={selected} select={gid => void select(gid)} openCluster={openCluster} />}
         </section>
         {selected && detail.data && <section id="transfers" ref={transfersRef} tabIndex={-1} className="panel transfers-panel" aria-label="Переводы выбранного узла"><div className="panel-heading"><h2>Исходные переводы</h2><span className="mono caption">{selected}</span></div>
           {transfers.loading && <Loading text="Загрузка переводов…" />}{transfers.error && <Failure error={transfers.error} retry={() => setTransferRefresh(v => v + 1)} />}
           {transfers.data && <Transfers page={transfers.data} gid={selected} direction={direction} offset={transferOffset} setDirection={value => { setDirection(value); setTransferOffset(0); }} setOffset={setTransferOffset} select={gid => void select(gid)} />}
         </section>}</div>
-        <aside className="panel detail-panel" aria-label="Карточка узла"><div className="panel-heading"><div><span className="eyebrow">Детали исследования</span><h2>Карточка узла</h2></div><button className="drawer-close quiet" onClick={() => { setView('network'); searchRef.current?.focus(); }}>Закрыть · Esc</button></div><div className="panel-body">
+        <aside className="panel detail-panel" aria-label="Карточка узла"><div className="panel-heading"><div><span className="eyebrow">Детали исследования</span><h2>{clusterId !== null ? 'Карточка кластера' : 'Карточка узла'}</h2></div><button className="drawer-close quiet" onClick={() => { setView('network'); searchRef.current?.focus(); }}>Закрыть · Esc</button></div><div className="panel-body">
           {detail.loading && <Loading text={`Загрузка узла ${selected}…`} />}{detail.error && <Failure error={detail.error} retry={() => selected && void select(selected)} />}
           {detail.data && <NodePanel node={detail.data} showTransfers={showTransfers} openCluster={id => { openCluster(id); setView('detail'); }} />}
           {cluster.loading && <Loading text="Загрузка кластера…" />}{cluster.error && <Failure error={cluster.error} retry={() => setGraphRefresh(v => v + 1)} />}{cluster.data && <ClusterPanel cluster={cluster.data} select={gid => void select(gid)} />}

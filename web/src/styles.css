@@ -355,3 +355,65 @@ footer .run { font-size: 8px; overflow-wrap: anywhere; letter-spacing: 0; }
 .theme-option { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; color: var(--muted); }
 .theme-switch[aria-checked="true"] .moon, .theme-switch[aria-checked="false"] .sun { background: var(--brand); color: var(--brand-ink); }
 .theme-switch .icon { width: 15px; height: 15px; }
+
+/* B6: supplied Freedom mark, a brief entry screen and readable graph controls. */
+.freedom-logo { display: block; width: 177px; height: 40px; flex-shrink: 0; }
+.freedom-logo path[fill="#0E151C"] { fill: var(--text); }
+.freedom-logo.compact { width: 36px; height: 36px; }
+.welcome { min-height: 100dvh; display: flex; flex-direction: column; background: var(--bg); padding: 0 clamp(24px,5vw,72px); }
+.welcome-header { display: flex; justify-content: space-between; align-items: center; gap: 24px; padding: 26px 0; border-bottom: 1px solid var(--border); }
+.welcome-header > span { color: var(--muted); font-size: 13px; }
+.welcome-header strong { color: var(--text); font-size: 15px; letter-spacing: -.04em; }
+.welcome-main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 72px 0; }
+.welcome-brands { display: flex; align-items: center; justify-content: center; gap: 26px; margin-bottom: 32px; }
+.welcome-divider { width: 1px; height: 38px; background: var(--border); }
+.welcome-team { font-size: 42px; font-weight: 650; letter-spacing: -.055em; line-height: 1.1; animation: welcome-reveal 800ms cubic-bezier(.2,.7,.2,1) 140ms both; }
+.welcome-brands .freedom-logo { animation: welcome-reveal 800ms cubic-bezier(.2,.7,.2,1) both; }
+.welcome-main h1 { font-size: 27px; font-weight: 550; letter-spacing: -.035em; }
+.welcome-main > p { color: var(--muted); font-size: 15px; line-height: 1.7; margin: 14px 0 32px; }
+.welcome-enter { gap: 32px; min-height: 48px; padding: 12px 20px; color: #071f10; background: #02b140; border-color: #02b140; font-size: 14px; font-weight: 600; }
+.welcome-enter:hover:not(:disabled) { background: #16c14f; border-color: #16c14f; }
+.welcome-enter .icon { width: 19px; height: 19px; }
+.welcome-footer { padding: 22px 0; border-top: 1px solid var(--border); display: flex; justify-content: space-between; gap: 18px; flex-wrap: wrap; font-size: 11px; }
+.welcome-footer > span:first-child { display: inline; }
+@keyframes welcome-reveal { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion:reduce) { .welcome-team, .welcome-brands .freedom-logo { animation: none; } }
+@media (max-width:540px) { .welcome-brands { gap: 16px; } .welcome-brands .freedom-logo { width: 142px; height: 32px; } .welcome-team { font-size: 34px; } .welcome-main h1 { font-size: 24px; } .welcome-main { padding: 52px 0; } }
+@media (max-width:390px) { .welcome-brands { flex-direction: column; } .welcome-divider { display: none; } }
+@media (min-width:1051px) { .workspace.overview { grid-template-columns: 266px minmax(340px,1fr); } .workspace.overview .detail-panel { display: none; } .workspace.overview .center-column { grid-column: 2 / -1; } }
+.workspace.graph-expanded { display: block; }
+.workspace.graph-expanded > .queue-panel, .workspace.graph-expanded > .detail-panel { display: none; }
+.workspace.graph-expanded > .center-column { display: flex; height: 100%; }
+.graph-is-expanded .mobile-tabs { display: none; }
+.graph-expanded .center-switch { position: static; }
+.graph-toolbar { flex-wrap: wrap; align-items: center; }
+.graph-toolbar button { font-size: 11px; }
+.graph-zoom { display: inline-flex; align-items: center; justify-content: center; min-width: 45px; color: var(--text); font-size: 11px; font-variant-numeric: tabular-nums; }
+.graph-options { padding: 0 16px 10px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; font-size: 11px; color: var(--muted); }
+.graph-options label { display: flex; align-items: center; gap: 7px; }
+.graph-options select { min-height: 30px; font-size: 11px; padding: 3px 6px; max-width: 185px; }
+.legend { font-size: 11px; gap: 12px; }
+.role-legend { margin: 0; position: relative; }
+.role-legend summary { padding: 0; min-height: 22px; font-size: 11px; }
+.role-legend > div { position: absolute; top: 28px; left: 0; z-index: 4; padding: 12px; width: 225px; border: 1px solid var(--border); border-radius: 5px; background: var(--surface); box-shadow: 0 4px 12px var(--shadow); }
+.role-legend .role { display: block; padding: 3px 0; }
+.role-legend .role::before { content: ''; display: inline-block; width: 7px; height: 7px; background: currentColor; border-radius: 50%; margin-right: 8px; }
+.graph-hint { padding: 9px 16px; color: var(--muted); font-size: 11px; min-height: 36px; overflow-wrap: anywhere; border-top: 1px solid var(--border); }
+.graph-counts { font-size: 11px; padding: 9px 16px; }
+.zoom-hint { display: block; font-size: 10px; margin-top: 4px; }
+.graph-table-tabs { position: sticky; top: 0; display: flex; gap: 5px; padding: 8px 0; background: var(--surface); z-index: 1; }
+.graph-table-tabs button[aria-pressed=true] { background: var(--selected); color: var(--accent); border-color: var(--selected-border); }
+.network-table .mono { overflow-wrap: anywhere; }
+.welcome-leaving { animation: welcome-exit 160ms ease-in both; pointer-events: none; }
+.app { animation: workspace-enter 240ms cubic-bezier(.2,.7,.2,1) both; }
+@keyframes welcome-exit { to { opacity: 0; transform: translateY(-4px); } }
+@keyframes workspace-enter { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion:reduce) { .welcome-leaving, .app { animation: none; } }
+.brand-name { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 0; padding: 0; border: 0; min-height: 36px; background: transparent; text-align: left; }
+.brand-name:hover:not(:disabled) { background: transparent; }
+.brand-name > span { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+.graph-is-expanded > .header, .graph-is-expanded > .status-strip, .graph-is-expanded > footer, .graph-is-expanded > .dataset-limits { display: none; }
+.graph-expanded { margin-top: 8px; }
+.graph-expanded .center-switch { display: none; }
+.graph-expanded .network-panel { display: flex; }
+.graph-expanded .transfers-panel { display: none; }
