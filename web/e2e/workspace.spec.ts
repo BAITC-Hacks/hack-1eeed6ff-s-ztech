@@ -63,9 +63,9 @@ test('directed graph table, selection, boundary, repeated selection and isolated
   await expect(page.getByTestId('network-canvas')).toHaveAttribute('aria-label', /2 узлов, 1 связей/);
   await expect(page.getByText('Показано 2 из 2 узлов', { exact: false })).toBeVisible();
   await page.screenshot({ path: 'test-results/b2-directed.png', fullPage: true });
-  // Real canvas click: source node position was visually verified in b2-directed.png.
+  // Real canvas click: source position was rechecked in b2-directed.png after B4 spacing/font changes.
   const canvas = page.getByTestId('network-canvas'); const box = (await canvas.boundingBox())!;
-  await canvas.click({ position: { x: box.width / 2, y: box.height * .30 } });
+  await canvas.click({ position: { x: box.width / 2, y: box.height * .25 } });
   await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', A);
   await search.fill(B); await search.press('Enter');
   await search.press('Enter'); await expect(page.getByTestId('network-canvas')).toBeVisible();
@@ -99,6 +99,7 @@ test('transfers preserve duplicate rows, whole-selection sums and direction pagi
     await route.fulfill({ json: { ...fixture.transfers, direction, offset, items: rows.slice(offset, offset + 50), total: rows.length, sum_kzt: rows.length ? '520000.00' : '0.00', in_kzt: rows.length ? '520000.00' : '0.00', out_kzt: '0.00' } });
   });
   await page.goto('/'); await page.getByRole('textbox', { name: 'Поиск по полному gid' }).fill(B); await page.getByRole('button', { name: 'Найти', exact: true }).click();
+  await page.getByRole('navigation', { name: 'Граф и переводы', exact: true }).getByRole('button', { name: 'Переводы', exact: true }).click();
   const transfers = page.getByLabel('Переводы выбранного узла', { exact: true });
   await expect(transfers.getByRole('row')).toHaveCount(51);
   await expect(transfers).toContainText('520\u202f000,00 ₸');
@@ -136,4 +137,24 @@ test('CSV network errors can retry, and a changed snapshot clears every old pane
   await expect(page.getByRole('alert')).toContainText('Расчёт изменился');
   await expect(page.getByTestId('node-detail')).toHaveCount(0); await expect(page.getByTestId('network-canvas')).toHaveCount(0);
   await expect(page.getByRole('list', { name: 'Очередь узлов' })).toHaveCount(0);
+});
+
+test('card section links work with keyboard and keep the selected node at every desktop size', async ({ page }) => {
+  for (const viewport of [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 1024, height: 768 }]) {
+    await page.setViewportSize(viewport); await page.goto('/');
+    const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
+    await search.fill(B); await search.press('Enter');
+    await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
+    const links = page.getByRole('navigation', { name: 'Разделы карточки', exact: true });
+    for (const [name, id] of [['Основания', 'node-evidence'], ['Альтернатива', 'node-hypotheses'], ['Ограничения', 'node-limits']]) {
+      await links.getByRole('link', { name, exact: true }).focus(); await page.keyboard.press('Enter');
+      await expect(page.locator(`#${id}`)).toBeFocused();
+      await expect(page.locator(`#${id} > h3`).first()).toBeInViewport();
+      await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
+    }
+    await page.keyboard.press('Escape'); await expect(search).toBeFocused();
+    await search.fill(A); await search.press('Enter');
+    await expect(page.getByRole('heading', { name: A, exact: true })).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollHeight <= innerHeight)).toBe(true);
+  }
 });

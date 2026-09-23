@@ -8,6 +8,7 @@ import { Network } from './components/Network';
 import { ClusterPanel } from './components/ClusterPanel';
 import { Transfers } from './components/Transfers';
 import { Exports } from './components/Exports';
+import { Icon } from './components/Icon';
 
 type View = 'network' | 'queue' | 'detail';
 type Remote<T> = { data: T | null; loading: boolean; error: Error | null };
@@ -33,7 +34,7 @@ export function App() {
   const [transferOffset, setTransferOffset] = useState(0);
   const [transferRefresh, setTransferRefresh] = useState(0);
   const [showLimits, setShowLimits] = useState(false);
-  const [centerView, setCenterView] = useState<'both' | 'graph' | 'transfers'>('both');
+  const [centerView, setCenterView] = useState<'both' | 'graph' | 'transfers'>('graph');
   const [clusterId, setClusterId] = useState<number | null>(null);
   const [hops, setHops] = useState(1);
   const [graphRefresh, setGraphRefresh] = useState(0);
@@ -56,7 +57,7 @@ export function App() {
     return err;
   }, []);
   function reset() {
-    setCenterView('both');
+    setCenterView('graph');
     queueRequest.current.cancel(); nodeRequest.current.cancel(); graphRequest.current.cancel(); api.current = new ApiSession();
     metaRequest.current.cancel(); transfersRequest.current.cancel(); clusterRequest.current.cancel(); setMeta(idle); setClusters([]); setTransfers(idle); setCluster(idle);
     setQueue(idle); setDetail(idle); setGraph(idle); setSelected(null); setClusterId(null); setRunId(null); setFatal(null); setOffset(0); setRefresh(v => v + 1);
@@ -115,7 +116,7 @@ export function App() {
     if (fatal) return;
     const request = nodeRequest.current.start();
     setSelected(gid); setClusterId(null); setGraph(idle); setGraphRefresh(v => v + 1); setDetail({ data: null, loading: true, error: null }); setView('detail'); setSearchError('');
-    setCenterView('both');
+    setCenterView('graph');
     transfersRequest.current.cancel(); clusterRequest.current.cancel(); setTransfers(idle); setCluster(idle); setDirection('all'); setTransferOffset(0);
     try {
       const data = await api.current.node(gid, request.signal);
@@ -128,7 +129,7 @@ export function App() {
     }
   }
   function openCluster(id: number | null) {
-    setCenterView('both');
+    setCenterView('graph');
     nodeRequest.current.cancel(); setSelected(null); setDetail(idle); setGraph(idle); setClusterId(id); setGraphRefresh(v => v + 1);
     setFilters({ ...emptyFilters, cluster_id: id === null ? '' : String(id) }); setView('network');
   }
@@ -146,12 +147,12 @@ export function App() {
     void select(gid);
   }
   return <div className="app">
-    <header className="header"><div className="brand"><strong>Neverlose<span className="brand-dot"> / </span></strong><span>Граф денег</span></div>
+    <header className="header"><div className="brand"><span className="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><path d="M6 21V7l16 14V7" stroke="currentColor" strokeWidth="2.5" /><path d="M17 7h5v5" stroke="currentColor" strokeWidth="2.5" /></svg></span><div><strong>Neverlose</strong><span>Граф денег</span></div></div>
       <form className="search" onSubmit={search}><label className="sr-only" htmlFor="gid-search">Поиск по полному gid</label>
-        <input id="gid-search" ref={searchRef} value={query} onChange={e => setQuery(e.target.value)} placeholder="Полный gid" inputMode="numeric" autoComplete="off" aria-invalid={!!searchError} aria-describedby={searchError ? 'search-error' : undefined} />
+        <Icon name="search" /><input id="gid-search" ref={searchRef} value={query} onChange={e => setQuery(e.target.value)} placeholder="Найти по полному gid" inputMode="numeric" autoComplete="off" aria-invalid={!!searchError} aria-describedby={searchError ? 'search-error' : undefined} />
         <button type="submit" disabled={!!fatal}>Найти</button></form>
       {meta.data && !fatal && <Exports key={meta.data.run_id} api={api.current} fail={fail} />}
-      <button className="quiet" onClick={reset}>Обновить</button>
+      <button className="quiet icon-button" onClick={reset} aria-label="Обновить" title="Обновить данные"><Icon name="refresh" /></button>
     </header>
     <div className="status-strip">{meta.data ? <><div><span className="eyebrow">Узлы</span><p className="kpi">{meta.data.counts.nodes.toLocaleString('ru-RU')}</p></div><div><span className="eyebrow">Связи</span><p className="kpi">{meta.data.counts.edges.toLocaleString('ru-RU')}</p></div><div><span className="eyebrow">Переводы</span><p className="kpi">{meta.data.counts.transactions.toLocaleString('ru-RU')}</p></div><div><span className="eyebrow">Наблюдаемый оборот</span><p className="kpi turnover">{formatKzt(meta.data.total_kzt)}</p></div><div className="period"><span className="eyebrow">Период выгрузки</span><p>{meta.data.period.start} — {meta.data.period.end}</p></div><button className="quiet" aria-expanded={showLimits} onClick={() => setShowLimits(value => !value)}>Ограничения</button></> : <p>{meta.loading ? 'Загрузка метаданных API…' : 'Метаданные не загружены'}</p>}</div>
     {meta.error && <div className="meta-error"><Failure error={meta.error} retry={() => setRefresh(v => v + 1)} /></div>}
@@ -162,12 +163,12 @@ export function App() {
     {fatal ? <Failure error={fatal} retry={reset} /> : <>
       <nav className="mobile-tabs" aria-label="Панели рабочего места">{(['network', 'queue', 'detail'] as const).map(tab => <button key={tab} aria-pressed={view === tab} onClick={() => setView(tab)}>{({ network: 'Сеть', queue: 'Приоритеты', detail: 'Карточка' })[tab]}</button>)}</nav>
       <main className={`workspace view-${view}`}>
-        <aside className="panel queue-panel" aria-label="Приоритеты"><div className="panel-heading"><h1>Приоритеты</h1><span className="caption">Правила v1</span></div><div className="panel-body">
+        <aside className="panel queue-panel" aria-label="Приоритеты"><div className="panel-heading"><div><span className="eyebrow">Очередь проверки</span><h1>Приоритеты</h1></div><span className="count-chip">{queue.data?.total ?? '—'}</span></div><div className="panel-body">
           {queue.loading && <Loading />}{queue.error && <Failure error={queue.error} retry={() => setRefresh(v => v + 1)} />}
           {queue.data && <Queue page={queue.data} filters={filters} selected={selected} selectedNode={detail.data} setFilters={setFilters} select={id => void select(id)} offset={offset} setOffset={setOffset} clusters={clusters} />}
         </div></aside>
-        <div className={`center-column center-${centerView}`}>{selected && detail.data && <nav className="center-switch" aria-label="Граф и переводы"><button aria-pressed={centerView === 'graph'} onClick={() => setCenterView('graph')}>Граф</button><button aria-pressed={centerView === 'transfers'} onClick={() => setCenterView('transfers')}>Переводы</button><button className="dual-view" aria-pressed={centerView === 'both'} onClick={() => setCenterView('both')}>Вместе</button></nav>}
-        <section className="panel network-panel" aria-label="Направленный граф"><div className="panel-heading"><h2>{selected ? 'Окружение узла' : clusterId ? `Кластер ${clusterId}` : 'Обзор кластеров'}</h2><button className="quiet" onClick={() => openCluster(null)}>Обзор</button></div>
+        <div className={`center-column center-${centerView}`}>{selected && detail.data && <nav className="center-switch" aria-label="Граф и переводы"><button aria-pressed={centerView === 'graph'} onClick={() => setCenterView('graph')}><Icon name="network" />Граф</button><button aria-pressed={centerView === 'transfers'} onClick={() => setCenterView('transfers')}><Icon name="table" />Переводы</button><button className="dual-view" aria-pressed={centerView === 'both'} onClick={() => setCenterView('both')}>Вместе</button></nav>}
+        <section className="panel network-panel" aria-label="Направленный граф"><div className="panel-heading"><div><span className="eyebrow">Наблюдаемая сеть</span><h2>{selected ? 'Окружение узла' : clusterId ? `Кластер ${clusterId}` : 'Обзор кластеров'}</h2></div><button className="quiet" onClick={() => openCluster(null)}>Обзор <Icon name="arrow" /></button></div>
           {selected && <div className="hop-controls"><span className="mono">{selected}</span><label>Шаги <select aria-label="Число шагов графа" value={hops} onChange={e => setHops(Number(e.target.value))}><option value="1">1</option><option value="2">2</option></select></label></div>}
           {graph.loading && <Loading text="Загрузка графа…" />}{graph.error && <Failure error={graph.error} retry={() => setGraphRefresh(v => v + 1)} />}
           {graph.data && <Network graph={graph.data} selected={selected} select={gid => void select(gid)} openCluster={openCluster} />}
@@ -176,11 +177,11 @@ export function App() {
           {transfers.loading && <Loading text="Загрузка переводов…" />}{transfers.error && <Failure error={transfers.error} retry={() => setTransferRefresh(v => v + 1)} />}
           {transfers.data && <Transfers page={transfers.data} gid={selected} direction={direction} offset={transferOffset} setDirection={value => { setDirection(value); setTransferOffset(0); }} setOffset={setTransferOffset} select={gid => void select(gid)} />}
         </section>}</div>
-        <aside className="panel detail-panel" aria-label="Карточка узла"><div className="panel-heading"><h2>Карточка узла</h2><button className="drawer-close quiet" onClick={() => { setView('network'); searchRef.current?.focus(); }}>Закрыть · Esc</button></div><div className="panel-body">
+        <aside className="panel detail-panel" aria-label="Карточка узла"><div className="panel-heading"><div><span className="eyebrow">Детали исследования</span><h2>Карточка узла</h2></div><button className="drawer-close quiet" onClick={() => { setView('network'); searchRef.current?.focus(); }}>Закрыть · Esc</button></div><div className="panel-body">
           {detail.loading && <Loading text={`Загрузка узла ${selected}…`} />}{detail.error && <Failure error={detail.error} retry={() => selected && void select(selected)} />}
           {detail.data && <NodePanel node={detail.data} showTransfers={showTransfers} openCluster={id => { openCluster(id); setView('detail'); }} />}
           {cluster.loading && <Loading text="Загрузка кластера…" />}{cluster.error && <Failure error={cluster.error} retry={() => setGraphRefresh(v => v + 1)} />}{cluster.data && <ClusterPanel cluster={cluster.data} select={gid => void select(gid)} />}
-          {!detail.loading && !detail.error && !detail.data && !clusterId && <div className="state"><h3>Почему этот узел?</h3><p>Выберите узел, чтобы проверить роль, наблюдаемые потоки и ограничения.</p></div>}
+          {!detail.loading && !detail.error && !detail.data && !clusterId && <div className="state empty-detail"><span className="empty-symbol"><Icon name="network" /></span><span className="eyebrow">От связи к основанию</span><h3>Почему этот узел?</h3><p>Выберите узел в очереди или найдите полный gid. Здесь появятся роль, исходные переводы и ограничения вывода.</p><div className="empty-guide"><span>01 · Выберите узел</span><span>02 · Проверьте переводы</span><span>03 · Сравните гипотезы</span></div></div>}
         </div></aside>
       </main>
     </>}

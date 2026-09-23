@@ -16,14 +16,14 @@ export function Queue({ page, filters, selected, selectedNode, setFilters, selec
       <label className="check"><input type="checkbox" checked={filters.is_seed} onChange={e => setFilters({ ...filters, is_seed: e.target.checked })} />Только seed</label>
       <button className="quiet" onClick={() => setFilters(emptyFilters)}>Сбросить фильтры</button>
     </div>
-    <p className="caption">По приоритету проверки · {page.total} в выборке</p>
+    <p className="queue-order"><span>По приоритету проверки</span><span>↓</span></p>
     {selectedNode && selectedNode.gid === selected && !page.items.some(n => n.gid === selected) && <div className="outside-selection"><p className="caption">Выбран вне текущей страницы очереди</p><button className="queue-item selected" aria-pressed="true" onClick={() => select(selectedNode.gid)}><span className="mono gid">{selectedNode.gid}</span><span className={`role ${selectedNode.role}`}>{roleLabels[selectedNode.role]}</span><span className="queue-score">Приоритет <b>{score(selectedNode.priority_score)}</b></span></button></div>}
     {!page.items.length ? <div className="state"><strong>Ничего не найдено</strong><p>Измените или сбросьте фильтры.</p></div> :
       <ol className="queue-list" aria-label="Очередь узлов">{page.items.map(node => <li key={node.gid}>
         <button className={`queue-item ${selected === node.gid ? 'selected' : ''}`} aria-pressed={selected === node.gid} onClick={() => select(node.gid)}>
-          <span className="mono gid">{node.gid}</span><span className={`role ${node.role}`}>{roleLabels[node.role]}</span>
-          <span className="queue-score">Приоритет <b>{score(node.priority_score)}</b></span><span className="reason">{node.evidence}</span>
-          {node.flags.includes('boundary') && <span className="badge warning">Граница выборки</span>}{node.is_seed && <span className="badge">Seed</span>}
+          <span className="queue-topline"><span className="mono gid">{node.gid}</span><span className="queue-value" title="Приоритет проверки"><span className="sr-only">Приоритет </span>{score(node.priority_score)}</span></span>
+          <span className="queue-meta"><span className={`role ${node.role}`}>{roleLabels[node.role]}</span>{node.flags.includes('boundary') && <span className="badge warning">Граница выборки</span>}{node.is_seed && <span className="badge">Seed</span>}</span>
+          <span className="reason" title={node.evidence}>{node.evidence}</span>
         </button>
       </li>)}</ol>}
     <div className="pagination"><button disabled={offset === 0} onClick={() => setOffset(Math.max(0, offset - 50))}>Назад</button>
