@@ -58,6 +58,55 @@ def test_failed_input_does_not_replace_valid_result(raw_dir, tmp_path):
     assert before == {p.name: p.read_bytes() for p in out.iterdir()}
 
 
+def test_invalid_priority_weights_preserve_previous_result(raw_dir, tmp_path):
+    from app.roles import load_rules
+
+    out = tmp_path / "results"
+    run_pipeline(raw_dir, out)
+    before = {p.name: p.read_bytes() for p in out.iterdir()}
+    rules = load_rules()
+    rules["priority"].update(turnover=0.65, betweenness=-0.1)
+    path = tmp_path / "invalid-rules.json"
+    path.write_text(json.dumps(rules))
+    with pytest.raises(ValueError, match="Priority weights"):
+        run_pipeline(raw_dir, out, rules_path=path)
+    assert before == {p.name: p.read_bytes() for p in out.iterdir()}
+
+
+def test_invalid_cap_preserves_previous_result(raw_dir, tmp_path):
+    from app.roles import load_rules
+
+    out = tmp_path / "results"
+    run_pipeline(raw_dir, out)
+    before = {p.name: p.read_bytes() for p in out.iterdir()}
+    rules = load_rules()
+    rules["caps"]["seed"] = 1.1
+    path = tmp_path / "invalid-rules.json"
+    path.write_text(json.dumps(rules))
+    with pytest.raises(ValueError, match="Score caps"):
+        run_pipeline(raw_dir, out, rules_path=path)
+    assert before == {p.name: p.read_bytes() for p in out.iterdir()}
+
+
+def test_api_invalid_stage_never_replaces_previous_result(raw_dir, tmp_path, monkeypatch):
+    import app.pipeline as pipeline
+
+    out = tmp_path / "results"
+    run_pipeline(raw_dir, out)
+    before = {p.name: p.read_bytes() for p in out.iterdir()}
+    explain = pipeline.explain_node
+
+    def invalid_node(*args):
+        node = explain(*args)
+        node["candidates"][0]["raw_score"] = 2.0
+        return node
+
+    monkeypatch.setattr(pipeline, "explain_node", invalid_node)
+    with pytest.raises(ValueError, match="raw_score"):
+        run_pipeline(raw_dir, out)
+    assert before == {p.name: p.read_bytes() for p in out.iterdir()}
+
+
 def test_verify_rejects_modified_csv(raw_dir, tmp_path):
     out = tmp_path / "results"
     run_pipeline(raw_dir, out)

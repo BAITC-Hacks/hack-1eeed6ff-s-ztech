@@ -22,6 +22,7 @@ from app.features import build_graph, compute_features
 from app.loader import load_dataset
 from app.ranking import rank_nodes
 from app.roles import DEFAULT_RULES, ROLE_NAMES, classify, feature_percentiles, load_rules
+from app.schemas import ClusterDetail, NodeDetail, Transfer
 
 CSV_COLUMNS = {
     "nodes_roles.csv": ["gid", "role", "role_score", "cluster_id", "priority_score", "evidence"],
@@ -273,6 +274,14 @@ def verify_outputs(
     ):
         raise ValueError("Manifest source/config hash mismatch")
     nodes = snap["nodes"]
+    # Validate the API's complete typed contract before publishing the directory.
+    # A config-generated invalid candidate/cap must not replace the last good run.
+    for node in nodes:
+        NodeDetail.model_validate(node)
+    for group in snap["clusters"]:
+        ClusterDetail.model_validate(dict(group, run_id=run_id))
+    for transfer in snap["transfers"]:
+        Transfer.model_validate(transfer)
     ids = [n["gid"] for n in nodes]
     expected = {str(gid) for gid in ds.nodes.gid}
     if (

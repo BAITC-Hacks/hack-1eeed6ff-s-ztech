@@ -11,19 +11,27 @@ ROLE_NAMES = ("consolidator", "transit", "distributor", "terminal", "coordinator
 
 def load_rules(path=DEFAULT_RULES):
     rules = json.loads(Path(path).read_text())
+    weight_counts = dict(consolidator=3, transit=3, distributor=2, terminal=3, coordinator=4)
     for name in ROLE_NAMES[:-1]:
         weights = rules["roles"][name]["weights"]
-        if not all(math.isfinite(w) and 0 <= w <= 1 for w in weights) or not math.isclose(
-            sum(weights), 1
+        if (
+            len(weights) != weight_counts[name]
+            or not all(math.isfinite(w) and 0 <= w <= 1 for w in weights)
+            or not math.isclose(sum(weights), 1)
         ):
             raise ValueError(f"Invalid role weights: {name}")
     keys = ("turnover", "betweenness", "seed_reach", "degree", "participation")
-    if not math.isclose(sum(rules["priority"][k] for k in keys), 1):
-        raise ValueError("Priority weights must sum to one")
+    weights = [rules["priority"][k] for k in keys]
+    if not all(math.isfinite(w) and 0 <= w <= 1 for w in weights) or not math.isclose(
+        sum(weights), 1
+    ):
+        raise ValueError("Priority weights must be finite, within [0,1], and sum to one")
     if set(rules["tie_break"]) != set(ROLE_NAMES[:-1]) or len(rules["tie_break"]) != 5:
         raise ValueError("Invalid role tie_break")
     if rules["top_n"] < 20:
         raise ValueError("top_n must be at least 20")
+    if not all(math.isfinite(v) and 0 <= v <= 1 for v in rules["caps"].values()):
+        raise ValueError("Score caps must be finite and within [0,1]")
     return rules
 
 
@@ -186,11 +194,12 @@ def classify(feature, p, rules):
     )
     fallback = not eligible
     raw = 0.0 if f["isolated"] else rr["peripheral"]["observed_score"]
+    caps_by_role["peripheral"] = score_caps(f, "peripheral", rules)
     peripheral = dict(
         role="peripheral",
         eligible=fallback,
         raw_score=raw,
-        capped_score=raw,
+        capped_score=min([raw] + [c["cap"] for c in caps_by_role["peripheral"]]),
         checks=[
             check(
                 "eligible_specific_roles",
@@ -209,7 +218,7 @@ def classify(feature, p, rules):
         role_score=chosen["capped_score"],
         role_rule_id=f"{rules['version']}:{chosen['role']}",
         candidates=candidates,
-        score_caps=caps_by_role.get(chosen["role"], score_caps(f, "peripheral", rules)),
+        score_caps=caps_by_role[chosen["role"]],
         alternative=eligible[1] if len(eligible) > 1 else None,
     )
 

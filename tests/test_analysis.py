@@ -51,11 +51,34 @@ def test_positive_rank_excludes_zero_and_keeps_ties():
     assert positive_percentiles([0, 0]) == [0, 0]
 
 
+def test_role_weight_cardinality_cannot_silently_drop_extra_weights(tmp_path):
+    import json
+
+    rules = load_rules()
+    rules["roles"]["distributor"]["weights"] = [0.6, 0.3, 0.1]
+    path = tmp_path / "rules.json"
+    path.write_text(json.dumps(rules))
+    with pytest.raises(ValueError, match="role weights"):
+        load_rules(path)
+
+
 def test_transit_only_with_observed_comparable_flow():
     r = classify(profile(), percentiles(), load_rules())
     assert r["role"] == "transit"
     assert r["raw_score"] == pytest.approx(0.7666666666666666)
     assert r["role_score"] == r["raw_score"]
+
+
+@pytest.mark.parametrize("score,cap", [(0.2, 0.1), (0.9, 0.65)])
+def test_peripheral_score_obeys_configured_observation_cap(score, cap):
+    rules = load_rules()
+    rules["roles"]["peripheral"]["observed_score"] = score
+    rules["caps"]["seed"] = cap
+    result = classify(profile(is_seed=True, depth=0), percentiles(), rules)
+    assert result["role"] == "peripheral"
+    assert result["raw_score"] == score
+    assert result["role_score"] == cap
+    assert next(c for c in result["candidates"] if c["role"] == "peripheral")["capped_score"] == cap
 
 
 @pytest.mark.parametrize(

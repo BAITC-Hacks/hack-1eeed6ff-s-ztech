@@ -2,12 +2,12 @@
 
 import json
 from dataclasses import dataclass
+from decimal import Decimal
 from hashlib import sha256
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
-from pandas.api.types import is_bool_dtype, is_integer_dtype, is_numeric_dtype
+from pandas.api.types import is_bool_dtype, is_float_dtype, is_integer_dtype
 
 COLUMNS = {
     "nodes": ["gid", "depth", "is_seed"],
@@ -39,23 +39,31 @@ def _integer(frame, col, name, minimum=0, maximum=2**63 - 1):
 
 def _money(frame, name):
     values = frame["sum_kzt"]
-    if not is_numeric_dtype(values.dtype) or is_bool_dtype(values.dtype):
+    if not (is_integer_dtype(values.dtype) or is_float_dtype(values.dtype)) or is_bool_dtype(
+        values.dtype
+    ):
         raise DataValidationError(f"{name}.sum_kzt: numeric amounts required")
-    scaled = values.to_numpy(dtype=float) * 100
-    if not np.isfinite(scaled).all():
-        raise DataValidationError(f"{name}.sum_kzt: amounts must be finite")
-    if (scaled <= 0).any():
-        raise DataValidationError(f"{name}.sum_kzt: amounts must be positive")
-    rounded = np.rint(scaled)
-    bad = np.flatnonzero(np.abs(scaled - rounded) > 1e-6)
-    if len(bad):
-        raise DataValidationError(
-            f"{name}.sum_kzt: precision exceeds one tiyin at row {int(bad[0])}"
+    amounts = []
+    for row, value in enumerate(values):
+        # Convert the source decimal representation before scaling: float * 100
+        # can lose tiyin even when the source is an exactly represented integer.
+        scaled = (
+            Decimal(int(value) * 100)
+            if is_integer_dtype(values.dtype) or float(value).is_integer()
+            else Decimal(str(value)) * 100
         )
-    if (rounded >= 2**63).any():
-        raise DataValidationError(f"{name}.sum_kzt: amount exceeds supported int64 tiyin range")
+        if not scaled.is_finite():
+            raise DataValidationError(f"{name}.sum_kzt: amounts must be finite")
+        if scaled <= 0:
+            raise DataValidationError(f"{name}.sum_kzt: amounts must be positive")
+        rounded = scaled.to_integral_value()
+        if abs(scaled - rounded) > Decimal("0.000001"):
+            raise DataValidationError(f"{name}.sum_kzt: precision exceeds one tiyin at row {row}")
+        if rounded >= 2**63:
+            raise DataValidationError(f"{name}.sum_kzt: amount exceeds supported int64 tiyin range")
+        amounts.append(int(rounded))
     # Python integers keep all later sums exact, including totals beyond int64.
-    frame["sum_tiyin"] = pd.Series([int(x) for x in rounded], dtype=object)
+    frame["sum_tiyin"] = pd.Series(amounts, dtype=object)
 
 
 def load_dataset(data_dir: Path, profile: str = "generic") -> Dataset:

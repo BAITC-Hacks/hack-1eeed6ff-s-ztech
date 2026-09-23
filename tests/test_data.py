@@ -8,6 +8,45 @@ from app.features import build_graph
 from app.loader import DataValidationError, load_dataset
 
 
+@pytest.mark.parametrize("dtype", ["float64", "int64", "uint64"])
+def test_large_money_is_scaled_without_float_rounding(raw_dir, tmp_path, dtype):
+    from app.pipeline import run_pipeline
+
+    amount = 9_000_000_000_000_001
+    mutate(
+        raw_dir,
+        "transactions",
+        lambda d: d.assign(sum_kzt=pd.Series([amount, amount], dtype=dtype)),
+    )
+    mutate(raw_dir, "edges", lambda d: d.assign(sum_kzt=pd.Series([amount * 2], dtype=dtype)))
+    dataset = load_dataset(raw_dir)
+    assert dataset.transactions.sum_tiyin.tolist() == [amount * 100] * 2
+    snapshot = run_pipeline(raw_dir, tmp_path / "output")
+    assert snapshot["transfers"][0]["sum_kzt"] == f"{amount}.00"
+    assert next(n for n in snapshot["nodes"] if n["gid"] == str(A))["out_kzt"] == f"{amount * 2}.00"
+
+
+def test_integer_money_near_int64_tiyin_limit_is_exact():
+    from app.loader import _money
+
+    maximum_kzt = (2**63 - 1) // 100
+    frame = pd.DataFrame({"sum_kzt": pd.Series([maximum_kzt], dtype="int64")})
+    _money(frame, "transactions")
+    assert frame.sum_tiyin.tolist() == [maximum_kzt * 100]
+    with pytest.raises(DataValidationError, match="int64"):
+        _money(pd.DataFrame({"sum_kzt": [maximum_kzt + 1]}), "transactions")
+
+
+def test_exact_integral_float_uses_value_not_rounded_scientific_notation():
+    from app.loader import _money
+
+    value = float(90_000_000_000_000_016)
+    assert value.as_integer_ratio() == (90_000_000_000_000_016, 1)
+    frame = pd.DataFrame({"sum_kzt": [value]})
+    _money(frame, "transactions")
+    assert frame.sum_tiyin.tolist() == [9_000_000_000_000_001_600]
+
+
 def test_duplicate_payments_exact_ids_and_isolated_seed_survive(raw_dir):
     ds = load_dataset(raw_dir)
     graph = build_graph(ds)
