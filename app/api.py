@@ -7,12 +7,13 @@ from typing import Literal
 
 import networkx as nx
 from fastapi import FastAPI, Query
+from fastapi import Path as ApiPath
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, Response
 from starlette.exceptions import HTTPException
 
 from app.explain import ROLE_LABELS, kzt, parse_kzt
-from app.pipeline import CSV_COLUMNS
+from app.pipeline import export_bytes as snapshot_export_bytes
 from app.schemas import (
     ClusterDetail,
     ClusterPage,
@@ -65,7 +66,7 @@ def create_app(snapshot: dict, out: Path, web_dist: Path | None = None) -> FastA
             )
         )
     # Freeze exports at server start: later pipeline runs cannot mix CSV with this run.
-    export_bytes = {name: (Path(out) / name).read_bytes() for name in CSV_COLUMNS}
+    export_bytes = snapshot_export_bytes(snapshot)
 
     def error_response(status, code, message, details=None):
         return JSONResponse(
@@ -189,14 +190,14 @@ def create_app(snapshot: dict, out: Path, web_dist: Path | None = None) -> FastA
         )
 
     @app.get("/api/v1/clusters/{cluster_id}", response_model=ClusterDetail)
-    def get_cluster(cluster_id: int):
+    def get_cluster(cluster_id: int = ApiPath(ge=1)):
         return cluster(cluster_id)
 
     @app.get("/api/v1/graph", response_model=GraphResponse)
     def get_graph(
         mode: Literal["overview", "ego", "cluster"] = "overview",
         gid: str | None = None,
-        cluster_id: int | None = None,
+        cluster_id: int | None = Query(None, ge=1),
         hops: int = Query(1, ge=1, le=2),
         limit: int = Query(250, ge=1, le=1000),
     ):

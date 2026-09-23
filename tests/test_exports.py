@@ -109,3 +109,69 @@ def test_official_full_results_and_raw_accounting(tmp_path):
         assert (
             manifest["output_hashes"][name] == hashlib.sha256((out / name).read_bytes()).hexdigest()
         )
+
+
+@pytest.mark.parametrize(
+    "collection,field,value",
+    [
+        ("transfers", "sum_kzt", "999999.99"),
+        ("transfers", "source_row", 99),
+        ("transfers", "source_ref", "tx:wrong:0"),
+        ("transfers", "date", "2026-07-02"),
+        ("transfers", "dst", str(C)),
+        ("edges", "sum_kzt", "999999.99"),
+        ("edges", "n_tx", 99),
+        ("edges", "dst", str(C)),
+    ],
+)
+def test_verifier_compares_snapshot_rows_with_raw_not_only_hashes(
+    raw_dir, tmp_path, collection, field, value
+):
+    from app.pipeline import _write_outputs
+
+    out = tmp_path / "results"
+    snapshot = run_pipeline(raw_dir, out)
+    snapshot[collection][0][field] = value
+    _write_outputs(snapshot, out)
+    with pytest.raises(ValueError, match="raw"):
+        verify_outputs(raw_dir, out)
+
+
+def test_prior_output_recoverable_even_when_publication_and_rollback_fail(
+    raw_dir, tmp_path, monkeypatch
+):
+    from app import pipeline
+
+    out = tmp_path / "results"
+    run_pipeline(raw_dir, out)
+    previous = (out / "nodes_roles.csv").read_bytes()
+    real_replace = pipeline.os.replace
+    count = 0
+
+    def broken_replace(source, destination):
+        nonlocal count
+        count += 1
+        if count >= 2:
+            raise OSError("injected publication and rollback failure")
+        return real_replace(source, destination)
+
+    monkeypatch.setattr(pipeline.os, "replace", broken_replace)
+    with pytest.raises(OSError):
+        run_pipeline(raw_dir, out)
+    assert any(p.read_bytes() == previous for p in tmp_path.rglob("nodes_roles.csv"))
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [("in_degree", 99), ("out_tx", 99), ("depth", 4), ("is_seed", False), ("flags", [])],
+)
+def test_verifier_rejects_node_facts_that_disagree_with_raw(raw_dir, tmp_path, field, value):
+    from app.pipeline import _write_outputs
+
+    out = tmp_path / "results"
+    snapshot = run_pipeline(raw_dir, out)
+    node = next(n for n in snapshot["nodes"] if n["gid"] == str(A))
+    node[field] = value
+    _write_outputs(snapshot, out)
+    with pytest.raises(ValueError, match="raw"):
+        verify_outputs(raw_dir, out)

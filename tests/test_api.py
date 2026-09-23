@@ -93,3 +93,35 @@ def test_cluster_and_node_filters_preserve_global_scores(client):
 def test_synthetic_fixture_conforms_to_published_types():
     f = json.loads((Path(__file__).resolve().parents[1] / "contracts/v1.example.json").read_text())
     assert NodeDetail.model_validate(f["node_detail"]).gid == "900000000000000002"
+
+
+def test_exports_stay_with_loaded_snapshot_after_disk_replacement(raw_dir, tmp_path):
+    import csv
+    import io
+
+    from app.roles import load_rules
+
+    out = tmp_path / "result"
+    original = run_pipeline(raw_dir, out)
+    rules = load_rules()
+    rules["priority"]["turnover"] = 0.4
+    rules["priority"]["betweenness"] = 0.15
+    rules_path = tmp_path / "changed.json"
+    rules_path.write_text(json.dumps(rules))
+    changed = run_pipeline(raw_dir, out, rules_path=rules_path)
+    assert original["run_id"] != changed["run_id"]
+    client = TestClient(create_app(original, out))
+    node = client.get(f"/api/v1/nodes/{A}").json()
+    response = client.get("/api/v1/exports/nodes_roles.csv")
+    rows = {r["gid"]: r for r in csv.DictReader(io.StringIO(response.text))}
+    assert rows[str(A)]["priority_score"] == f"{node['priority_score']:.6f}"
+    assert response.headers["x-run-id"] == original["run_id"]
+    (out / "nodes_roles.csv").write_text("corrupt after startup")
+    assert client.get("/api/v1/exports/nodes_roles.csv").content == response.content
+
+
+@pytest.mark.parametrize(
+    "path", ["/api/v1/clusters/-1", "/api/v1/graph?mode=cluster&cluster_id=-1"]
+)
+def test_negative_cluster_identifier_is_invalid_parameter(client, path):
+    assert client.get(path).status_code == 422
