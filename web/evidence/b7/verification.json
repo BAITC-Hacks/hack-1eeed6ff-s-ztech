@@ -1,8 +1,8 @@
 {
   "stage": "B7 independent full-stack MVP audit",
   "recorded_at_utc": "2026-09-23T12:26:27.703262+00:00",
-  "integration_main_sha": "1b97707aad6d7b3462139005cef4696b2ea9e702",
-  "upstream_code_sha": "f45632fdab6af0c5eb368a6fc537ce70cdff5622",
+  "integration_main_sha": "1c40fa4d893f3c9a9fb92c77fab11d6c6c8b7954",
+  "upstream_code_sha": "8e9de4d",
   "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
   "environment": {
     "os": "macOS 27.0 (26A428)",
@@ -14,21 +14,21 @@
   },
   "checks": {
     "python": {
-      "passed": 195,
-      "seconds": 8.69
+      "passed": 217,
+      "seconds": 13.57
     },
     "ruff": "PASS",
     "frontend_unit": {
-      "passed": 33
+      "passed": 43
     },
     "build": {
       "status": "PASS",
-      "js_kb": 707.74,
+      "js_kb": 714.81,
       "warning": "Vite chunk >500KB"
     },
     "contract_browser": {
       "passed": 64,
-      "duration_display": "1.1m",
+      "duration_display": "1.2m",
       "http": "synthetic contract responses, explicitly test-only"
     },
     "welcome_repeat": {
@@ -37,7 +37,7 @@
     },
     "real_api_browser": {
       "passed": 5,
-      "seconds": 17.9,
+      "seconds": 19.7,
       "http_substitution": false
     },
     "dimensions": [
@@ -69,6 +69,24 @@
       "passed": 2,
       "seconds": 4.1,
       "included_in_full_64": true
+    },
+    "common_recipients": {
+      "status": "PASS",
+      "paid_calls": 0,
+      "source": "main-common-recipients.json",
+      "data": "5 senders,1 exact recipient,2874700.00 KZT,31 transfers;empty/duplicates/persistence/themes/sizes/CSV"
+    },
+    "webkit": {
+      "passed": 5,
+      "seconds": 66.7,
+      "version": "26.0",
+      "scope": "a8965b1 plus dialog-close fix, before common-recipient main; not Safari"
+    },
+    "firefox": {
+      "version": "141.0",
+      "status": "BLOCKED_ENVIRONMENT",
+      "ui_cases_run": 0,
+      "reason": "macOS sandbox initialization/plugin-container error and SWGL launch timeout; native protection not disabled"
     }
   },
   "fixes": [
@@ -130,6 +148,12 @@
       "priority": "P3",
       "name": "Expanded graph discoverability",
       "after": "Text label accompanies expand icon at <=1050px"
+    },
+    {
+      "priority": "P2",
+      "name": "WebKit modal close focus",
+      "before": "Focus attempted while modal kept trigger inert; real WebKit case failed",
+      "after": "Close native dialog before setOpen(false) and trigger.focus(); WebKit case and full5 repeated PASS"
     }
   ],
   "independent_reviews": {
@@ -147,9 +171,9 @@
     "Vite bundle warning; known dependency advisories were zero at audit time, unknown vulnerabilities not ruled out"
   ],
   "artifacts_sha256": {
-    "web/dist/index.html": "671d9159383dd2349776a1e5d944ad32bfab7c2c8536dfb8fd008f66b2ded19d",
-    "web/dist/assets/index-lz4yrenC.js": "1af23d8eeff490fc6326e0251346b59cae1f2d5ddfbc7076dd1dc818f8bd86ee",
-    "web/dist/assets/index-D2wW2NUf.css": "8689f9442fbafa174205daca7b9c2e97bf5a0b7b3f54032a6a68ed26685f84d8"
+    "web/dist/index.html": "54200d8a8020ea1ad55e1b2c126008016dc86d69b3c326bc68f5dcb843a8da49",
+    "web/dist/assets/index-DIyyp4je.css": "a97e112222dffebab2bd7b748e05ebc5156dee1f3b5d7a5d438500cb9a60cf11",
+    "web/dist/assets/index-KOzomLRg.js": "53b0dd67ea194c6dbb02a5917b0523c8b5241e7519e45041c0cd06d8211d1d81"
   },
   "fresh_clone": "Independent install at f45632f; updated from official remote to 0b6a20e: pipeline 1.193271s, verify/HTTP and five offline real-browser cases passed in18.5s. Final follow-up SHA acceptance recorded separately.",
   "open_confirmed_p0_p1": "None found in tested scope; not a guarantee of absence",
@@ -161,5 +185,6 @@
     "basis": "Judgment for tested local hackathon MVP; no perfect rating without field validation or broader browser/platform coverage"
   },
   "updated_at_utc": "2026-09-23T12:38:18.173277+00:00",
-  "initial_audit_commit": "0b6a20e12f278a61dde013f997dc5a74e2d3581a"
+  "initial_audit_commit": "0b6a20e12f278a61dde013f997dc5a74e2d3581a",
+  "final_checked_at_utc": "2026-09-23T12:50:19.718518+00:00"
 }

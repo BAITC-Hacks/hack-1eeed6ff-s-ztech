@@ -27,7 +27,7 @@ export function AgentPanel({ api, gid, enabled, runId, select, fail }: Props) {
     return () => window.clearInterval(timer);
   }, [pending]);
   useEffect(() => () => { latest.current.cancel(); for (const url of urls.current) URL.revokeObjectURL(url); }, []);
-  function close() { setOpen(false); trigger.current?.focus(); }
+  function close() { dialog.current?.close(); setOpen(false); trigger.current?.focus(); }
   async function submit(event: FormEvent) {
     event.preventDefault(); if (!enabled || pending || !question.trim()) return;
     const request = latest.current.start(); const submittedQuestion = question.trim();

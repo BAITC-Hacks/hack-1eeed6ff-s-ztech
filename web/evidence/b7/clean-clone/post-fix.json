@@ -1,0 +1,20 @@
+{
+  "tested_commit": "a8965b12dab01fbb2a8e96ebe9b058342494732c",
+  "initial_clean_install_commit": "f45632fdab6af0c5eb368a6fc537ce70cdff5622",
+  "updated_from": "official SSH origin, detached checkout; dependencies unchanged",
+  "copied_env_or_dependencies": false,
+  "pipeline_seconds": 1.302361,
+  "verify": "PASS, 2248 nodes/89 clusters/50 top",
+  "http": "PASS; actual external TCP denied EPERM",
+  "real_chromium_cases": {
+    "passed": 5,
+    "seconds": 18.0,
+    "api": "http://127.0.0.1:8002",
+    "routes_mocked": false
+  },
+  "host_probes": {
+    "meta_untrusted_host": 403,
+    "csv_untrusted_host": 403
+  },
+  "note": "Later one-line dialog-close fix, if any, requires separate frontend verification and published SHA."
+}

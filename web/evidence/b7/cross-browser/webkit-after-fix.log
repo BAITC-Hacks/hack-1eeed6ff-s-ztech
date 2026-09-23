@@ -1,0 +1,19 @@
+
+Running 5 tests using 1 worker
+
+(node:4272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [webkit] › work/neverlose/web/integration/audit-controls.spec.ts:8:1 › audit all main control groups with real data, including disabled AI and pagination (28.1s)
+  ✓  2 [webkit] › work/neverlose/web/integration/real-api.spec.ts:9:1 › real data at three desktop sizes; exact search, graph and evidence (24.0s)
+  ✓  3 [webkit] › work/neverlose/web/integration/real-api.spec.ts:105:1 › real boundary, isolated seed, arbitrary gids, source totals and cluster (6.6s)
+  ✓  4 [webkit] › work/neverlose/web/integration/real-api.spec.ts:158:1 › real CSV downloads match the API and published result files byte for byte (2.3s)
+  ✓  5 [webkit] › work/neverlose/web/integration/real-api.spec.ts:197:1 › real entry and broad cluster overview, focus and expanded graph in both themes (3.3s)
+
+  5 passed (1.1m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report work/audit-browsers-evidence/html-report[39m
+[36m[39m

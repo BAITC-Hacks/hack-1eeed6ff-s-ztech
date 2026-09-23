@@ -1,0 +1,64 @@
+
+Running 5 tests using 1 worker
+
+(node:4437) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4437) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 work/audit-firefox-specs/audit-controls.spec.ts:9:5 › audit all main control groups with real data, including disabled AI and pagination (6ms)
+(node:4527) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4527) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 work/audit-firefox-specs/real-api.spec.ts:11:5 › real data at three desktop sizes; exact search, graph and evidence (3ms)
+(node:4608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:4608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 work/audit-firefox-specs/real-api.spec.ts:49:5 › real boundary, isolated seed, arbitrary gids, source totals and cluster (1ms)
+
+
+  1) work/audit-firefox-specs/audit-controls.spec.ts:9:5 › audit all main control groups with real data, including disabled AI and pagination 
+
+    TimeoutError: browserType.launch: Timeout 20000ms exceeded.
+    Call log:
+    [2m  - <launching> /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/0l/ybhrjnlj0l531tqf6f17fg840000gn/T/playwright_firefoxdev_profile-sXiQfw -juggler-pipe -silent[22m
+    [2m  - <launched> pid=4438[22m
+    [2m  - [pid=4438][err] *** You are running in headless mode.[22m
+    [2m  - [pid=4438][err] sandbox_extension_issue_file_to_process failed for /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)[22m
+    [2m  - [pid=4438][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=2.33333) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt[22m
+
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    work/audit-browsers-evidence/firefox-results/audit-controls-audit-all-m-ae9aa--disabled-AI-and-pagination/trace.zip
+    Usage:
+
+        npx playwright show-trace work/audit-browsers-evidence/firefox-results/audit-controls-audit-all-m-ae9aa--disabled-AI-and-pagination/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) work/audit-firefox-specs/real-api.spec.ts:11:5 › real data at three desktop sizes; exact search, graph and evidence 
+
+    TimeoutError: browserType.launch: Timeout 20000ms exceeded.
+    Call log:
+    [2m  - <launching> /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/0l/ybhrjnlj0l531tqf6f17fg840000gn/T/playwright_firefoxdev_profile-ROU0V5 -juggler-pipe -silent[22m
+    [2m  - <launched> pid=4566[22m
+    [2m  - [pid=4566][err] *** You are running in headless mode.[22m
+    [2m  - [pid=4566][err] sandbox_extension_issue_file_to_process failed for /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)[22m
+    [2m  - [pid=4566][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=3.75) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt[22m
+
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    work/audit-browsers-evidence/firefox-results/real-api-real-data-at-thre-736e0-t-search-graph-and-evidence/trace.zip
+    Usage:
+
+        npx playwright show-trace work/audit-browsers-evidence/firefox-results/real-api-real-data-at-thre-736e0-t-search-graph-and-evidence/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    work/audit-firefox-specs/audit-controls.spec.ts:9:5 › audit all main control groups with real data, including disabled AI and pagination 
+    work/audit-firefox-specs/real-api.spec.ts:11:5 › real data at three desktop sizes; exact search, graph and evidence 
+  1 interrupted
+    work/audit-firefox-specs/real-api.spec.ts:49:5 › real boundary, isolated seed, arbitrary gids, source totals and cluster 
+  2 did not run

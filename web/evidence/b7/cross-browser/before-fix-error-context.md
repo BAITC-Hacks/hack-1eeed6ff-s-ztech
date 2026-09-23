@@ -1,0 +1,863 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - button "На главный экран" [ref=e6] [cursor=pointer]:
+        - img [ref=e7] [cursor=pointer]
+      - button "Стартовый экран Neverlose" [ref=e9] [cursor=pointer]:
+        - strong [ref=e10] [cursor=pointer]: Neverlose
+        - generic [ref=e11] [cursor=pointer]: Граф денег
+    - generic [ref=e12]:
+      - generic [ref=e13]: Поиск по полному gid
+      - img [ref=e14]
+      - textbox "Поиск по полному gid" [ref=e17]: "100000003684369100"
+      - button "Найти" [ref=e18] [cursor=pointer]
+    - generic [ref=e19]:
+      - generic [ref=e20]: Файл для выгрузки
+      - combobox "Файл для выгрузки" [ref=e21]:
+        - option "nodes_roles.csv" [selected]
+        - option "clusters.csv"
+        - option "top_nodes.csv"
+      - button "Скачать CSV" [ref=e22] [cursor=pointer]:
+        - img [ref=e23] [cursor=pointer]
+        - text: Скачать CSV
+    - switch "Тёмная тема" [ref=e25] [cursor=pointer]:
+      - img [ref=e27] [cursor=pointer]
+      - img [ref=e31] [cursor=pointer]
+    - button "Обновить" [ref=e33] [cursor=pointer]:
+      - img [ref=e34] [cursor=pointer]
+  - generic [ref=e37]:
+    - generic [ref=e38]:
+      - generic [ref=e39]: Узлы
+      - paragraph [ref=e40]: 2 248
+    - generic [ref=e41]:
+      - generic [ref=e42]: Связи
+      - paragraph [ref=e43]: 3 119
+    - generic [ref=e44]:
+      - generic [ref=e45]: Переводы
+      - paragraph [ref=e46]: 4 840
+    - generic [ref=e47]:
+      - generic [ref=e48]: Наблюдаемый оборот
+      - paragraph [ref=e49]: 365 890 012,01 ₸
+    - generic [ref=e50]:
+      - generic [ref=e51]: Период выгрузки
+      - paragraph [ref=e52]: 2026-07-01 — 2026-07-31
+    - button "Ограничения" [ref=e53] [cursor=pointer]
+  - main [ref=e54]:
+    - complementary "Приоритеты" [ref=e55]:
+      - generic [ref=e56]:
+        - generic [ref=e57]:
+          - generic [ref=e58]: Очередь проверки
+          - heading "Приоритеты" [level=1] [ref=e59]
+        - generic [ref=e60]: "2248"
+      - generic [ref=e61]:
+        - generic [ref=e62]:
+          - generic [ref=e63]:
+            - text: Роль
+            - combobox "Роль" [ref=e64]:
+              - option "Все роли" [selected]
+              - option "Консолидация"
+              - option "Транзит"
+              - option "Распределение"
+              - option "Конец наблюдаемого пути"
+              - option "Координация · гипотеза"
+              - option "Периферия"
+          - generic [ref=e65]:
+            - text: Кластер
+            - combobox "Кластер" [ref=e66]:
+              - option "Все кластеры" [selected]
+              - option "1 · 278 узлов"
+              - option "2 · 270 узлов"
+              - option "3 · 138 узлов"
+              - option "4 · 133 узлов"
+              - option "5 · 127 узлов"
+              - option "6 · 126 узлов"
+              - option "7 · 106 узлов"
+              - option "8 · 106 узлов"
+              - option "9 · 104 узлов"
+              - option "10 · 56 узлов"
+              - option "11 · 53 узлов"
+              - option "12 · 53 узлов"
+              - option "13 · 52 узлов"
+              - option "14 · 51 узлов"
+              - option "15 · 44 узлов"
+              - option "16 · 41 узлов"
+              - option "17 · 41 узлов"
+              - option "18 · 30 узлов"
+              - option "19 · 30 узлов"
+              - option "20 · 26 узлов"
+              - option "21 · 20 узлов"
+              - option "22 · 18 узлов"
+              - option "23 · 17 узлов"
+              - option "24 · 17 узлов"
+              - option "25 · 15 узлов"
+              - option "26 · 15 узлов"
+              - option "27 · 15 узлов"
+              - option "28 · 14 узлов"
+              - option "29 · 13 узлов"
+              - option "30 · 13 узлов"
+              - option "31 · 11 узлов"
+              - option "32 · 10 узлов"
+              - option "33 · 10 узлов"
+              - option "34 · 9 узлов"
+              - option "35 · 8 узлов"
+              - option "36 · 8 узлов"
+              - option "37 · 7 узлов"
+              - option "38 · 7 узлов"
+              - option "39 · 7 узлов"
+              - option "40 · 7 узлов"
+              - option "41 · 6 узлов"
+              - option "42 · 6 узлов"
+              - option "43 · 6 узлов"
+              - option "44 · 6 узлов"
+              - option "45 · 6 узлов"
+              - option "46 · 6 узлов"
+              - option "47 · 6 узлов"
+              - option "48 · 5 узлов"
+              - option "49 · 5 узлов"
+              - option "50 · 5 узлов"
+              - option "51 · 5 узлов"
+              - option "52 · 5 узлов"
+              - option "53 · 4 узлов"
+              - option "54 · 4 узлов"
+              - option "55 · 4 узлов"
+              - option "56 · 4 узлов"
+              - option "57 · 4 узлов"
+              - option "58 · 4 узлов"
+              - option "59 · 4 узлов"
+              - option "60 · 3 узлов"
+              - option "61 · 3 узлов"
+              - option "62 · 3 узлов"
+              - option "63 · 3 узлов"
+              - option "64 · 3 узлов"
+              - option "65 · 3 узлов"
+              - option "66 · 2 узлов"
+              - option "67 · 2 узлов"
+              - option "68 · 2 узлов"
+              - option "69 · 2 узлов"
+              - option "70 · 2 узлов"
+              - option "71 · 1 узлов"
+              - option "72 · 1 узлов"
+              - option "73 · 1 узлов"
+              - option "74 · 1 узлов"
+              - option "75 · 1 узлов"
+              - option "76 · 1 узлов"
+              - option "77 · 1 узлов"
+              - option "78 · 1 узлов"
+              - option "79 · 1 узлов"
+              - option "80 · 1 узлов"
+              - option "81 · 1 узлов"
+              - option "82 · 1 узлов"
+              - option "83 · 1 узлов"
+              - option "84 · 1 узлов"
+              - option "85 · 1 узлов"
+              - option "86 · 1 узлов"
+              - option "87 · 1 узлов"
+              - option "88 · 1 узлов"
+              - option "89 · 1 узлов"
+          - generic [ref=e67]:
+            - checkbox "Граница выборки" [ref=e68]
+            - text: Граница выборки
+          - generic [ref=e69]:
+            - checkbox "Только seed" [ref=e70]
+            - text: Только seed
+          - button "Сбросить фильтры" [ref=e71] [cursor=pointer]
+        - paragraph [ref=e72]:
+          - generic [ref=e73]: По приоритету проверки
+          - generic [ref=e74]: ↓
+        - list "Очередь узлов" [ref=e75]:
+          - listitem [ref=e76]:
+            - 'button "100000008346837100 Приоритет 0,937 Консолидация Признаки консолидации. Вход 9: 254359.00 KZT; выход 25: 1258643.00 KZT; seed-путей 6." [ref=e77] [cursor=pointer]':
+              - generic [ref=e78] [cursor=pointer]:
+                - generic [ref=e79] [cursor=pointer]: "100000008346837100"
+                - generic "Приоритет проверки" [ref=e80] [cursor=pointer]:
+                  - generic [ref=e81] [cursor=pointer]: Приоритет
+                  - text: 0,937
+              - generic [ref=e83] [cursor=pointer]: Консолидация
+          - listitem [ref=e85]:
+            - 'button "100000003684369100 Приоритет 0,923 Консолидация Seed Признаки консолидации. Вход 24: 3848436.00 KZT; выход 62: 8588655.00 KZT; seed-путей 6." [pressed] [ref=e86] [cursor=pointer]':
+              - generic [ref=e87] [cursor=pointer]:
+                - generic [ref=e88] [cursor=pointer]: "100000003684369100"
+                - generic "Приоритет проверки" [ref=e89] [cursor=pointer]:
+                  - generic [ref=e90] [cursor=pointer]: Приоритет
+                  - text: 0,923
+              - generic [ref=e91] [cursor=pointer]:
+                - generic [ref=e92] [cursor=pointer]: Консолидация
+                - generic [ref=e93] [cursor=pointer]: Seed
+          - listitem [ref=e95]:
+            - 'button "100000008165763100 Приоритет 0,915 Консолидация Признаки консолидации. Вход 15: 1165815.00 KZT; выход 17: 1267858.00 KZT; seed-путей 6." [ref=e96] [cursor=pointer]':
+              - generic [ref=e97] [cursor=pointer]:
+                - generic [ref=e98] [cursor=pointer]: "100000008165763100"
+                - generic "Приоритет проверки" [ref=e99] [cursor=pointer]:
+                  - generic [ref=e100] [cursor=pointer]: Приоритет
+                  - text: 0,915
+              - generic [ref=e102] [cursor=pointer]: Консолидация
+          - listitem [ref=e104]:
+            - 'button "100000008603629100 Приоритет 0,901 Консолидация Признаки консолидации. Вход 19: 1817300.00 KZT; выход 61: 4986156.00 KZT; seed-путей 4." [ref=e105] [cursor=pointer]':
+              - generic [ref=e106] [cursor=pointer]:
+                - generic [ref=e107] [cursor=pointer]: "100000008603629100"
+                - generic "Приоритет проверки" [ref=e108] [cursor=pointer]:
+                  - generic [ref=e109] [cursor=pointer]: Приоритет
+                  - text: 0,901
+              - generic [ref=e111] [cursor=pointer]: Консолидация
+          - listitem [ref=e113]:
+            - 'button "100000008710791100 Приоритет 0,899 Распределение Признаки распределения. Вход 3: 181510.00 KZT; выход 23: 5521511.00 KZT; seed-путей 5." [ref=e114] [cursor=pointer]':
+              - generic [ref=e115] [cursor=pointer]:
+                - generic [ref=e116] [cursor=pointer]: "100000008710791100"
+                - generic "Приоритет проверки" [ref=e117] [cursor=pointer]:
+                  - generic [ref=e118] [cursor=pointer]: Приоритет
+                  - text: 0,899
+              - generic [ref=e120] [cursor=pointer]: Распределение
+          - listitem [ref=e122]:
+            - 'button "100000003115284100 Приоритет 0,897 Консолидация Признаки консолидации. Вход 8: 2160500.00 KZT; выход 2: 517000.00 KZT; seed-путей 9." [ref=e123] [cursor=pointer]':
+              - generic [ref=e124] [cursor=pointer]:
+                - generic [ref=e125] [cursor=pointer]: "100000003115284100"
+                - generic "Приоритет проверки" [ref=e126] [cursor=pointer]:
+                  - generic [ref=e127] [cursor=pointer]: Приоритет
+                  - text: 0,897
+              - generic [ref=e129] [cursor=pointer]: Консолидация
+          - listitem [ref=e131]:
+            - 'button "100000000331309100 Приоритет 0,892 Распределение Признаки распределения. Вход 5: 984635.00 KZT; выход 99: 23001375.00 KZT; seed-путей 4." [ref=e132] [cursor=pointer]':
+              - generic [ref=e133] [cursor=pointer]:
+                - generic [ref=e134] [cursor=pointer]: "100000000331309100"
+                - generic "Приоритет проверки" [ref=e135] [cursor=pointer]:
+                  - generic [ref=e136] [cursor=pointer]: Приоритет
+                  - text: 0,892
+              - generic [ref=e138] [cursor=pointer]: Распределение
+          - listitem [ref=e140]:
+            - 'button "100000005910114100 Приоритет 0,889 Распределение Признаки распределения. Вход 3: 326144.00 KZT; выход 19: 1469993.00 KZT; seed-путей 4." [ref=e141] [cursor=pointer]':
+              - generic [ref=e142] [cursor=pointer]:
+                - generic [ref=e143] [cursor=pointer]: "100000005910114100"
+                - generic "Приоритет проверки" [ref=e144] [cursor=pointer]:
+                  - generic [ref=e145] [cursor=pointer]: Приоритет
+                  - text: 0,889
+              - generic [ref=e147] [cursor=pointer]: Распределение
+          - listitem [ref=e149]:
+            - 'button "100000008512827100 Приоритет 0,887 Распределение Признаки распределения. Вход 3: 107949.00 KZT; выход 10: 1944500.00 KZT; seed-путей 5." [ref=e150] [cursor=pointer]':
+              - generic [ref=e151] [cursor=pointer]:
+                - generic [ref=e152] [cursor=pointer]: "100000008512827100"
+                - generic "Приоритет проверки" [ref=e153] [cursor=pointer]:
+                  - generic [ref=e154] [cursor=pointer]: Приоритет
+                  - text: 0,887
+              - generic [ref=e156] [cursor=pointer]: Распределение
+          - listitem [ref=e158]:
+            - 'button "100000007908818100 Приоритет 0,886 Консолидация Признаки консолидации. Вход 4: 727475.00 KZT; выход 6: 302000.00 KZT; seed-путей 8." [ref=e159] [cursor=pointer]':
+              - generic [ref=e160] [cursor=pointer]:
+                - generic [ref=e161] [cursor=pointer]: "100000007908818100"
+                - generic "Приоритет проверки" [ref=e162] [cursor=pointer]:
+                  - generic [ref=e163] [cursor=pointer]: Приоритет
+                  - text: 0,886
+              - generic [ref=e165] [cursor=pointer]: Консолидация
+          - listitem [ref=e167]:
+            - 'button "100000001530983100 Приоритет 0,875 Консолидация Признаки консолидации. Вход 4: 564158.00 KZT; выход 11: 1829538.00 KZT; seed-путей 5." [ref=e168] [cursor=pointer]':
+              - generic [ref=e169] [cursor=pointer]:
+                - generic [ref=e170] [cursor=pointer]: "100000001530983100"
+                - generic "Приоритет проверки" [ref=e171] [cursor=pointer]:
+                  - generic [ref=e172] [cursor=pointer]: Приоритет
+                  - text: 0,875
+              - generic [ref=e174] [cursor=pointer]: Консолидация
+          - listitem [ref=e176]:
+            - 'button "100000000343175100 Приоритет 0,874 Распределение Seed Признаки распределения. Вход 8: 178712.00 KZT; выход 31: 4000039.00 KZT; seed-путей 4." [ref=e177] [cursor=pointer]':
+              - generic [ref=e178] [cursor=pointer]:
+                - generic [ref=e179] [cursor=pointer]: "100000000343175100"
+                - generic "Приоритет проверки" [ref=e180] [cursor=pointer]:
+                  - generic [ref=e181] [cursor=pointer]: Приоритет
+                  - text: 0,874
+              - generic [ref=e182] [cursor=pointer]:
+                - generic [ref=e183] [cursor=pointer]: Распределение
+                - generic [ref=e184] [cursor=pointer]: Seed
+          - listitem [ref=e186]:
+            - 'button "100000000437046100 Приоритет 0,873 Распределение Признаки распределения. Вход 9: 1107200.00 KZT; выход 42: 7606224.00 KZT; seed-путей 4." [ref=e187] [cursor=pointer]':
+              - generic [ref=e188] [cursor=pointer]:
+                - generic [ref=e189] [cursor=pointer]: "100000000437046100"
+                - generic "Приоритет проверки" [ref=e190] [cursor=pointer]:
+                  - generic [ref=e191] [cursor=pointer]: Приоритет
+                  - text: 0,873
+              - generic [ref=e193] [cursor=pointer]: Распределение
+          - listitem [ref=e195]:
+            - 'button "100000005527892100 Приоритет 0,872 Координация · гипотеза Структурный кандидат на координацию. Вход 3: 220001.00 KZT; выход 8: 552419.00 KZT; seed-путей 4." [ref=e196] [cursor=pointer]':
+              - generic [ref=e197] [cursor=pointer]:
+                - generic [ref=e198] [cursor=pointer]: "100000005527892100"
+                - generic "Приоритет проверки" [ref=e199] [cursor=pointer]:
+                  - generic [ref=e200] [cursor=pointer]: Приоритет
+                  - text: 0,872
+              - generic [ref=e202] [cursor=pointer]: Координация · гипотеза
+          - listitem [ref=e204]:
+            - 'button "100000008743913100 Приоритет 0,870 Распределение Признаки распределения. Вход 3: 149300.00 KZT; выход 13: 1850600.00 KZT; seed-путей 6." [ref=e205] [cursor=pointer]':
+              - generic [ref=e206] [cursor=pointer]:
+                - generic [ref=e207] [cursor=pointer]: "100000008743913100"
+                - generic "Приоритет проверки" [ref=e208] [cursor=pointer]:
+                  - generic [ref=e209] [cursor=pointer]: Приоритет
+                  - text: 0,870
+              - generic [ref=e211] [cursor=pointer]: Распределение
+          - listitem [ref=e213]:
+            - 'button "100000002957787100 Приоритет 0,869 Распределение Признаки распределения. Вход 4: 84956.00 KZT; выход 34: 1276153.96 KZT; seed-путей 4." [ref=e214] [cursor=pointer]':
+              - generic [ref=e215] [cursor=pointer]:
+                - generic [ref=e216] [cursor=pointer]: "100000002957787100"
+                - generic "Приоритет проверки" [ref=e217] [cursor=pointer]:
+                  - generic [ref=e218] [cursor=pointer]: Приоритет
+                  - text: 0,869
+              - generic [ref=e220] [cursor=pointer]: Распределение
+          - listitem [ref=e222]:
+            - 'button "100000005074393100 Приоритет 0,860 Консолидация Признаки консолидации. Вход 4: 563026.00 KZT; выход 6: 685500.00 KZT; seed-путей 6." [ref=e223] [cursor=pointer]':
+              - generic [ref=e224] [cursor=pointer]:
+                - generic [ref=e225] [cursor=pointer]: "100000005074393100"
+                - generic "Приоритет проверки" [ref=e226] [cursor=pointer]:
+                  - generic [ref=e227] [cursor=pointer]: Приоритет
+                  - text: 0,860
+              - generic [ref=e229] [cursor=pointer]: Консолидация
+          - listitem [ref=e231]:
+            - 'button "100000008477350100 Приоритет 0,855 Распределение Признаки распределения. Вход 11: 610100.00 KZT; выход 39: 3374866.00 KZT; seed-путей 3." [ref=e232] [cursor=pointer]':
+              - generic [ref=e233] [cursor=pointer]:
+                - generic [ref=e234] [cursor=pointer]: "100000008477350100"
+                - generic "Приоритет проверки" [ref=e235] [cursor=pointer]:
+                  - generic [ref=e236] [cursor=pointer]: Приоритет
+                  - text: 0,855
+              - generic [ref=e238] [cursor=pointer]: Распределение
+          - listitem [ref=e240]:
+            - 'button "100000006866783100 Приоритет 0,850 Консолидация Seed Признаки консолидации. Вход 13: 838812.00 KZT; выход 67: 3948037.00 KZT; seed-путей 3." [ref=e241] [cursor=pointer]':
+              - generic [ref=e242] [cursor=pointer]:
+                - generic [ref=e243] [cursor=pointer]: "100000006866783100"
+                - generic "Приоритет проверки" [ref=e244] [cursor=pointer]:
+                  - generic [ref=e245] [cursor=pointer]: Приоритет
+                  - text: 0,850
+              - generic [ref=e246] [cursor=pointer]:
+                - generic [ref=e247] [cursor=pointer]: Консолидация
+                - generic [ref=e248] [cursor=pointer]: Seed
+          - listitem [ref=e250]:
+            - 'button "100000004156082100 Приоритет 0,847 Распределение Признаки распределения. Вход 5: 377366.11 KZT; выход 26: 2319556.00 KZT; seed-путей 4." [ref=e251] [cursor=pointer]':
+              - generic [ref=e252] [cursor=pointer]:
+                - generic [ref=e253] [cursor=pointer]: "100000004156082100"
+                - generic "Приоритет проверки" [ref=e254] [cursor=pointer]:
+                  - generic [ref=e255] [cursor=pointer]: Приоритет
+                  - text: 0,847
+              - generic [ref=e257] [cursor=pointer]: Распределение
+          - listitem [ref=e259]:
+            - 'button "100000007442518100 Приоритет 0,842 Консолидация Признаки консолидации. Вход 5: 510000.00 KZT; выход 9: 4419999.00 KZT; seed-путей 4." [ref=e260] [cursor=pointer]':
+              - generic [ref=e261] [cursor=pointer]:
+                - generic [ref=e262] [cursor=pointer]: "100000007442518100"
+                - generic "Приоритет проверки" [ref=e263] [cursor=pointer]:
+                  - generic [ref=e264] [cursor=pointer]: Приоритет
+                  - text: 0,842
+              - generic [ref=e266] [cursor=pointer]: Консолидация
+          - listitem [ref=e268]:
+            - 'button "100000004351795100 Приоритет 0,838 Распределение Признаки распределения. Вход 3: 118333.00 KZT; выход 14: 1715161.00 KZT; seed-путей 3." [ref=e269] [cursor=pointer]':
+              - generic [ref=e270] [cursor=pointer]:
+                - generic [ref=e271] [cursor=pointer]: "100000004351795100"
+                - generic "Приоритет проверки" [ref=e272] [cursor=pointer]:
+                  - generic [ref=e273] [cursor=pointer]: Приоритет
+                  - text: 0,838
+              - generic [ref=e275] [cursor=pointer]: Распределение
+          - listitem [ref=e277]:
+            - 'button "100000008489922100 Приоритет 0,834 Распределение Признаки распределения. Вход 3: 262010.00 KZT; выход 36: 3789900.00 KZT; seed-путей 3." [ref=e278] [cursor=pointer]':
+              - generic [ref=e279] [cursor=pointer]:
+                - generic [ref=e280] [cursor=pointer]: "100000008489922100"
+                - generic "Приоритет проверки" [ref=e281] [cursor=pointer]:
+                  - generic [ref=e282] [cursor=pointer]: Приоритет
+                  - text: 0,834
+              - generic [ref=e284] [cursor=pointer]: Распределение
+          - listitem [ref=e286]:
+            - 'button "100000001857829100 Приоритет 0,833 Консолидация Признаки консолидации. Вход 6: 888535.00 KZT; выход 16: 2390993.00 KZT; seed-путей 3." [ref=e287] [cursor=pointer]':
+              - generic [ref=e288] [cursor=pointer]:
+                - generic [ref=e289] [cursor=pointer]: "100000001857829100"
+                - generic "Приоритет проверки" [ref=e290] [cursor=pointer]:
+                  - generic [ref=e291] [cursor=pointer]: Приоритет
+                  - text: 0,833
+              - generic [ref=e293] [cursor=pointer]: Консолидация
+          - listitem [ref=e295]:
+            - 'button "100000008710843100 Приоритет 0,832 Распределение Признаки распределения. Вход 2: 33944.00 KZT; выход 13: 1985500.00 KZT; seed-путей 3." [ref=e296] [cursor=pointer]':
+              - generic [ref=e297] [cursor=pointer]:
+                - generic [ref=e298] [cursor=pointer]: "100000008710843100"
+                - generic "Приоритет проверки" [ref=e299] [cursor=pointer]:
+                  - generic [ref=e300] [cursor=pointer]: Приоритет
+                  - text: 0,832
+              - generic [ref=e302] [cursor=pointer]: Распределение
+          - listitem [ref=e304]:
+            - 'button "100000008304139100 Приоритет 0,831 Распределение Признаки распределения. Вход 4: 189329.75 KZT; выход 24: 1692997.00 KZT; seed-путей 2." [ref=e305] [cursor=pointer]':
+              - generic [ref=e306] [cursor=pointer]:
+                - generic [ref=e307] [cursor=pointer]: "100000008304139100"
+                - generic "Приоритет проверки" [ref=e308] [cursor=pointer]:
+                  - generic [ref=e309] [cursor=pointer]: Приоритет
+                  - text: 0,831
+              - generic [ref=e311] [cursor=pointer]: Распределение
+          - listitem [ref=e313]:
+            - 'button "100000008547844100 Приоритет 0,831 Распределение Признаки распределения. Вход 3: 177600.00 KZT; выход 19: 2042199.00 KZT; seed-путей 3." [ref=e314] [cursor=pointer]':
+              - generic [ref=e315] [cursor=pointer]:
+                - generic [ref=e316] [cursor=pointer]: "100000008547844100"
+                - generic "Приоритет проверки" [ref=e317] [cursor=pointer]:
+                  - generic [ref=e318] [cursor=pointer]: Приоритет
+                  - text: 0,831
+              - generic [ref=e320] [cursor=pointer]: Распределение
+          - listitem [ref=e322]:
+            - 'button "100000008547948100 Приоритет 0,826 Распределение Признаки распределения. Вход 6: 212665.00 KZT; выход 26: 5185600.00 KZT; seed-путей 3." [ref=e323] [cursor=pointer]':
+              - generic [ref=e324] [cursor=pointer]:
+                - generic [ref=e325] [cursor=pointer]: "100000008547948100"
+                - generic "Приоритет проверки" [ref=e326] [cursor=pointer]:
+                  - generic [ref=e327] [cursor=pointer]: Приоритет
+                  - text: 0,826
+              - generic [ref=e329] [cursor=pointer]: Распределение
+          - listitem [ref=e331]:
+            - 'button "100000003016635100 Приоритет 0,823 Распределение Seed Признаки распределения. Вход 8: 586981.00 KZT; выход 73: 9414081.00 KZT; seed-путей 3." [ref=e332] [cursor=pointer]':
+              - generic [ref=e333] [cursor=pointer]:
+                - generic [ref=e334] [cursor=pointer]: "100000003016635100"
+                - generic "Приоритет проверки" [ref=e335] [cursor=pointer]:
+                  - generic [ref=e336] [cursor=pointer]: Приоритет
+                  - text: 0,823
+              - generic [ref=e337] [cursor=pointer]:
+                - generic [ref=e338] [cursor=pointer]: Распределение
+                - generic [ref=e339] [cursor=pointer]: Seed
+          - listitem [ref=e341]:
+            - 'button "100000008686313100 Приоритет 0,822 Консолидация Признаки консолидации. Вход 6: 1912716.00 KZT; выход 7: 333800.00 KZT; seed-путей 3." [ref=e342] [cursor=pointer]':
+              - generic [ref=e343] [cursor=pointer]:
+                - generic [ref=e344] [cursor=pointer]: "100000008686313100"
+                - generic "Приоритет проверки" [ref=e345] [cursor=pointer]:
+                  - generic [ref=e346] [cursor=pointer]: Приоритет
+                  - text: 0,822
+              - generic [ref=e348] [cursor=pointer]: Консолидация
+          - listitem [ref=e350]:
+            - 'button "100000004997515100 Приоритет 0,820 Консолидация Признаки консолидации. Вход 4: 395000.00 KZT; выход 4: 54500.00 KZT; seed-путей 5." [ref=e351] [cursor=pointer]':
+              - generic [ref=e352] [cursor=pointer]:
+                - generic [ref=e353] [cursor=pointer]: "100000004997515100"
+                - generic "Приоритет проверки" [ref=e354] [cursor=pointer]:
+                  - generic [ref=e355] [cursor=pointer]: Приоритет
+                  - text: 0,820
+              - generic [ref=e357] [cursor=pointer]: Консолидация
+          - listitem [ref=e359]:
+            - 'button "100000001616816100 Приоритет 0,816 Консолидация Seed Признаки консолидации. Вход 5: 176195.00 KZT; выход 3: 181326.00 KZT; seed-путей 7." [ref=e360] [cursor=pointer]':
+              - generic [ref=e361] [cursor=pointer]:
+                - generic [ref=e362] [cursor=pointer]: "100000001616816100"
+                - generic "Приоритет проверки" [ref=e363] [cursor=pointer]:
+                  - generic [ref=e364] [cursor=pointer]: Приоритет
+                  - text: 0,816
+              - generic [ref=e365] [cursor=pointer]:
+                - generic [ref=e366] [cursor=pointer]: Консолидация
+                - generic [ref=e367] [cursor=pointer]: Seed
+          - listitem [ref=e369]:
+            - 'button "100000004403675100 Приоритет 0,815 Координация · гипотеза Структурный кандидат на координацию. Вход 4: 182980.00 KZT; выход 5: 264699.00 KZT; seed-путей 3." [ref=e370] [cursor=pointer]':
+              - generic [ref=e371] [cursor=pointer]:
+                - generic [ref=e372] [cursor=pointer]: "100000004403675100"
+                - generic "Приоритет проверки" [ref=e373] [cursor=pointer]:
+                  - generic [ref=e374] [cursor=pointer]: Приоритет
+                  - text: 0,815
+              - generic [ref=e376] [cursor=pointer]: Координация · гипотеза
+          - listitem [ref=e378]:
+            - 'button "100000003635170100 Приоритет 0,813 Транзит Признаки транзита. Вход 3: 268500.00 KZT; выход 4: 253500.00 KZT; seed-путей 5." [ref=e379] [cursor=pointer]':
+              - generic [ref=e380] [cursor=pointer]:
+                - generic [ref=e381] [cursor=pointer]: "100000003635170100"
+                - generic "Приоритет проверки" [ref=e382] [cursor=pointer]:
+                  - generic [ref=e383] [cursor=pointer]: Приоритет
+                  - text: 0,813
+              - generic [ref=e385] [cursor=pointer]: Транзит
+          - listitem [ref=e387]:
+            - 'button "100000004400305100 Приоритет 0,812 Распределение Признаки распределения. Вход 7: 222800.00 KZT; выход 82: 5830181.00 KZT; seed-путей 2." [ref=e388] [cursor=pointer]':
+              - generic [ref=e389] [cursor=pointer]:
+                - generic [ref=e390] [cursor=pointer]: "100000004400305100"
+                - generic "Приоритет проверки" [ref=e391] [cursor=pointer]:
+                  - generic [ref=e392] [cursor=pointer]: Приоритет
+                  - text: 0,812
+              - generic [ref=e394] [cursor=pointer]: Распределение
+          - listitem [ref=e396]:
+            - 'button "100000008733194100 Приоритет 0,811 Консолидация Признаки консолидации. Вход 4: 251424.00 KZT; выход 8: 159695.00 KZT; seed-путей 4." [ref=e397] [cursor=pointer]':
+              - generic [ref=e398] [cursor=pointer]:
+                - generic [ref=e399] [cursor=pointer]: "100000008733194100"
+                - generic "Приоритет проверки" [ref=e400] [cursor=pointer]:
+                  - generic [ref=e401] [cursor=pointer]: Приоритет
+                  - text: 0,811
+              - generic [ref=e403] [cursor=pointer]: Консолидация
+          - listitem [ref=e405]:
+            - 'button "100000008730846100 Приоритет 0,810 Консолидация Признаки консолидации. Вход 7: 155042.00 KZT; выход 3: 363370.00 KZT; seed-путей 4." [ref=e406] [cursor=pointer]':
+              - generic [ref=e407] [cursor=pointer]:
+                - generic [ref=e408] [cursor=pointer]: "100000008730846100"
+                - generic "Приоритет проверки" [ref=e409] [cursor=pointer]:
+                  - generic [ref=e410] [cursor=pointer]: Приоритет
+                  - text: 0,810
+              - generic [ref=e412] [cursor=pointer]: Консолидация
+          - listitem [ref=e414]:
+            - 'button "100000007593823100 Приоритет 0,805 Координация · гипотеза Структурный кандидат на координацию. Вход 3: 25000.00 KZT; выход 13: 162900.00 KZT; seed-путей 4." [ref=e415] [cursor=pointer]':
+              - generic [ref=e416] [cursor=pointer]:
+                - generic [ref=e417] [cursor=pointer]: "100000007593823100"
+                - generic "Приоритет проверки" [ref=e418] [cursor=pointer]:
+                  - generic [ref=e419] [cursor=pointer]: Приоритет
+                  - text: 0,805
+              - generic [ref=e421] [cursor=pointer]: Координация · гипотеза
+          - listitem [ref=e423]:
+            - 'button "100000003242289100 Приоритет 0,805 Распределение Признаки распределения. Вход 3: 550791.00 KZT; выход 23: 2377741.00 KZT; seed-путей 3." [ref=e424] [cursor=pointer]':
+              - generic [ref=e425] [cursor=pointer]:
+                - generic [ref=e426] [cursor=pointer]: "100000003242289100"
+                - generic "Приоритет проверки" [ref=e427] [cursor=pointer]:
+                  - generic [ref=e428] [cursor=pointer]: Приоритет
+                  - text: 0,805
+              - generic [ref=e430] [cursor=pointer]: Распределение
+          - listitem [ref=e432]:
+            - 'button "100000004070318100 Приоритет 0,804 Распределение Признаки распределения. Вход 4: 207246.55 KZT; выход 19: 551860.00 KZT; seed-путей 2." [ref=e433] [cursor=pointer]':
+              - generic [ref=e434] [cursor=pointer]:
+                - generic [ref=e435] [cursor=pointer]: "100000004070318100"
+                - generic "Приоритет проверки" [ref=e436] [cursor=pointer]:
+                  - generic [ref=e437] [cursor=pointer]: Приоритет
+                  - text: 0,804
+              - generic [ref=e439] [cursor=pointer]: Распределение
+          - listitem [ref=e441]:
+            - 'button "100000005782781100 Приоритет 0,804 Консолидация Признаки консолидации. Вход 6: 171888.00 KZT; выход 10: 1263597.00 KZT; seed-путей 3." [ref=e442] [cursor=pointer]':
+              - generic [ref=e443] [cursor=pointer]:
+                - generic [ref=e444] [cursor=pointer]: "100000005782781100"
+                - generic "Приоритет проверки" [ref=e445] [cursor=pointer]:
+                  - generic [ref=e446] [cursor=pointer]: Приоритет
+                  - text: 0,804
+              - generic [ref=e448] [cursor=pointer]: Консолидация
+          - listitem [ref=e450]:
+            - 'button "100000008465789100 Приоритет 0,803 Распределение Признаки распределения. Вход 1: 30099.00 KZT; выход 16: 1858100.00 KZT; seed-путей 3." [ref=e451] [cursor=pointer]':
+              - generic [ref=e452] [cursor=pointer]:
+                - generic [ref=e453] [cursor=pointer]: "100000008465789100"
+                - generic "Приоритет проверки" [ref=e454] [cursor=pointer]:
+                  - generic [ref=e455] [cursor=pointer]: Приоритет
+                  - text: 0,803
+              - generic [ref=e457] [cursor=pointer]: Распределение
+          - listitem [ref=e459]:
+            - 'button "100000006889963100 Приоритет 0,796 Консолидация Признаки консолидации. Вход 4: 1431000.00 KZT; выход 1: 443475.80 KZT; seed-путей 9." [ref=e460] [cursor=pointer]':
+              - generic [ref=e461] [cursor=pointer]:
+                - generic [ref=e462] [cursor=pointer]: "100000006889963100"
+                - generic "Приоритет проверки" [ref=e463] [cursor=pointer]:
+                  - generic [ref=e464] [cursor=pointer]: Приоритет
+                  - text: 0,796
+              - generic [ref=e466] [cursor=pointer]: Консолидация
+          - listitem [ref=e468]:
+            - 'button "100000001899164100 Приоритет 0,795 Консолидация Признаки консолидации. Вход 4: 291675.00 KZT; выход 3: 76500.00 KZT; seed-путей 5." [ref=e469] [cursor=pointer]':
+              - generic [ref=e470] [cursor=pointer]:
+                - generic [ref=e471] [cursor=pointer]: "100000001899164100"
+                - generic "Приоритет проверки" [ref=e472] [cursor=pointer]:
+                  - generic [ref=e473] [cursor=pointer]: Приоритет
+                  - text: 0,795
+              - generic [ref=e475] [cursor=pointer]: Консолидация
+          - listitem [ref=e477]:
+            - 'button "100000005287097100 Приоритет 0,794 Распределение Признаки распределения. Вход 2: 127173.00 KZT; выход 9: 697300.00 KZT; seed-путей 3." [ref=e478] [cursor=pointer]':
+              - generic [ref=e479] [cursor=pointer]:
+                - generic [ref=e480] [cursor=pointer]: "100000005287097100"
+                - generic "Приоритет проверки" [ref=e481] [cursor=pointer]:
+                  - generic [ref=e482] [cursor=pointer]: Приоритет
+                  - text: 0,794
+              - generic [ref=e484] [cursor=pointer]: Распределение
+          - listitem [ref=e486]:
+            - 'button "100000008752616100 Приоритет 0,789 Распределение Признаки распределения. Вход 2: 64510.00 KZT; выход 7: 1265000.00 KZT; seed-путей 4." [ref=e487] [cursor=pointer]':
+              - generic [ref=e488] [cursor=pointer]:
+                - generic [ref=e489] [cursor=pointer]: "100000008752616100"
+                - generic "Приоритет проверки" [ref=e490] [cursor=pointer]:
+                  - generic [ref=e491] [cursor=pointer]: Приоритет
+                  - text: 0,789
+              - generic [ref=e493] [cursor=pointer]: Распределение
+          - listitem [ref=e495]:
+            - 'button "100000003701161100 Приоритет 0,788 Консолидация Признаки консолидации. Вход 4: 1527103.00 KZT; выход 3: 349000.00 KZT; seed-путей 3." [ref=e496] [cursor=pointer]':
+              - generic [ref=e497] [cursor=pointer]:
+                - generic [ref=e498] [cursor=pointer]: "100000003701161100"
+                - generic "Приоритет проверки" [ref=e499] [cursor=pointer]:
+                  - generic [ref=e500] [cursor=pointer]: Приоритет
+                  - text: 0,788
+              - generic [ref=e502] [cursor=pointer]: Консолидация
+          - listitem [ref=e504]:
+            - 'button "100000004847758100 Приоритет 0,788 Распределение Признаки распределения. Вход 4: 115171.00 KZT; выход 15: 488800.00 KZT; seed-путей 2." [ref=e505] [cursor=pointer]':
+              - generic [ref=e506] [cursor=pointer]:
+                - generic [ref=e507] [cursor=pointer]: "100000004847758100"
+                - generic "Приоритет проверки" [ref=e508] [cursor=pointer]:
+                  - generic [ref=e509] [cursor=pointer]: Приоритет
+                  - text: 0,788
+              - generic [ref=e511] [cursor=pointer]: Распределение
+          - listitem [ref=e513]:
+            - 'button "100000005933757100 Приоритет 0,787 Распределение Признаки распределения. Вход 4: 1246000.00 KZT; выход 34: 3002628.00 KZT; seed-путей 2." [ref=e514] [cursor=pointer]':
+              - generic [ref=e515] [cursor=pointer]:
+                - generic [ref=e516] [cursor=pointer]: "100000005933757100"
+                - generic "Приоритет проверки" [ref=e517] [cursor=pointer]:
+                  - generic [ref=e518] [cursor=pointer]: Приоритет
+                  - text: 0,787
+              - generic [ref=e520] [cursor=pointer]: Распределение
+          - listitem [ref=e522]:
+            - 'button "100000005048668100 Приоритет 0,787 Координация · гипотеза Структурный кандидат на координацию. Вход 2: 16668.00 KZT; выход 8: 159400.00 KZT; seed-путей 4." [ref=e523] [cursor=pointer]':
+              - generic [ref=e524] [cursor=pointer]:
+                - generic [ref=e525] [cursor=pointer]: "100000005048668100"
+                - generic "Приоритет проверки" [ref=e526] [cursor=pointer]:
+                  - generic [ref=e527] [cursor=pointer]: Приоритет
+                  - text: 0,787
+              - generic [ref=e529] [cursor=pointer]: Координация · гипотеза
+        - generic [ref=e531]:
+          - button "Назад" [disabled] [ref=e532]
+          - generic [ref=e533]: 1–50 из 2248
+          - button "Далее" [ref=e534] [cursor=pointer]
+    - generic [ref=e535]:
+      - navigation "Граф и переводы" [ref=e536]:
+        - button "Граф" [pressed] [ref=e537] [cursor=pointer]:
+          - img [ref=e538] [cursor=pointer]
+          - text: Граф
+        - button "Переводы" [ref=e543] [cursor=pointer]:
+          - img [ref=e544] [cursor=pointer]
+          - text: Переводы
+        - button "Вместе" [ref=e547] [cursor=pointer]
+      - region "Направленный граф" [ref=e548]:
+        - generic [ref=e549]:
+          - generic [ref=e550]:
+            - generic [ref=e551]: Наблюдаемая сеть
+            - heading "Окружение узла" [level=2] [ref=e552]
+          - button "Обзор" [ref=e553] [cursor=pointer]:
+            - text: Обзор
+            - img [ref=e554] [cursor=pointer]
+        - generic [ref=e556]:
+          - generic [ref=e557]: "100000003684369100"
+          - generic [ref=e558]:
+            - text: Шаги
+            - combobox "Число шагов графа" [ref=e559]:
+              - option "1" [selected]
+              - option "2"
+        - generic [ref=e560]:
+          - generic [ref=e561]:
+            - generic [ref=e562]:
+              - button "Приблизить граф" [ref=e563] [cursor=pointer]: +
+              - button "Отдалить граф" [ref=e564] [cursor=pointer]: −
+              - status "Масштаб графа" [ref=e565]: 30%
+              - button "Вместить" [ref=e566] [cursor=pointer]:
+                - img [ref=e567] [cursor=pointer]
+                - text: Вместить
+              - button "Развернуть граф" [ref=e569] [cursor=pointer]:
+                - img [ref=e570] [cursor=pointer]
+            - button "Таблица связей" [ref=e572] [cursor=pointer]:
+              - img [ref=e573] [cursor=pointer]
+              - text: Таблица связей
+          - generic [ref=e576]:
+            - generic [ref=e577]:
+              - text: Связи узла
+              - combobox "Подсветить связи" [ref=e578]:
+                - option "Все связи" [selected]
+                - option "100000003684369100"
+                - option "100000003115284100"
+                - option "100000005910114100"
+                - option "100000007908818100"
+                - option "100000005074393100"
+                - option "100000004351795100"
+                - option "100000008304139100"
+                - option "100000004070318100"
+                - option "100000006889963100"
+                - option "100000004847758100"
+                - option "100000002723538100"
+                - option "100000007639767100"
+                - option "100000008748914100"
+                - option "100000003796063100"
+                - option "100000003880331100"
+                - option "100000004390333100"
+                - option "100000003946524100"
+                - option "100000003213473100"
+                - option "100000008628231100"
+                - option "100000003528285100"
+                - option "100000002988894100"
+                - option "100000000089154100"
+                - option "100000001072022100"
+                - option "100000003366154100"
+                - option "100000005124479100"
+                - option "100000004077081100"
+                - option "100000005079754100"
+                - option "100000002939838100"
+                - option "100000004480280100"
+                - option "100000004140487100"
+                - option "100000007864477100"
+                - option "100000007129492100"
+                - option "100000008438656100"
+                - option "100000002957306100"
+                - option "100000000810551100"
+                - option "100000004450649100"
+                - option "100000001746925100"
+                - option "100000004315838100"
+                - option "100000008555918100"
+                - option "100000003178549100"
+                - option "100000008747113100"
+                - option "100000005432267100"
+                - option "100000001924185100"
+                - option "100000008566737100"
+                - option "100000004004621100"
+                - option "100000002480800100"
+                - option "100000007311010100"
+                - option "100000001527186100"
+                - option "100000008556318100"
+                - option "100000003582677100"
+                - option "100000002565277100"
+                - option "100000002188829100"
+                - option "100000003299365100"
+                - option "100000003131693100"
+                - option "100000007181706100"
+                - option "100000004226848100"
+                - option "100000008223661100"
+                - option "100000005133757100"
+                - option "100000002621949100"
+                - option "100000000041368100"
+                - option "100000003205210100"
+                - option "100000002864256100"
+                - option "100000000941942100"
+                - option "100000003022835100"
+                - option "100000000998559100"
+                - option "100000006446271100"
+                - option "100000004358004100"
+                - option "100000001362940100"
+                - option "100000008671929100"
+                - option "100000002666248100"
+                - option "100000003284932100"
+                - option "100000003739818100"
+                - option "100000001554432100"
+                - option "100000003037660100"
+                - option "100000001194266100"
+                - option "100000003476560100"
+                - option "100000002847207100"
+                - option "100000008237827100"
+                - option "100000003877908100"
+                - option "100000004509286100"
+                - option "100000007274584100"
+                - option "100000003832231100"
+                - option "100000001102676100"
+                - option "100000008664469100"
+                - option "100000005852946100"
+                - option "100000005093521100"
+            - generic [ref=e579]:
+              - text: Подписи
+              - combobox "Подписи графа" [ref=e580]:
+                - option "Авто" [selected]
+                - option "Все"
+          - generic "Легенда графа" [ref=e581]:
+            - generic [ref=e582]:
+              - generic [ref=e583]: →
+              - text: направление переводов
+            - generic [ref=e584]: seed
+            - generic [ref=e586]: граница
+            - group [ref=e588]
+          - 'img "Направленный граф: 86 узлов, 88 связей. Доступная альтернатива — таблица связей." [ref=e590]'
+          - paragraph [ref=e595]: Нажмите на узел, чтобы открыть карточку. Колесо — масштаб, фон — перемещение.
+          - generic [ref=e596]:
+            - text: Показано 86 из 86 узлов · 88 из 88 связей
+            - generic [ref=e597]: Приблизьте для подписей или выберите «Все».
+    - complementary "Карточка узла" [ref=e598]:
+      - generic [ref=e600]:
+        - generic [ref=e601]: Детали исследования
+        - heading "Карточка узла" [level=2] [ref=e602]
+      - generic [ref=e604]:
+        - generic [ref=e605]:
+          - generic [ref=e606]:
+            - paragraph [ref=e607]: Идентификатор узла
+            - heading "100000003684369100" [level=2] [ref=e608]
+          - button "Скопировать полный gid" [ref=e609] [cursor=pointer]:
+            - img [ref=e610] [cursor=pointer]
+        - paragraph [ref=e613]:
+          - button "Кластер 3" [ref=e614] [cursor=pointer]:
+            - text: Кластер 3
+            - img [ref=e615] [cursor=pointer]
+          - generic [ref=e617]: Глубина 0
+          - generic [ref=e618]: Seed
+        - generic [ref=e619]:
+          - paragraph [ref=e620]: Основная гипотеза
+          - heading "Консолидация" [level=3] [ref=e621]
+          - paragraph [ref=e622]: "Признаки консолидации. Вход 24: 3848436.00 KZT; выход 62: 8588655.00 KZT; seed-путей 6."
+          - generic [ref=e623]:
+            - generic [ref=e624]:
+              - term [ref=e625]: Соответствие правилу
+              - definition [ref=e626]: 0,650
+            - generic [ref=e627]:
+              - term [ref=e628]: Приоритет проверки
+              - definition [ref=e629]: 0,923
+          - paragraph [ref=e630]: Эвристические оценки от 0 до 1, не вероятность виновности.
+        - navigation "Разделы карточки" [ref=e631]:
+          - link "Основания" [ref=e632]:
+            - /url: "#node-evidence"
+          - link "Альтернатива" [ref=e633]:
+            - /url: "#node-hypotheses"
+          - link "Ограничения" [ref=e634]:
+            - /url: "#node-limits"
+        - generic [ref=e635]:
+          - heading "Наблюдаемые потоки" [level=3] [ref=e636]
+          - generic [ref=e637]:
+            - generic [ref=e638]:
+              - term [ref=e639]:
+                - text: Вход
+                - generic [ref=e640]: ↙
+              - definition [ref=e641]:
+                - button "Показать входящие переводы" [ref=e642] [cursor=pointer]:
+                  - generic [ref=e643] [cursor=pointer]: 3 848 436,00 ₸
+            - generic [ref=e644]:
+              - term [ref=e645]:
+                - text: Выход
+                - generic [ref=e646]: ↗
+              - definition [ref=e647]:
+                - button "Показать исходящие переводы" [ref=e648] [cursor=pointer]:
+                  - generic [ref=e649] [cursor=pointer]: 8 588 655,00 ₸
+            - generic [ref=e650]:
+              - term [ref=e651]: Плательщики / получатели
+              - definition [ref=e652]: 24 / 62
+            - generic [ref=e653]:
+              - term [ref=e654]: "Переводы: вход / выход"
+              - definition [ref=e655]: 58 / 67
+        - paragraph [ref=e656]:
+          - link "Проверить исходные переводы (125)" [ref=e657]:
+            - /url: "#transfers"
+        - generic [ref=e658]:
+          - heading "Основание роли" [level=3] [ref=e659]
+          - paragraph [ref=e660]: v1:consolidator
+          - paragraph [ref=e661]: "До ограничений: 1,000 · После: 0,650"
+          - list [ref=e662]:
+            - listitem [ref=e663]:
+              - generic [ref=e664]: Выполнено
+              - paragraph [ref=e665]: Несколько наблюдаемых плательщиков
+              - generic [ref=e666]: "in_degree: 24 >= 3"
+          - paragraph [ref=e667]: "Предел 0,650: Входящие seed неполны"
+        - generic [ref=e668]:
+          - heading "Вклад в приоритет" [level=3] [ref=e669]
+          - list [ref=e670]:
+            - listitem [ref=e671]:
+              - generic [ref=e672]:
+                - generic [ref=e673]: Наблюдаемый оборот
+                - generic [ref=e674]: 0,300
+              - paragraph [ref=e677]: "Нормированное: 0,999 · вес: 0,300"
+            - listitem [ref=e678]:
+              - generic [ref=e679]:
+                - generic [ref=e680]: Посредническая центральность
+                - generic [ref=e681]: 0,238
+              - paragraph [ref=e684]: "Нормированное: 0,951 · вес: 0,250"
+            - listitem [ref=e685]:
+              - generic [ref=e686]:
+                - generic [ref=e687]: Достижимость от seed
+                - generic [ref=e688]: 0,200
+              - paragraph [ref=e691]: "Нормированное: 1,000 · вес: 0,200"
+            - listitem [ref=e692]:
+              - generic [ref=e693]:
+                - generic [ref=e694]: Число контрагентов
+                - generic [ref=e695]: 0,150
+              - paragraph [ref=e698]: "Нормированное: 1,000 · вес: 0,150"
+            - listitem [ref=e699]:
+              - generic [ref=e700]:
+                - generic [ref=e701]: Связи между кластерами
+                - generic [ref=e702]: 0,036
+              - paragraph [ref=e705]: "Нормированное: 0,356 · вес: 0,100"
+        - generic [ref=e706]:
+          - heading "Альтернативная гипотеза" [level=3] [ref=e707]
+          - heading "Распределение" [level=3] [ref=e708]
+          - paragraph [ref=e709]: "Соответствие: 0,650 · Условия допуска выполнены"
+          - list [ref=e710]:
+            - listitem [ref=e711]:
+              - generic [ref=e712]: Выполнено
+              - paragraph [ref=e713]: Веер наблюдаемых получателей
+              - generic [ref=e714]: "out_degree: 62 >= 5"
+          - group [ref=e715]
+        - generic [ref=e717]:
+          - heading "Ограничения наблюдения" [level=3] [ref=e718]
+          - list [ref=e719]:
+            - listitem [ref=e720]: "Seed: входящие из-за границ выборки неполны."
+            - listitem [ref=e721]: Наблюдаемый выход больше входа; неизвестны внешние поступления и начальный остаток.
+            - listitem [ref=e722]: Роли — проверяемые структурные гипотезы; score не является вероятностью виновности.
+            - listitem [ref=e723]: Только внутрибанковские исходящие пути до четырёх колен, июль 2026, переводы от 5000 KZT.
+            - listitem [ref=e724]: Входящие извне выборки и остатки неизвестны; разность потоков не является полным балансом.
+            - listitem [ref=e725]: Дата имеет точность до дня; порядок операций внутри дня неизвестен.
+            - listitem [ref=e726]: Размеченных ролей нет; accuracy, precision и recall на этом наборе не измерены.
+            - listitem [ref=e727]: Seed-достижимость отражает топологию, а не происхождение конкретных денег.
+        - generic [ref=e728]:
+          - heading "Что проверить дальше" [level=3] [ref=e729]
+          - list [ref=e730]:
+            - listitem [ref=e731]: Получить входящие операции из-за границ текущей выборки.
+            - listitem [ref=e732]: Проверить недостающие входящие и остаток на начало периода; не трактовать разность как баланс.
+  - button "Открыть AI-аналитика" [ref=e733] [cursor=pointer]:
+    - generic [ref=e734] [cursor=pointer]: AI
+    - generic [ref=e735] [cursor=pointer]: Аналитик
+  - contentinfo [ref=e736]:
+    - generic [ref=e737]: Локальный анализ · роли — гипотезы · только наблюдаемая выгрузка
+    - generic [ref=e738]: "run_id: d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3"
+```

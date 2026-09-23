@@ -1,0 +1,262 @@
+{
+  "config": {
+    "configFile": "/Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-firefox.config.mjs",
+    "rootDir": "/Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-firefox-specs",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "/Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers-evidence/firefox-report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers-evidence/firefox-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-firefox-specs",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.55.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "audit-controls.spec.ts",
+      "file": "audit-controls.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "audit all main control groups with real data, including disabled AI and pagination",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 6,
+                  "error": {
+                    "message": "TimeoutError: browserType.launch: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/0l/ybhrjnlj0l531tqf6f17fg840000gn/T/playwright_firefoxdev_profile-sXiQfw -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=4438\u001b[22m\n\u001b[2m  - [pid=4438][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=4438][err] sandbox_extension_issue_file_to_process failed for /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)\u001b[22m\n\u001b[2m  - [pid=4438][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=2.33333) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt\u001b[22m\n",
+                    "stack": "TimeoutError: browserType.launch: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/0l/ybhrjnlj0l531tqf6f17fg840000gn/T/playwright_firefoxdev_profile-sXiQfw -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=4438\u001b[22m\n\u001b[2m  - [pid=4438][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=4438][err] sandbox_extension_issue_file_to_process failed for /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)\u001b[22m\n\u001b[2m  - [pid=4438][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=2.33333) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "TimeoutError: browserType.launch: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/0l/ybhrjnlj0l531tqf6f17fg840000gn/T/playwright_firefoxdev_profile-sXiQfw -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=4438\u001b[22m\n\u001b[2m  - [pid=4438][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=4438][err] sandbox_extension_issue_file_to_process failed for /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)\u001b[22m\n\u001b[2m  - [pid=4438][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=2.33333) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt\u001b[22m\n"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T12:45:40.571Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers-evidence/firefox-results/audit-controls-audit-all-m-ae9aa--disabled-AI-and-pagination/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "891e5c10a5dbd4f3a80f-69e04e9a79b80483f169",
+          "file": "audit-controls.spec.ts",
+          "line": 9,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "real-api.spec.ts",
+      "file": "real-api.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "real data at three desktop sizes; exact search, graph and evidence",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 3,
+                  "error": {
+                    "message": "TimeoutError: browserType.launch: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/0l/ybhrjnlj0l531tqf6f17fg840000gn/T/playwright_firefoxdev_profile-ROU0V5 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=4566\u001b[22m\n\u001b[2m  - [pid=4566][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=4566][err] sandbox_extension_issue_file_to_process failed for /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)\u001b[22m\n\u001b[2m  - [pid=4566][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=3.75) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt\u001b[22m\n",
+                    "stack": "TimeoutError: browserType.launch: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/0l/ybhrjnlj0l531tqf6f17fg840000gn/T/playwright_firefoxdev_profile-ROU0V5 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=4566\u001b[22m\n\u001b[2m  - [pid=4566][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=4566][err] sandbox_extension_issue_file_to_process failed for /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)\u001b[22m\n\u001b[2m  - [pid=4566][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=3.75) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt\u001b[22m\n"
+                  },
+                  "errors": [
+                    {
+                      "message": "TimeoutError: browserType.launch: Timeout 20000ms exceeded.\nCall log:\n\u001b[2m  - <launching> /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/firefox -no-remote -headless -profile /var/folders/0l/ybhrjnlj0l531tqf6f17fg840000gn/T/playwright_firefoxdev_profile-ROU0V5 -juggler-pipe -silent\u001b[22m\n\u001b[2m  - <launched> pid=4566\u001b[22m\n\u001b[2m  - [pid=4566][err] *** You are running in headless mode.\u001b[22m\n\u001b[2m  - [pid=4566][err] sandbox_extension_issue_file_to_process failed for /Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers/firefox-1490/firefox/Nightly.app/Contents/MacOS/plugin-container.app: 1 (Operation not permitted)\u001b[22m\n\u001b[2m  - [pid=4566][out] Crash Annotation GraphicsCriticalError: |[0][GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt (t=3.75) [GFX1-]: RenderCompositorSWGL failed mapping default framebuffer, no dt\u001b[22m\n"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T12:46:03.651Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers-evidence/firefox-results/real-api-real-data-at-thre-736e0-t-search-graph-and-evidence/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "bff9f93591f4f76f85b5-ed7809cbd90fb6a9ef04",
+          "file": "real-api.spec.ts",
+          "line": 11,
+          "column": 5
+        },
+        {
+          "title": "real boundary, isolated seed, arbitrary gids, source totals and cluster",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "interrupted",
+                  "duration": 1,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-09-23T12:46:24.223Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/mrxfsociety/Documents/Codex/2026-09-23/new-chat/work/audit-browsers-evidence/firefox-results/real-api-real-boundary-iso-28d96-s-source-totals-and-cluster/trace.zip"
+                    }
+                  ]
+                }
+              ],
+              "status": "skipped"
+            }
+          ],
+          "id": "bff9f93591f4f76f85b5-04724c95e3b2fb82f98e",
+          "file": "real-api.spec.ts",
+          "line": 49,
+          "column": 5
+        },
+        {
+          "title": "real CSV downloads match the API and published result files byte for byte",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "bff9f93591f4f76f85b5-f1d35a34e7e40af48e13",
+          "file": "real-api.spec.ts",
+          "line": 79,
+          "column": 5
+        },
+        {
+          "title": "real entry and broad cluster overview, focus and expanded graph in both themes",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [],
+              "status": "skipped"
+            }
+          ],
+          "id": "bff9f93591f4f76f85b5-315a06e615cbc647e488",
+          "file": "real-api.spec.ts",
+          "line": 97,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-09-23T12:45:38.889Z",
+    "duration": 57010.656,
+    "expected": 0,
+    "skipped": 3,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}
