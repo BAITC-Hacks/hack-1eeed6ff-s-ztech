@@ -1,0 +1,87 @@
+{
+  "started_at": "2026-09-23T12:07:55.330738+00:00",
+  "clone_source": "https://github.com/BAITC-Hacks/hack-1eeed6ff-s-ztech.git",
+  "env_file_present": false,
+  "commands": [
+    {
+      "command": "sandbox-exec -f web/scripts/offline-macos.sb .venv/bin/python run.py --pipeline-only --out work/hour-5-verify",
+      "seconds": 1.8489997501019388,
+      "stdout": {
+        "status": "ready",
+        "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+        "counts": {
+          "nodes": 2248,
+          "edges": 3119,
+          "transactions": 4840,
+          "seeds": 81,
+          "isolates": 19,
+          "boundary": 444,
+          "clusters": 89
+        },
+        "pipeline_wall_seconds": 1.103578,
+        "out": "/Users/bahytzanmeiram/Documents/Codex/2026-09-23/new-chat/work/neverlose/work/release-clean-1706/work/hour-5-verify"
+      }
+    },
+    {
+      "command": "sandbox-exec -f web/scripts/offline-macos.sb .venv/bin/python run.py --verify-only --out work/hour-5-verify",
+      "seconds": 1.0564639999065548,
+      "stdout": {
+        "status": "valid",
+        "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+        "nodes": 2248,
+        "clusters": 89,
+        "top_nodes": 50
+      }
+    }
+  ],
+  "sha": "f45632fdab6af0c5eb368a6fc537ce70cdff5622",
+  "remote_main": "f45632fdab6af0c5eb368a6fc537ce70cdff5622",
+  "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+  "counts": {
+    "nodes": 2248,
+    "edges": 3119,
+    "transactions": 4840,
+    "seeds": 81,
+    "isolates": 19,
+    "boundary": 444,
+    "clusters": 89
+  },
+  "features": {
+    "brief": true,
+    "removal": true,
+    "temporal": false,
+    "agent": false
+  },
+  "csv": {
+    "nodes_roles.csv": {
+      "rows": 2248,
+      "sha256": "d2ed563d2764d1afa4e0115e56123cad9569e14a779acc8efe98f79329bab759",
+      "equals_tracked_and_served": true
+    },
+    "clusters.csv": {
+      "rows": 89,
+      "sha256": "659391a8cf1d6e6c564578a6459ee3e6ead42de25a96431af8baf5a1839d0891",
+      "equals_tracked_and_served": true
+    },
+    "top_nodes.csv": {
+      "rows": 50,
+      "sha256": "8718df3b8b7e78332661300c4b66de382e36464b82c18197940e091457e5c445",
+      "equals_tracked_and_served": true
+    }
+  },
+  "agent_disabled_http_status": 503,
+  "finished_at": "2026-09-23T12:07:59.541278+00:00",
+  "clean_venv_runtime_install": "requirements.lock; pip check PASS; normal launch succeeded before dev packages were installed",
+  "clean_venv_dev_install": "requirements-dev.lock per README; pip check PASS",
+  "clean_backend_tests": {
+    "passed": 133,
+    "seconds": 5.73
+  },
+  "clean_real_browser": {
+    "passed": 4,
+    "seconds": 11.4,
+    "server_port": 8009,
+    "network": "external connections denied separately for server and Chromium"
+  },
+  "test_setup_note": "Initial pytest invocation before installing dev requirements reported No module named pytest; README correctly lists requirements-dev.lock, installed before accepted run."
+}

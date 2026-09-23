@@ -112,3 +112,7 @@ Claude-ревью, переданное пользователем, провер
 ## 2026-09-23T17:06:02+05:00 — интеграция B6 7de8a2b с55be1e0
 
 ReviewготовогоэтапаB: backend/APIнеизменены, историясохраненаmerge. Разрешены App/demo/dist конфликты: сохранены Welcome, графическиережимыB иагентA; дубликатлегендыAубран,легендаBсохранена. Build/33unitPASS. Browser60cases:58прошли,2старыхcanvasкоординатыадаптированыпослеснимка;повтор2PASS5.2s. 4realofflineintegrationPASS10.5s, CSVсравнены/API/файлы. Свежиедветемысмотрены; открытиепанели0POST. Новыхплатныхвопросовнет. Подробный [report](hackalem/evidence/b6-agent-a/report.json) включаетусловияисбойтеста; отдельныйcleancloneследующий.
+
+## 2026-09-23T17:14:50+05:00 — чистый clone официального main
+
+SHA `f45632fdab6af0c5eb368a6fc537ce70cdff5622` совпал с remote main. Новый venv, runtime lock/pip check/обычный запуск без .env, затем dev lock по README. Pipeline1.103578s, verifyvalid2248/89/50. Три CSV равны свежему расчёту, tracked результатам, API и фактически сохранённым браузером файлам. 133PythonPASS5.73s и4real browserPASS11.4s, сервер/Chromium с запрещённой внешней сетью. Исходный вызов pytest до установки dev lock не засчитан; README содержит правильный порядок. [Полный отчёт](progress/hour-5.md),[машинное evidence](hackalem/evidence/hour-5-a/report.json). Последующие изменения этого отчёта не меняют код принятого приложения.
