@@ -1,0 +1,135 @@
+{
+  "baseline_run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+  "baseline_clusters": 89,
+  "method": "One configured threshold family at a time; diagnostic, no parameter fitting",
+  "variants": [
+    {
+      "variant": "consolidator_min2",
+      "changed_roles": 112,
+      "changed_fraction": 0.0498220640569395,
+      "top20_overlap": 20,
+      "clusters": 89,
+      "duration_seconds": 0.851,
+      "role_counts": {
+        "consolidator": 225,
+        "distributor": 95,
+        "coordinator": 8,
+        "transit": 60,
+        "peripheral": 782,
+        "terminal": 1078
+      }
+    },
+    {
+      "variant": "consolidator_min4",
+      "changed_roles": 56,
+      "changed_fraction": 0.02491103202846975,
+      "top20_overlap": 20,
+      "clusters": 89,
+      "duration_seconds": 0.855,
+      "role_counts": {
+        "consolidator": 57,
+        "distributor": 109,
+        "coordinator": 8,
+        "transit": 66,
+        "peripheral": 930,
+        "terminal": 1078
+      }
+    },
+    {
+      "variant": "distributor_min4",
+      "changed_roles": 20,
+      "changed_fraction": 0.008896797153024912,
+      "top20_overlap": 20,
+      "clusters": 89,
+      "duration_seconds": 0.75,
+      "role_counts": {
+        "consolidator": 112,
+        "distributor": 122,
+        "coordinator": 8,
+        "transit": 63,
+        "peripheral": 865,
+        "terminal": 1078
+      }
+    },
+    {
+      "variant": "distributor_min6",
+      "changed_roles": 20,
+      "changed_fraction": 0.008896797153024912,
+      "top20_overlap": 20,
+      "clusters": 89,
+      "duration_seconds": 0.837,
+      "role_counts": {
+        "consolidator": 113,
+        "distributor": 82,
+        "coordinator": 8,
+        "transit": 64,
+        "peripheral": 903,
+        "terminal": 1078
+      }
+    },
+    {
+      "variant": "ratio_expanded",
+      "changed_roles": 11,
+      "changed_fraction": 0.004893238434163701,
+      "top20_overlap": 20,
+      "clusters": 89,
+      "duration_seconds": 0.768,
+      "role_counts": {
+        "consolidator": 113,
+        "distributor": 102,
+        "coordinator": 8,
+        "transit": 74,
+        "peripheral": 873,
+        "terminal": 1078
+      }
+    },
+    {
+      "variant": "ratio_narrowed",
+      "changed_roles": 9,
+      "changed_fraction": 0.00400355871886121,
+      "top20_overlap": 20,
+      "clusters": 89,
+      "duration_seconds": 0.779,
+      "role_counts": {
+        "consolidator": 113,
+        "distributor": 102,
+        "coordinator": 8,
+        "transit": 54,
+        "peripheral": 893,
+        "terminal": 1078
+      }
+    },
+    {
+      "variant": "louvain_0.8",
+      "changed_roles": 0,
+      "changed_fraction": 0.0,
+      "top20_overlap": 20,
+      "clusters": 83,
+      "duration_seconds": 0.857,
+      "role_counts": {
+        "consolidator": 113,
+        "distributor": 102,
+        "coordinator": 8,
+        "transit": 63,
+        "peripheral": 884,
+        "terminal": 1078
+      }
+    },
+    {
+      "variant": "louvain_1.2",
+      "changed_roles": 0,
+      "changed_fraction": 0.0,
+      "top20_overlap": 20,
+      "clusters": 98,
+      "duration_seconds": 0.784,
+      "role_counts": {
+        "consolidator": 113,
+        "distributor": 102,
+        "coordinator": 8,
+        "transit": 63,
+        "peripheral": 884,
+        "terminal": 1078
+      }
+    }
+  ]
+}

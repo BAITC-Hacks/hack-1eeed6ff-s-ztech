@@ -1,7 +1,7 @@
-# Состояние — 2026-09-23T14:51:09+05:00
+# Состояние — 2026-09-23T15:03:58+05:00
 
-A0–A3: ядро/CSV/API/CLI готовы; 61 тест, lint, compileall, pip check проходят. Raw→CSV 0.883114 s; 2248/3119/4840, 89 clusters, 50 top. Настоящий HTTP smoke выполнен. UI/CSV/API используют один run_id; контракты в contracts/.
+A0–A3 готовы: 78 backend-тестов после исправлений read-only review; exact CSV/API snapshot, построчная raw-проверка, безопасный recovery. 2248/3119/4840, 89 clusters, 50 top. Восемь sensitivity-вариантов проверены; дефолт не менялся.
 
-Алишер: B1 7266a72, контракт принят, первая совместимость проверена read-only. Следующий шаг — merge B1, UI build/tests и ожидание его B2/B3, затем полная приёмка. Полный UI/browser/clean clone/offline-runtime ещё не подтверждены; подача не выполнена.
+B1 объединён (01f3216), npm ci/test/build выполнены на A, 12 PASS. Реальная карточка UI/API проверена в браузере. B2 e63e343 обнаружен и интегрируется; B3 ещё ожидается. Чужой web не редактируется.
 
-Журналы: docs/progress/A.md, docs/progress/B.md.
+Полный G3, clean clone на втором ноутбуке, offline smoke, демо и подача пока не подтверждены. Журналы: docs/progress/A.md, docs/progress/B.md; evidence: docs/validation.md.

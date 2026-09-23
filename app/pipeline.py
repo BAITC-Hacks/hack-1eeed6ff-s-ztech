@@ -1,14 +1,17 @@
 """One validated calculation supplies CSV, API and UI. No online services."""
 
 import csv
+import io
 import json
 import os
+import shutil
 import tempfile
 from datetime import datetime, timezone
 from hashlib import sha256
 from importlib.metadata import version
 from pathlib import Path
 from time import perf_counter
+from uuid import uuid4
 
 import networkx as nx
 
@@ -80,12 +83,21 @@ def export_rows(snapshot):
     return dict(zip(CSV_COLUMNS, (nodes, clusters, top)))
 
 
-def _write_outputs(snapshot, stage):
+def export_bytes(snapshot):
+    """Encode CSV from this snapshot only; never bind API exports to mutable disk."""
+    result = {}
     for name, rows in export_rows(snapshot).items():
-        with (stage / name).open("w", encoding="utf-8", newline="") as handle:
-            writer = csv.DictWriter(handle, fieldnames=CSV_COLUMNS[name], lineterminator="\n")
-            writer.writeheader()
-            writer.writerows(rows)
+        handle = io.StringIO(newline="")
+        writer = csv.DictWriter(handle, fieldnames=CSV_COLUMNS[name], lineterminator="\n")
+        writer.writeheader()
+        writer.writerows(rows)
+        result[name] = handle.getvalue().encode("utf-8")
+    return result
+
+
+def _write_outputs(snapshot, stage):
+    for name, contents in export_bytes(snapshot).items():
+        (stage / name).write_bytes(contents)
     (stage / "snapshot.json").write_bytes(canonical_json(snapshot) + b"\n")
     manifest = dict(
         run_id=snapshot["run_id"],
@@ -209,15 +221,24 @@ def run_pipeline(
             # Include validation and complete CSV serialization in the recorded duration.
             snapshot["meta"]["duration_seconds"] = perf_counter() - start
             _write_outputs(snapshot, stage)
-            backup = Path(temporary) / "previous"
-            if out.exists():
-                os.replace(out, backup)
+            # A failed rollback must not let TemporaryDirectory delete the prior run.
+            backup = out.parent / f".{out.name}-recovery-{uuid4().hex}"
             try:
+                if out.exists():
+                    os.replace(out, backup)
                 os.replace(stage, out)
-            except BaseException:
+            except BaseException as publication_error:
                 if backup.exists():
-                    os.replace(backup, out)
-                raise
+                    try:
+                        os.replace(backup, out)
+                    except OSError as recovery_error:
+                        raise OSError(
+                            f"Result activation failed; previous result preserved at {backup.resolve()}. "
+                            "Restore that directory after resolving the filesystem error."
+                        ) from recovery_error
+                raise publication_error
+            if backup.exists():
+                shutil.rmtree(backup)
         return snapshot
     finally:
         lock_path.unlink(missing_ok=True)
@@ -262,8 +283,56 @@ def verify_outputs(
         raise ValueError("Node set differs from raw identifiers")
     node_map = {n["gid"]: n for n in nodes}
     g = build_graph(ds)
+    expected_transfers = [
+        dict(
+            src=str(src),
+            dst=str(dst),
+            date=date,
+            sum_kzt=kzt(int(amount)),
+            source_row=int(row),
+            source_ref=ref,
+        )
+        for src, dst, date, amount, row, ref in ds.transactions[
+            ["src", "dst", "date", "sum_tiyin", "source_row", "source_ref"]
+        ].itertuples(index=False, name=None)
+    ]
+    if snap["transfers"] != expected_transfers:
+        raise ValueError("Snapshot transfer rows differ from raw source")
+    expected_edges = [
+        dict(src=str(src), dst=str(dst), sum_kzt=kzt(int(amount)), n_tx=int(count))
+        for src, dst, amount, count in ds.edges[["src", "dst", "sum_tiyin", "n_tx"]].itertuples(
+            index=False, name=None
+        )
+    ]
+    if snap["edges"] != expected_edges:
+        raise ValueError("Snapshot graph edges differ from raw aggregates")
     for node in nodes:
         gid = int(node["gid"])
+        incoming = list(g.in_edges(gid, data=True))
+        outgoing = list(g.out_edges(gid, data=True))
+        facts = dict(
+            depth=g.nodes[gid]["depth"],
+            is_seed=g.nodes[gid]["is_seed"],
+            in_degree=len(incoming),
+            out_degree=len(outgoing),
+            in_tx=sum(d["n_tx"] for _, _, d in incoming),
+            out_tx=sum(d["n_tx"] for _, _, d in outgoing),
+        )
+        if any(node[key] != value for key, value in facts.items()):
+            raise ValueError(f"Node facts differ from raw: {gid}")
+        input_total = sum(d["sum_tiyin"] for _, _, d in incoming)
+        output_total = sum(d["sum_tiyin"] for _, _, d in outgoing)
+        flag_conditions = [
+            ("boundary", facts["depth"] == 4 and not outgoing),
+            ("isolated", not incoming and not outgoing),
+            ("seed_inflow_incomplete", facts["is_seed"]),
+            ("out_exceeds_in", output_total > input_total),
+            ("low_observation", facts["in_tx"] + facts["out_tx"] <= 1),
+        ]
+        if node["flags"] != [key for key, applies in flag_conditions if applies]:
+            raise ValueError(f"Node flags differ from raw: {gid}")
+        if node["observed_ratio"] != (output_total / input_total if input_total else None):
+            raise ValueError(f"Node observed ratio differs from raw: {gid}")
         if node["role"] not in ROLE_NAMES or not 0 < len(node["evidence"]) <= 200:
             raise ValueError("Invalid node role/evidence")
         if not all(
