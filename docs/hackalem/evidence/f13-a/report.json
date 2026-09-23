@@ -1,0 +1,37 @@
+{
+  "checked_at": "2026-09-23T16:06:49+05:00",
+  "implementation_base": "51d6d03",
+  "source_sha256": {
+    "app/assistant.py": "65fffa5953e099eaff855854e6c8fa803798907271f966290fa400ebf53f0b0d",
+    "app/api.py": "34ffbad4825a3782f62d11333ebc460435712129054f65037e56f2c9c86a6660",
+    "run.py": "6861950f4afc833be983ee67fe59c296ab7931ce92133e5fcac6dd8139a50f3b"
+  },
+  "model": "gpt-5.4-mini-2026-03-17",
+  "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
+  "live_questions": 4,
+  "total_usage": {
+    "model_calls": 12,
+    "input_tokens": 30805,
+    "output_tokens": 1024
+  },
+  "http_seconds": {
+    "node": 11.063,
+    "boundary": 8.331
+  },
+  "first_loop_seconds": 8.379,
+  "protocol_tests": 25,
+  "all_backend_tests": 130,
+  "csv_unchanged": true,
+  "limitations": [
+    "API/CLI only; no assistant UI.",
+    "Live tests are four scoped questions, not a semantic accuracy benchmark.",
+    "Billing amount not read; tokens are provider-reported.",
+    "No secrets or internal model reasoning in evidence."
+  ],
+  "offline_real_browser_tests": {
+    "passed": 3,
+    "seconds": 4.8,
+    "server_pipeline_seconds": 0.936258,
+    "isolation": "macOS sandbox-exec forbids external networking for server and Chromium; localhost allowed"
+  }
+}

@@ -1,5 +1,4 @@
 {
-  "synthetic": false,
   "request": {
     "gids": [
       "100000008346837100",
@@ -8,7 +7,7 @@
     ]
   },
   "response": {
-    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
     "method": "weak_components_remaining_nodes",
     "removed_gids": [
       "100000003684369100",

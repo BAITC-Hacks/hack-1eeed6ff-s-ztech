@@ -5,14 +5,16 @@ from collections import defaultdict
 from functools import lru_cache
 from pathlib import Path
 from typing import Literal
+from urllib.parse import urlsplit
 
 import networkx as nx
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Request
 from fastapi import Path as ApiPath
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, Response
 from starlette.exceptions import HTTPException
 
+from app.assistant import AgentAnswer, AgentError, AgentQuery
 from app.experiments import simulate_removal
 from app.explain import ROLE_LABELS, kzt, parse_kzt
 from app.pipeline import export_bytes as snapshot_export_bytes
@@ -37,7 +39,9 @@ class ApiError(Exception):
         self.status, self.code, self.message, self.details = status, code, message, details or {}
 
 
-def create_app(snapshot: dict, out: Path, web_dist: Path | None = None) -> FastAPI:
+def create_app(
+    snapshot: dict, out: Path, web_dist: Path | None = None, *, assistant=None
+) -> FastAPI:
     app = FastAPI(title="Neverlose · Граф денег", version="1", docs_url=None, redoc_url=None)
     run_id = snapshot["run_id"]
     nodes = [NodeDetail.model_validate(n).model_dump() for n in snapshot["nodes"]]
@@ -85,6 +89,10 @@ def create_app(snapshot: dict, out: Path, web_dist: Path | None = None) -> FastA
     async def known_error(request, exc):
         return error_response(exc.status, exc.code, exc.message, exc.details)
 
+    @app.exception_handler(AgentError)
+    async def assistant_error(request, exc):
+        return error_response(exc.status, exc.code, exc.message)
+
     @app.exception_handler(RequestValidationError)
     async def invalid_request(request, exc):
         return error_response(
@@ -129,7 +137,38 @@ def create_app(snapshot: dict, out: Path, web_dist: Path | None = None) -> FastA
 
     @app.get("/api/v1/meta")
     def meta():
-        return snapshot["meta"]
+        return dict(
+            snapshot["meta"],
+            features=dict(snapshot["meta"]["features"], agent=assistant is not None),
+        )
+
+    @app.post("/api/v1/agent/query", response_model=AgentAnswer)
+    def agent_query(body: AgentQuery, request: Request):
+        if assistant is None:
+            raise ApiError(
+                503,
+                "AGENT_DISABLED",
+                "Помощник выключен. Основной сценарий работает локально без API-ключа.",
+            )
+        origin = request.headers.get("origin")
+        try:
+            same_origin = not origin or (
+                urlsplit(origin).netloc == request.url.netloc
+                and urlsplit(origin).scheme == request.url.scheme
+            )
+        except ValueError:
+            same_origin = False
+        if request.url.hostname not in {"127.0.0.1", "localhost", "::1"} or not same_origin:
+            raise ApiError(
+                403,
+                "AGENT_ORIGIN_DENIED",
+                "Запрос помощнику разрешён только из локального рабочего места.",
+            )
+        if request.headers.get("content-type", "").split(";", 1)[0] != "application/json":
+            raise ApiError(422, "INVALID_PARAMETER", "Требуется application/json.")
+        if body.gid is not None:
+            node(body.gid)
+        return assistant.ask(body.question, body.gid)
 
     @lru_cache(maxsize=128)
     def removal_result(calculation_run: str, selected: tuple[str, ...]):

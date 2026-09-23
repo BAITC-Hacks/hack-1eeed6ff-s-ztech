@@ -1,11 +1,11 @@
 {
   "synthetic": false,
-  "notice": "Реальный расчёт официальных данных",
+  "notice": "Реальные ответы локального API, алгоритм 1.0.1; agent выключен в основном режиме.",
   "meta": {
-    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
     "schema_version": "1",
     "config_version": "v1",
-    "algorithm_version": "1.0.0",
+    "algorithm_version": "1.0.1",
     "counts": {
       "nodes": 2248,
       "edges": 3119,
@@ -46,11 +46,11 @@
       "temporal": false,
       "agent": false
     },
-    "generated_at": "2026-09-23T10:17:47.733715+00:00",
-    "duration_seconds": 0.7518087499774992
+    "generated_at": "2026-09-23T11:04:16.550641+00:00",
+    "duration_seconds": 0.8217229170259088
   },
   "nodes": {
-    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
     "items": [
       {
         "gid": "100000008346837100",
@@ -91,11 +91,608 @@
         "flags": [
           "out_exceeds_in"
         ]
+      },
+      {
+        "gid": "100000008603629100",
+        "role": "consolidator",
+        "role_score": 0.9975067996373527,
+        "cluster_id": 4,
+        "priority_score": 0.9008934786749848,
+        "evidence": "Признаки консолидации. Вход 19: 1817300.00 KZT; выход 61: 4986156.00 KZT; seed-путей 4.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008710791100",
+        "role": "distributor",
+        "role_score": 0.9959654178674352,
+        "cluster_id": 9,
+        "priority_score": 0.8988148690540309,
+        "evidence": "Признаки распределения. Вход 3: 181510.00 KZT; выход 23: 5521511.00 KZT; seed-путей 5.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000003115284100",
+        "role": "consolidator",
+        "role_score": 0.9984134179510427,
+        "cluster_id": 12,
+        "priority_score": 0.8969514297557162,
+        "evidence": "Признаки консолидации. Вход 8: 2160500.00 KZT; выход 2: 517000.00 KZT; seed-путей 9.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": []
+      },
+      {
+        "gid": "100000000331309100",
+        "role": "distributor",
+        "role_score": 1.0,
+        "cluster_id": 6,
+        "priority_score": 0.891791234922988,
+        "evidence": "Признаки распределения. Вход 5: 984635.00 KZT; выход 99: 23001375.00 KZT; seed-путей 4.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000005910114100",
+        "role": "distributor",
+        "role_score": 0.932536023054755,
+        "cluster_id": 1,
+        "priority_score": 0.88924779957178,
+        "evidence": "Признаки распределения. Вход 3: 326144.00 KZT; выход 19: 1469993.00 KZT; seed-путей 4.",
+        "depth": 3,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008512827100",
+        "role": "distributor",
+        "role_score": 0.6752161383285302,
+        "cluster_id": 14,
+        "priority_score": 0.8867948490469242,
+        "evidence": "Признаки распределения. Вход 3: 107949.00 KZT; выход 10: 1944500.00 KZT; seed-путей 5.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000007908818100",
+        "role": "consolidator",
+        "role_score": 0.7644605621033544,
+        "cluster_id": 4,
+        "priority_score": 0.8863795065187434,
+        "evidence": "Признаки консолидации. Вход 4: 727475.00 KZT; выход 6: 302000.00 KZT; seed-путей 8.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": []
+      },
+      {
+        "gid": "100000001530983100",
+        "role": "consolidator",
+        "role_score": 0.7599274705349048,
+        "cluster_id": 5,
+        "priority_score": 0.874818041675174,
+        "evidence": "Признаки консолидации. Вход 4: 564158.00 KZT; выход 11: 1829538.00 KZT; seed-путей 5.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000000343175100",
+        "role": "distributor",
+        "role_score": 0.65,
+        "cluster_id": 12,
+        "priority_score": 0.87371347003325,
+        "evidence": "Признаки распределения. Вход 8: 178712.00 KZT; выход 31: 4000039.00 KZT; seed-путей 4.",
+        "depth": 0,
+        "is_seed": true,
+        "flags": [
+          "seed_inflow_incomplete",
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000000437046100",
+        "role": "distributor",
+        "role_score": 0.9971181556195965,
+        "cluster_id": 1,
+        "priority_score": 0.8727889789945751,
+        "evidence": "Признаки распределения. Вход 9: 1107200.00 KZT; выход 42: 7606224.00 KZT; seed-путей 4.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000005527892100",
+        "role": "coordinator",
+        "role_score": 0.55,
+        "cluster_id": 18,
+        "priority_score": 0.8715983959390052,
+        "evidence": "Структурный кандидат на координацию. Вход 3: 220001.00 KZT; выход 8: 552419.00 KZT; seed-путей 4.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008743913100",
+        "role": "distributor",
+        "role_score": 0.7623342939481268,
+        "cluster_id": 18,
+        "priority_score": 0.8701590706094544,
+        "evidence": "Признаки распределения. Вход 3: 149300.00 KZT; выход 13: 1850600.00 KZT; seed-путей 6.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000002957787100",
+        "role": "distributor",
+        "role_score": 0.955043227665706,
+        "cluster_id": 1,
+        "priority_score": 0.8685549373748036,
+        "evidence": "Признаки распределения. Вход 4: 84956.00 KZT; выход 34: 1276153.96 KZT; seed-путей 4.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000005074393100",
+        "role": "consolidator",
+        "role_score": 0.7598141432456935,
+        "cluster_id": 13,
+        "priority_score": 0.8604891239567576,
+        "evidence": "Признаки консолидации. Вход 4: 563026.00 KZT; выход 6: 685500.00 KZT; seed-путей 6.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008477350100",
+        "role": "distributor",
+        "role_score": 0.9878962536023055,
+        "cluster_id": 1,
+        "priority_score": 0.8551264491999642,
+        "evidence": "Признаки распределения. Вход 11: 610100.00 KZT; выход 39: 3374866.00 KZT; seed-путей 3.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000006866783100",
+        "role": "consolidator",
+        "role_score": 0.65,
+        "cluster_id": 1,
+        "priority_score": 0.850399465732406,
+        "evidence": "Признаки консолидации. Вход 13: 838812.00 KZT; выход 67: 3948037.00 KZT; seed-путей 3.",
+        "depth": 0,
+        "is_seed": true,
+        "flags": [
+          "seed_inflow_incomplete",
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000004156082100",
+        "role": "distributor",
+        "role_score": 0.9792507204610951,
+        "cluster_id": 16,
+        "priority_score": 0.8469866749941936,
+        "evidence": "Признаки распределения. Вход 5: 377366.11 KZT; выход 26: 2319556.00 KZT; seed-путей 4.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000007442518100",
+        "role": "consolidator",
+        "role_score": 0.8139109247506799,
+        "cluster_id": 30,
+        "priority_score": 0.8417258387861785,
+        "evidence": "Признаки консолидации. Вход 5: 510000.00 KZT; выход 9: 4419999.00 KZT; seed-путей 4.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000004351795100",
+        "role": "distributor",
+        "role_score": 0.7894524495677233,
+        "cluster_id": 1,
+        "priority_score": 0.8379390158307016,
+        "evidence": "Признаки распределения. Вход 3: 118333.00 KZT; выход 14: 1715161.00 KZT; seed-путей 3.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008489922100",
+        "role": "distributor",
+        "role_score": 0.9890489913544669,
+        "cluster_id": 9,
+        "priority_score": 0.8342052550032164,
+        "evidence": "Признаки распределения. Вход 3: 262010.00 KZT; выход 36: 3789900.00 KZT; seed-путей 3.",
+        "depth": 3,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000001857829100",
+        "role": "consolidator",
+        "role_score": 0.8799070716228468,
+        "cluster_id": 4,
+        "priority_score": 0.8334222033980774,
+        "evidence": "Признаки консолидации. Вход 6: 888535.00 KZT; выход 16: 2390993.00 KZT; seed-путей 3.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008710843100",
+        "role": "distributor",
+        "role_score": 0.765792507204611,
+        "cluster_id": 18,
+        "priority_score": 0.831898342017413,
+        "evidence": "Признаки распределения. Вход 2: 33944.00 KZT; выход 13: 1985500.00 KZT; seed-путей 3.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008304139100",
+        "role": "distributor",
+        "role_score": 0.9688760806916427,
+        "cluster_id": 3,
+        "priority_score": 0.8311629752655618,
+        "evidence": "Признаки распределения. Вход 4: 189329.75 KZT; выход 24: 1692997.00 KZT; seed-путей 2.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008547844100",
+        "role": "distributor",
+        "role_score": 0.9463688760806916,
+        "cluster_id": 10,
+        "priority_score": 0.8307965134812345,
+        "evidence": "Признаки распределения. Вход 3: 177600.00 KZT; выход 19: 2042199.00 KZT; seed-путей 3.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008547948100",
+        "role": "distributor",
+        "role_score": 0.9948126801152738,
+        "cluster_id": 9,
+        "priority_score": 0.8258199999274372,
+        "evidence": "Признаки распределения. Вход 6: 212665.00 KZT; выход 26: 5185600.00 KZT; seed-путей 3.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000003016635100",
+        "role": "distributor",
+        "role_score": 0.65,
+        "cluster_id": 5,
+        "priority_score": 0.82274956139294,
+        "evidence": "Признаки распределения. Вход 8: 586981.00 KZT; выход 73: 9414081.00 KZT; seed-путей 3.",
+        "depth": 0,
+        "is_seed": true,
+        "flags": [
+          "seed_inflow_incomplete",
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008686313100",
+        "role": "consolidator",
+        "role_score": 0.8853467815049865,
+        "cluster_id": 1,
+        "priority_score": 0.8224067158612368,
+        "evidence": "Признаки консолидации. Вход 6: 1912716.00 KZT; выход 7: 333800.00 KZT; seed-путей 3.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": []
+      },
+      {
+        "gid": "100000004997515100",
+        "role": "consolidator",
+        "role_score": 0.7483680870353582,
+        "cluster_id": 9,
+        "priority_score": 0.8202934459412503,
+        "evidence": "Признаки консолидации. Вход 4: 395000.00 KZT; выход 4: 54500.00 KZT; seed-путей 5.",
+        "depth": 3,
+        "is_seed": false,
+        "flags": []
+      },
+      {
+        "gid": "100000001616816100",
+        "role": "consolidator",
+        "role_score": 0.65,
+        "cluster_id": 7,
+        "priority_score": 0.8160979572387572,
+        "evidence": "Признаки консолидации. Вход 5: 176195.00 KZT; выход 3: 181326.00 KZT; seed-путей 7.",
+        "depth": 0,
+        "is_seed": true,
+        "flags": [
+          "seed_inflow_incomplete",
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000004403675100",
+        "role": "coordinator",
+        "role_score": 0.55,
+        "cluster_id": 20,
+        "priority_score": 0.8145512386119006,
+        "evidence": "Структурный кандидат на координацию. Вход 4: 182980.00 KZT; выход 5: 264699.00 KZT; seed-путей 3.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000003635170100",
+        "role": "transit",
+        "role_score": 0.8049804760675718,
+        "cluster_id": 12,
+        "priority_score": 0.8133626593254413,
+        "evidence": "Признаки транзита. Вход 3: 268500.00 KZT; выход 4: 253500.00 KZT; seed-путей 5.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": []
+      },
+      {
+        "gid": "100000004400305100",
+        "role": "distributor",
+        "role_score": 0.9965417867435158,
+        "cluster_id": 1,
+        "priority_score": 0.8123915425629098,
+        "evidence": "Признаки распределения. Вход 7: 222800.00 KZT; выход 82: 5830181.00 KZT; seed-путей 2.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008733194100",
+        "role": "consolidator",
+        "role_score": 0.7326155938349954,
+        "cluster_id": 13,
+        "priority_score": 0.8105833369935127,
+        "evidence": "Признаки консолидации. Вход 4: 251424.00 KZT; выход 8: 159695.00 KZT; seed-путей 4.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": []
+      },
+      {
+        "gid": "100000008730846100",
+        "role": "consolidator",
+        "role_score": 0.8783601541251134,
+        "cluster_id": 12,
+        "priority_score": 0.8102351228556571,
+        "evidence": "Признаки консолидации. Вход 7: 155042.00 KZT; выход 3: 363370.00 KZT; seed-путей 4.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000007593823100",
+        "role": "coordinator",
+        "role_score": 0.55,
+        "cluster_id": 1,
+        "priority_score": 0.8051000040988197,
+        "evidence": "Структурный кандидат на координацию. Вход 3: 25000.00 KZT; выход 13: 162900.00 KZT; seed-путей 4.",
+        "depth": 3,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000003242289100",
+        "role": "distributor",
+        "role_score": 0.9809798270893372,
+        "cluster_id": 17,
+        "priority_score": 0.8046709608075282,
+        "evidence": "Признаки распределения. Вход 3: 550791.00 KZT; выход 23: 2377741.00 KZT; seed-путей 3.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000004070318100",
+        "role": "distributor",
+        "role_score": 0.8904610951008645,
+        "cluster_id": 1,
+        "priority_score": 0.8036921571984291,
+        "evidence": "Признаки распределения. Вход 4: 207246.55 KZT; выход 19: 551860.00 KZT; seed-путей 2.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000005782781100",
+        "role": "consolidator",
+        "role_score": 0.8266432456935631,
+        "cluster_id": 7,
+        "priority_score": 0.8035678824072674,
+        "evidence": "Признаки консолидации. Вход 6: 171888.00 KZT; выход 10: 1263597.00 KZT; seed-путей 3.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008465789100",
+        "role": "distributor",
+        "role_score": 0.8529106628242076,
+        "cluster_id": 10,
+        "priority_score": 0.8029808412060813,
+        "evidence": "Признаки распределения. Вход 1: 30099.00 KZT; выход 16: 1858100.00 KZT; seed-путей 3.",
+        "depth": 3,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000006889963100",
+        "role": "consolidator",
+        "role_score": 0.7714868540344515,
+        "cluster_id": 6,
+        "priority_score": 0.7963906576881911,
+        "evidence": "Признаки консолидации. Вход 4: 1431000.00 KZT; выход 1: 443475.80 KZT; seed-путей 9.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": []
+      },
+      {
+        "gid": "100000001899164100",
+        "role": "consolidator",
+        "role_score": 0.7379419764279238,
+        "cluster_id": 11,
+        "priority_score": 0.7946166518579563,
+        "evidence": "Признаки консолидации. Вход 4: 291675.00 KZT; выход 3: 76500.00 KZT; seed-путей 5.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": []
+      },
+      {
+        "gid": "100000005287097100",
+        "role": "distributor",
+        "role_score": 0.6019884726224785,
+        "cluster_id": 5,
+        "priority_score": 0.794076100059954,
+        "evidence": "Признаки распределения. Вход 2: 127173.00 KZT; выход 9: 697300.00 KZT; seed-путей 3.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008752616100",
+        "role": "distributor",
+        "role_score": 0.5638904899135446,
+        "cluster_id": 9,
+        "priority_score": 0.7888731440292202,
+        "evidence": "Признаки распределения. Вход 2: 64510.00 KZT; выход 7: 1265000.00 KZT; seed-путей 4.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000003701161100",
+        "role": "consolidator",
+        "role_score": 0.7718268359020852,
+        "cluster_id": 22,
+        "priority_score": 0.788327939834388,
+        "evidence": "Признаки консолидации. Вход 4: 1527103.00 KZT; выход 3: 349000.00 KZT; seed-путей 3.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": []
+      },
+      {
+        "gid": "100000004847758100",
+        "role": "distributor",
+        "role_score": 0.7629682997118155,
+        "cluster_id": 3,
+        "priority_score": 0.7881515435885607,
+        "evidence": "Признаки распределения. Вход 4: 115171.00 KZT; выход 15: 488800.00 KZT; seed-путей 2.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000005933757100",
+        "role": "distributor",
+        "role_score": 0.985014409221902,
+        "cluster_id": 15,
+        "priority_score": 0.7870635643000159,
+        "evidence": "Признаки распределения. Вход 4: 1246000.00 KZT; выход 34: 3002628.00 KZT; seed-путей 2.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000005048668100",
+        "role": "coordinator",
+        "role_score": 0.55,
+        "cluster_id": 4,
+        "priority_score": 0.786558451638541,
+        "evidence": "Структурный кандидат на координацию. Вход 2: 16668.00 KZT; выход 8: 159400.00 KZT; seed-путей 4.",
+        "depth": 3,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
       }
     ],
     "total": 2248,
     "offset": 0,
-    "limit": 3
+    "limit": 50
   },
   "node_detail": {
     "gid": "100000008346837100",
@@ -109,7 +706,7 @@
     "flags": [
       "out_exceeds_in"
     ],
-    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
     "in_degree": 9,
     "out_degree": 25,
     "in_kzt": "254359.00",
@@ -426,7 +1023,7 @@
     "why": "Наблюдаемый оборот: +28.6 пункта; Посредническая центральность: +25.0 пункта. Наблюдаемый выход больше входа; неизвестны внешние поступления и начальный остаток."
   },
   "graph": {
-    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
     "scope": {
       "mode": "ego",
       "gid": "100000008346837100",
@@ -1089,7 +1686,7 @@
       "100000008733194100"
     ],
     "hypothesis": "Гипотеза о связанной структуре: 52 узлов; преобладает профиль «Нет специфической роли» (32). Кластер не доказывает общую организацию.",
-    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
     "role_counts": {
       "consolidator": 5,
       "transit": 2,
@@ -1103,7 +1700,7 @@
     "cross_out_kzt": "354797.00"
   },
   "transfers": {
-    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
     "items": [
       {
         "source_ref": "tx:c30c5317b543:149",
@@ -1120,11 +1717,299 @@
         "dst": "100000003843844100",
         "date": "2026-07-02",
         "sum_kzt": "16680.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:252",
+        "source_row": 252,
+        "src": "100000008346837100",
+        "dst": "100000004351795100",
+        "date": "2026-07-03",
+        "sum_kzt": "29511.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:294",
+        "source_row": 294,
+        "src": "100000008346837100",
+        "dst": "100000005709551100",
+        "date": "2026-07-03",
+        "sum_kzt": "24560.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:787",
+        "source_row": 787,
+        "src": "100000008346837100",
+        "dst": "100000004877085100",
+        "date": "2026-07-06",
+        "sum_kzt": "25000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1019",
+        "source_row": 1019,
+        "src": "100000008346837100",
+        "dst": "100000002945031100",
+        "date": "2026-07-08",
+        "sum_kzt": "15000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1031",
+        "source_row": 1031,
+        "src": "100000008346837100",
+        "dst": "100000008088082100",
+        "date": "2026-07-08",
+        "sum_kzt": "39138.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1102",
+        "source_row": 1102,
+        "src": "100000008346837100",
+        "dst": "100000004340038100",
+        "date": "2026-07-08",
+        "sum_kzt": "9978.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1301",
+        "source_row": 1301,
+        "src": "100000008346837100",
+        "dst": "100000005910114100",
+        "date": "2026-07-10",
+        "sum_kzt": "92009.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1316",
+        "source_row": 1316,
+        "src": "100000008346837100",
+        "dst": "100000000534581100",
+        "date": "2026-07-10",
+        "sum_kzt": "8988.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1401",
+        "source_row": 1401,
+        "src": "100000008346837100",
+        "dst": "100000008571443100",
+        "date": "2026-07-10",
+        "sum_kzt": "40000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1417",
+        "source_row": 1417,
+        "src": "100000004070318100",
+        "dst": "100000008346837100",
+        "date": "2026-07-10",
+        "sum_kzt": "15000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1435",
+        "source_row": 1435,
+        "src": "100000004070318100",
+        "dst": "100000008346837100",
+        "date": "2026-07-10",
+        "sum_kzt": "25000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1441",
+        "source_row": 1441,
+        "src": "100000008346837100",
+        "dst": "100000008620570100",
+        "date": "2026-07-10",
+        "sum_kzt": "65000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1471",
+        "source_row": 1471,
+        "src": "100000008346837100",
+        "dst": "100000005053653100",
+        "date": "2026-07-11",
+        "sum_kzt": "33873.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1488",
+        "source_row": 1488,
+        "src": "100000008346837100",
+        "dst": "100000003724440100",
+        "date": "2026-07-11",
+        "sum_kzt": "25000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1543",
+        "source_row": 1543,
+        "src": "100000008346837100",
+        "dst": "100000006020215100",
+        "date": "2026-07-11",
+        "sum_kzt": "30000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1724",
+        "source_row": 1724,
+        "src": "100000004070318100",
+        "dst": "100000008346837100",
+        "date": "2026-07-12",
+        "sum_kzt": "10000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1727",
+        "source_row": 1727,
+        "src": "100000004070318100",
+        "dst": "100000008346837100",
+        "date": "2026-07-12",
+        "sum_kzt": "10059.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1728",
+        "source_row": 1728,
+        "src": "100000003796063100",
+        "dst": "100000008346837100",
+        "date": "2026-07-12",
+        "sum_kzt": "112000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1782",
+        "source_row": 1782,
+        "src": "100000008346837100",
+        "dst": "100000005074393100",
+        "date": "2026-07-13",
+        "sum_kzt": "81750.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:1828",
+        "source_row": 1828,
+        "src": "100000008346837100",
+        "dst": "100000005048668100",
+        "date": "2026-07-13",
+        "sum_kzt": "6500.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:2423",
+        "source_row": 2423,
+        "src": "100000005048668100",
+        "dst": "100000008346837100",
+        "date": "2026-07-16",
+        "sum_kzt": "7000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:2613",
+        "source_row": 2613,
+        "src": "100000008346837100",
+        "dst": "100000002736316100",
+        "date": "2026-07-17",
+        "sum_kzt": "29289.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:2751",
+        "source_row": 2751,
+        "src": "100000008346837100",
+        "dst": "100000000343175100",
+        "date": "2026-07-18",
+        "sum_kzt": "10000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:2907",
+        "source_row": 2907,
+        "src": "100000008121806100",
+        "dst": "100000008346837100",
+        "date": "2026-07-19",
+        "sum_kzt": "5000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:2965",
+        "source_row": 2965,
+        "src": "100000008346837100",
+        "dst": "100000008733194100",
+        "date": "2026-07-19",
+        "sum_kzt": "121344.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3001",
+        "source_row": 3001,
+        "src": "100000007593823100",
+        "dst": "100000008346837100",
+        "date": "2026-07-20",
+        "sum_kzt": "5800.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3025",
+        "source_row": 3025,
+        "src": "100000004569484100",
+        "dst": "100000008346837100",
+        "date": "2026-07-20",
+        "sum_kzt": "25000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3080",
+        "source_row": 3080,
+        "src": "100000008346837100",
+        "dst": "100000004004621100",
+        "date": "2026-07-20",
+        "sum_kzt": "25361.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3117",
+        "source_row": 3117,
+        "src": "100000008346837100",
+        "dst": "100000005074393100",
+        "date": "2026-07-20",
+        "sum_kzt": "247383.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3148",
+        "source_row": 3148,
+        "src": "100000008003034100",
+        "dst": "100000008346837100",
+        "date": "2026-07-20",
+        "sum_kzt": "28500.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3161",
+        "source_row": 3161,
+        "src": "100000008379273100",
+        "dst": "100000008346837100",
+        "date": "2026-07-20",
+        "sum_kzt": "5000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3207",
+        "source_row": 3207,
+        "src": "100000008346837100",
+        "dst": "100000003050771100",
+        "date": "2026-07-21",
+        "sum_kzt": "229000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3213",
+        "source_row": 3213,
+        "src": "100000008346837100",
+        "dst": "100000007593823100",
+        "date": "2026-07-21",
+        "sum_kzt": "5000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3257",
+        "source_row": 3257,
+        "src": "100000004188160100",
+        "dst": "100000008346837100",
+        "date": "2026-07-21",
+        "sum_kzt": "6000.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3274",
+        "source_row": 3274,
+        "src": "100000008346837100",
+        "dst": "100000006714366100",
+        "date": "2026-07-21",
+        "sum_kzt": "10500.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:3348",
+        "source_row": 3348,
+        "src": "100000008346837100",
+        "dst": "100000002818726100",
+        "date": "2026-07-22",
+        "sum_kzt": "10879.00"
       }
     ],
     "total": 38,
     "offset": 0,
-    "limit": 2,
+    "limit": 50,
     "direction": "all",
     "sum_kzt": "1513002.00",
     "in_kzt": "254359.00",
