@@ -47,6 +47,20 @@ Offline-runtime: macOS sandbox-exec с `(deny network-outbound)` и исключ
 
 Реальный HTTP smoke: 9.976 ms; 2245 оставшихся узлов, 152 removed edges, 1791630→1616490 connected pairs. Запрос/ответ в contracts/v1.removal.actual.json; evidence в docs/hackalem/evidence/e1-api.json. Три CSV неизменны. E1 UI пока не проверен и не объявляется реализованным.
 
+## R1 второго ноутбука и исправления README — 2026-09-23T15:22:07+05:00
+
+В 6507384 объединён отчёт B 9c4d973 и его архитектура/демо. Самостоятельный fresh SSH clone на Apple M2 / 8 CPU / 8 GiB / macOS 27.0, без копирования .venv/.env/node_modules: Python 78 PASS, frontend 18 PASS, contract E2E 12 PASS, real integration 3 PASS. OS запрещала внешнюю сеть серверу/Chromium; контроль EPERM/ERR_ACCESS_DENIED, localhost=200. Полный offline pipeline 0.901199 s, CSV/API/files совпали. Evidence: web/evidence/r1/clean-launch.json и network-proof.json. Это проверка B, подтверждённая его опубликованными командами и артефактами, не повторный замер на A.
+
+Замечания буквального README устранены: HTTPS/SSH варианты, интегрированная ветка, отдельная установка браузера, работающий web/dist. На A отдельный clone с Node 24.19.0 выполнил npm ci → 18 unit PASS → build; dist побайтово совпал. Архитектурная схема и демо-сценарий включены. G5 для обязательного MVP выполнен в этих пределах; E1 пока прошёл только backend-проверку.
+
 ## Остаётся до релиза
 
-Объединить R1 документацию B (9c4d973: второй ноутбук clean/offline проверен), принять/проверить optional E1 UI если успевает, окончательный SHA и подтверждение подачи. Устное демо человеком не измерено. E2/LLM не включены. G6 не заявляется.
+Принять optional E1 UI если успевает и повторить его сквозную проверку; зафиксировать окончательный SHA и подтверждение подачи. Устное демо человеком не измерено. E2/LLM не включены. G6 не заявляется.
+
+## Заключительная проверка main на A — 2026-09-23T15:28:38+05:00
+
+Новый clone **main dc99cf2857091c5e8086117f7ddd8be744e3e0fa**, отдельный venv, установка runtime/dev locks. Первый pipeline 5.273589 s; verify-only valid; 94 pytest PASS (1 известный warning), ruff/compileall/pip check PASS. Python run.py обслужил включённый web/dist без установки Node/npm в этот clone.
+
+Сервер и Chromium test process запущены под опубликованным B профилем web/scripts/offline-macos.sb: все 3 настоящих integration tests PASS за 4.2 s, три downloads совпали с API/файлами. E1 meta=true и реальный POST=200 также проверены на этом isolated server. После dc99cf2 до этой записи менялась только документация; приложение и locks не менялись. Evidence: docs/hackalem/evidence/release-a/.
+
+Финальный read-only README-review проверил команды/флаги/версии и 31 локальную Markdown-ссылку: битых ссылок и P0/P1 нет. Две устаревшие фразы про ожидающийся второй clone/R1 integration исправлены в 398b4b4. Скан tracked-files по сигнатурам private keys/GitHub/OpenAI tokens и личным окружениям не дал находок (это ограниченный scan, не гарантия отсутствия любого секрета).

@@ -1,0 +1,14 @@
+{
+  "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+  "counts": {
+    "nodes": 2248,
+    "edges": 3119,
+    "transactions": 4840,
+    "seeds": 81,
+    "isolates": 19,
+    "boundary": 444,
+    "clusters": 89
+  },
+  "gid": "100000008346837100",
+  "checkedAt": "2026-09-23T10:26:08.464Z"
+}

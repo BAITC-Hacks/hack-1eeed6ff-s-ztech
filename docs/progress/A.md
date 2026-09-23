@@ -62,3 +62,9 @@ TDD: новый tests/test_experiments.py сначала падал на отс�
 Независимый read-only reviewer дополнительно исчерпывающе проверил 448 удалений на всех 64 directed графах из трёх вершин; математика, края, immutable snapshot и cache eviction 128 совпали. Конкретных P0/P1/P2 не обнаружено. UI остаётся зоной B; до его проверки не объявлять E1 сквозной функцией. Реальный пример в contracts/v1.removal.actual.json.
 
 Получен R1 отчёт Алишера 9c4d973: настоящий clean clone второго ноутбука, 78 backend / 18 frontend / 12 contract / 3 real integration PASS с OS-изоляцией сети. Следующий шаг: интегрировать его docs/architecture.md и docs/demo.md, обновить финальный README, ждать готовую E1 панель в пределах 20 минут.
+
+## Заключительная приёмка и передача — 2026-09-23T15:28:38+05:00
+
+Main включает обязательный MVP, E1 API, B R1/R2 и исправленный README. Полный новый clone main dc99cf2: locks install, первый pipeline 5.273589 s, verify-only, 94 tests, lint/compileall/pip check PASS. 3 настоящих browser integration под OS network sandbox PASS (4.2 s), E1 POST=200, CSV неизменны. Source code/locks после этого не менялись; 398b4b4 исправил только две устаревшие документационные фразы. 31 README local link проверен read-only reviewer-ом, P0/P1 нет.
+
+Техническое демо B 141.218 s (без человеческой речи) и повторный clean README test B включены. Доступная интеграция B принята полностью; её web-код A не редактировал. Optional E1 UI не подключён, E2/LLM не включены. Подача капитаном ещё не подтверждена. Монитор origin/main/workspace-ui остаётся до 18:00 и сообщает только о значимых новых изменениях/конфликтах.
