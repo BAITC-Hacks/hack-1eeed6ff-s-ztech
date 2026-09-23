@@ -1,6 +1,6 @@
 # F13 — необязательный OpenAI-аналитик, аддитивный контракт v1
 
-Статус: backend/API/CLI реализованы и проверены на настоящем OpenAI API 23.09.2026. 25 protocol/failure tests, реальные вопросы и offline core прошли; UI агента ещё отсутствует. E1 UI остаётся у Алишера. Backend/CLI агента не требуют изменений обязательного UI. Не включать кнопку по одному наличию этого документа.
+Статус: backend/API/CLI и отдельная панель реализованы; реальные вопросы из браузера проверены 23.09.2026. Кнопка справа снизу доступна также в offline-режиме и честно показывает выключенное состояние. Протокол backend не изменён.
 
 Основной запуск остаётся `python run.py`, полностью offline после установки зависимостей. Опциональный режим: `python run.py --assistant`, локальные `OPENAI_API_KEY` и `OPENAI_MODEL` из окружения или исключённого из Git `.env`. Ключ серверный, никогда не отправляется в браузер, CSV, manifest или журнал инструментов. При обычном запуске `.env` не читается и никаких обращений к OpenAI нет.
 
@@ -33,6 +33,8 @@
 
 Ошибки в обычной `{error:{code,message,details},run_id}` оболочке: 403 `AGENT_ORIGIN_DENIED`, 503 `AGENT_DISABLED`, 429 `AGENT_BUSY`, 502 `AGENT_PROVIDER_ERROR`/`AGENT_INVALID_RESPONSE`, 504 `AGENT_TIMEOUT`, 422 `INVALID_PARAMETER`, 404 `NODE_NOT_FOUND`. Refusal/incomplete/budget exhaustion не превращаются в фиктивный успех. `meta.features.agent=true` только у явно активированного server process с ключом; это конфигурационная доступность, не гарантия доступности провайдера.
 
-CLI: `python run.py --ask "вопрос"` с теми же локальными настройками; печатает JSON ответа и trace, ключ не печатает. Выполненные проверки: поддельные ссылки/текст, неверные аргументы, отказ/timeout, bounded loop, semaphore recovery, неизменность snapshot/CSV, отдельный настоящий OpenAI smoke. UI агента не объявлять завершённым до отдельной реализации B и browser проверки.
+CLI: `python run.py --ask "вопрос"` с теми же локальными настройками; печатает JSON ответа и trace, ключ не печатает. Выполненные проверки: поддельные ссылки/текст, неверные аргументы, отказ/timeout, bounded loop, semaphore recovery, неизменность snapshot/CSV, отдельный настоящий OpenAI smoke. Панель A реализована по уточнённому поручению пользователя отдельно от визуальных файлов B: web/src/agent, два подключения в App. Проверены disabled/busy/retry, смена snapshot, закрытие/возврат без повторной отправки и поздний ответ после смены узла.
 
 Источники реализации: [function calling](https://developers.openai.com/api/docs/guides/function-calling), [structured outputs](https://developers.openai.com/api/docs/guides/structured-outputs), [data controls](https://developers.openai.com/api/docs/guides/your-data).
+
+Пределы задач: обзор — первые 5 лидеров, соседи — первые 20 связей без пагинации. Нет общего получателя набора счетов, поиска путей, произвольных вычислений и временных фильтров. Валидация источников не гарантирует семантическую полноту ответа. [Реальные browser evidence](../docs/hackalem/evidence/agent-ui-a/report.json).

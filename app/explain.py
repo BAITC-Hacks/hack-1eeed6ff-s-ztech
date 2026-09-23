@@ -1,6 +1,7 @@
 """Source-backed explanations and explicit limits of the observed graph."""
 
 from collections import Counter, defaultdict
+from decimal import Decimal
 
 from app.roles import ROLE_NAMES
 
@@ -88,10 +89,20 @@ def explain_node(node, transfers, run_id):
         evidence += " Изолят в срезе."
     if len(evidence) > 200:
         raise ValueError("Evidence exceeds 200 characters; shorten the explanation template")
-    major = sorted(node["priority_contributions"], key=lambda c: -c["contribution"])[:2]
-    why = "; ".join(f"{c['label']}: +{100 * c['contribution']:.1f} пункта" for c in major)
+    relation = (
+        f"выход/вход {Decimal(node['out_tiyin']) * 100 / Decimal(node['in_tiyin']):.1f}%"
+        if node["in_tiyin"]
+        else "вход не наблюдается; отношение не определено"
+    )
+    why = (
+        f"{ROLE_LABELS[node['role']]}: {node['in_degree']} плательщиков, "
+        f"{node['out_degree']} получателей; вход {kzt(node['in_tiyin'])} KZT, "
+        f"выход {kzt(node['out_tiyin'])} KZT; {relation} (наблюдаемый срез). "
+        f"Достижим от {node['seed_reach_count']} seed. "
+        "Это отношение потоков, не остаток и не трассировка тех же денег."
+    )
     if flags:
-        why += ". " + FLAG_TEXT[flags[0]]
+        why += " " + " ".join(FLAG_TEXT[flag] for flag in flags)
     detail = {
         k: v for k, v in node.items() if k not in {"in_tiyin", "out_tiyin", "isolated", "boundary"}
     }

@@ -1,0 +1,59 @@
+{
+  "checked_at": "2026-09-23T17:01:27+05:00",
+  "base_sha": "2e79ed4381d27ca6100d30d285e95ad34b2fae73",
+  "code": "changes in the commit containing this report",
+  "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+  "algorithm_version": "1.0.2",
+  "tests": {
+    "python": 133,
+    "frontend_unit": 31,
+    "browser_contract": 50,
+    "real_offline_integration": 3
+  },
+  "commands": [
+    ".venv/bin/python -m pytest -q",
+    ".venv/bin/ruff check app tests run.py",
+    "npm --prefix web test -- --run",
+    "npm --prefix web run build",
+    "PLAYWRIGHT_BROWSERS_PATH=../work/pw-browsers node node_modules/playwright/cli.js test",
+    "sandbox-exec -f web/scripts/offline-macos.sb .venv/bin/python run.py --out work/release-offline --port 8007",
+    "NEVERLOSE_BASE_URL=http://127.0.0.1:8007 NEVERLOSE_RESULTS=../work/release-offline sandbox-exec -f scripts/offline-macos.sb node node_modules/playwright/cli.js test --config playwright.integration.config.ts",
+    ".venv/bin/python run.py --pipeline-only",
+    ".venv/bin/python run.py --verify-only"
+  ],
+  "pipeline_wall_seconds": 1.601387,
+  "offline_pipeline_wall_seconds": 1.186223,
+  "counts": {
+    "nodes": 2248,
+    "edges": 3119,
+    "transactions": 4840,
+    "clusters": 89,
+    "top_nodes": 50
+  },
+  "csv_sha256": {
+    "nodes_roles.csv": "d2ed563d2764d1afa4e0115e56123cad9569e14a779acc8efe98f79329bab759",
+    "clusters.csv": "659391a8cf1d6e6c564578a6459ee3e6ead42de25a96431af8baf5a1839d0891",
+    "top_nodes.csv": "8718df3b8b7e78332661300c4b66de382e36464b82c18197940e091457e5c445"
+  },
+  "live_browser_questions": 2,
+  "live_model_calls": 5,
+  "live_tokens": {
+    "input": 12168,
+    "output": 539
+  },
+  "unchanged": [
+    "roles",
+    "scores",
+    "ranks",
+    "clusters",
+    "raw parquet",
+    "API schemas"
+  ],
+  "changed_output": "top_nodes.csv why only; version and run_id bumped",
+  "limitations": [
+    "A full ruff check . also visits untouched organizer starter and historic probe with two I001 warnings; production scope app tests run.py passes.",
+    "The historic source Claude critique claims Ubuntu acceptance without supplied logs; not counted as independently verified.",
+    "Agent grounding does not establish completeness for arbitrary questions; common recipient and path aggregation unsupported.",
+    "Clean-clone final acceptance is recorded separately after this commit is published."
+  ]
+}

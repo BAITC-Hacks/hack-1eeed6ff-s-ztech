@@ -10,6 +10,8 @@ import { Transfers } from './components/Transfers';
 import { Exports } from './components/Exports';
 import { Icon } from './components/Icon';
 import { applyTheme, initialTheme, rememberTheme } from './theme';
+import { AgentPanel } from './agent/AgentPanel';
+import { RoleLegend } from './analysis/RoleLegend';
 
 type View = 'network' | 'queue' | 'detail';
 type Remote<T> = { data: T | null; loading: boolean; error: Error | null };
@@ -188,6 +190,7 @@ export function App() {
         <section className="panel network-panel" aria-label="Направленный граф"><div className="panel-heading"><div><span className="eyebrow">Наблюдаемая сеть</span><h2>{selected ? 'Окружение узла' : clusterId ? `Кластер ${clusterId}` : 'Обзор кластеров'}</h2></div><button className="quiet" onClick={goHome}>Обзор <Icon name="arrow" /></button></div>
           {selected && <div className="hop-controls"><span className="mono">{selected}</span><label>Шаги <select aria-label="Число шагов графа" value={hops} onChange={e => setHops(Number(e.target.value))}><option value="1">1</option><option value="2">2</option></select></label></div>}
           {graph.loading && <Loading text="Загрузка графа…" />}{graph.error && <Failure error={graph.error} retry={() => setGraphRefresh(v => v + 1)} />}
+          {graph.data && graph.data.scope.mode !== 'overview' && <RoleLegend theme={theme} />}
           {graph.data && <Network theme={theme} graph={graph.data} selected={selected} select={gid => void select(gid)} openCluster={openCluster} />}
         </section>
         {selected && detail.data && <section id="transfers" ref={transfersRef} tabIndex={-1} className="panel transfers-panel" aria-label="Переводы выбранного узла"><div className="panel-heading"><h2>Исходные переводы</h2><span className="mono caption">{selected}</span></div>
@@ -202,6 +205,7 @@ export function App() {
         </div></aside>
       </main>
     </>}
+    {meta.data && !fatal && <AgentPanel key={meta.data.run_id} api={api.current} gid={selected} enabled={meta.data.features.agent} runId={meta.data.run_id} select={id => void select(id)} fail={fail} />}
     <footer><span>Локальный анализ · роли — гипотезы · только наблюдаемая выгрузка</span><span className="mono run">run_id: {runId ?? 'не загружен'}</span></footer>
   </div>;
 }
