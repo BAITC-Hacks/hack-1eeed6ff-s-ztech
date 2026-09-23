@@ -2,6 +2,7 @@
 
 import re
 from collections import defaultdict
+from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
@@ -12,6 +13,7 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.responses import FileResponse, JSONResponse, Response
 from starlette.exceptions import HTTPException
 
+from app.experiments import simulate_removal
 from app.explain import ROLE_LABELS, kzt, parse_kzt
 from app.pipeline import export_bytes as snapshot_export_bytes
 from app.schemas import (
@@ -22,6 +24,8 @@ from app.schemas import (
     NodeDetail,
     NodePage,
     NodeSummary,
+    RemovalRequest,
+    RemovalResponse,
     Role,
     Transfer,
     TransferPage,
@@ -126,6 +130,18 @@ def create_app(snapshot: dict, out: Path, web_dist: Path | None = None) -> FastA
     @app.get("/api/v1/meta")
     def meta():
         return snapshot["meta"]
+
+    @lru_cache(maxsize=128)
+    def removal_result(calculation_run: str, selected: tuple[str, ...]):
+        return dict(run_id=calculation_run, **simulate_removal(graph, selected))
+
+    @app.post("/api/v1/experiments/removal", response_model=RemovalResponse)
+    def removal(body: RemovalRequest):
+        if len(set(body.gids)) != len(body.gids):
+            raise ApiError(422, "DUPLICATE_GID", "Выберите разные gid: повторы не допускаются")
+        for gid in body.gids:
+            node(gid)
+        return removal_result(run_id, tuple(sorted(body.gids, key=int)))
 
     @app.get("/api/v1/nodes", response_model=NodePage)
     def list_nodes(

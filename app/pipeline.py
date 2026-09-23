@@ -209,7 +209,7 @@ def run_pipeline(
             source_hashes=dataset.hashes,
             package_versions=versions,
             limitations=LIMITATIONS,
-            features=dict(brief=True, removal=False, temporal=False, agent=False),
+            features=dict(brief=True, removal=True, temporal=False, agent=False),
             generated_at=datetime.now(timezone.utc).isoformat(),
             duration_seconds=perf_counter() - start,
         )

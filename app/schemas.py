@@ -178,3 +178,27 @@ class GraphResponse(Contract):
     edges: list[GraphEdge]
     counts: dict[str, int]
     truncated: bool
+
+
+class RemovalRequest(Contract):
+    gids: list[Gid] = Field(min_length=1, max_length=3)
+
+
+class ConnectivityMetrics(Contract):
+    components: int = Field(ge=0)
+    largest_component_size: int = Field(ge=0)
+    largest_component_fraction: Score | None
+    connected_pairs: int = Field(ge=0)
+
+
+class RemovalResponse(Contract):
+    run_id: str
+    method: Literal["weak_components_remaining_nodes"]
+    removed_gids: list[Gid]
+    remaining_nodes: int = Field(ge=0)
+    removed_edges: int = Field(ge=0)
+    before: ConnectivityMetrics
+    after: ConnectivityMetrics
+    affected_pairs: int = Field(ge=0)
+    affected_pairs_fraction: Score | None
+    limitations: list[str]
