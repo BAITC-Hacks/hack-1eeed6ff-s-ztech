@@ -1,4 +1,4 @@
-# Neverlose · Граф денег
+# Neverlose
 
 Официальный репозиторий команды Neverlose: `hack-1eeed6ff-s-ztech`.
 
