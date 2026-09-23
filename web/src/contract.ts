@@ -1,4 +1,4 @@
-import { roles, validGid, type NodePage, type NodeDetail, type NodeSummary, type GraphResponse } from './domain';
+import { roles, validGid, type NodePage, type NodeDetail, type NodeSummary, type GraphResponse, type Meta, type TransferPage, type ClusterPage, type ClusterDetail } from './domain';
 
 export class ContractError extends Error {
   constructor(path: string) { super(`Ответ API не соответствует контракту v1: ${path}.`); this.name = 'ContractError'; }
@@ -96,4 +96,47 @@ export function parseGraph(value: unknown): GraphResponse {
   requireValue(o.truncated === ((counts.matched_nodes as number) > nodes.length || (counts.matched_edges as number) > edges.length), 'graph truncated');
   if (scope.mode === 'ego') requireValue(ids.has(`n:${scope.gid}`), 'missing ego root');
   return o as GraphResponse;
+}
+
+export function parseMeta(value: unknown): Meta {
+  const o = object(value, 'meta'); text(o, 'run_id'); text(o, 'config_version'); text(o, 'algorithm_version');
+  requireValue(o.schema_version === '1', 'schema_version'); money(o, 'total_kzt'); num(o, 'duration_seconds'); strings(o, 'limitations');
+  const counts = object(o.counts, 'meta.counts');
+  for (const key of ['nodes', 'edges', 'transactions', 'seeds', 'isolates', 'boundary', 'clusters']) num(counts, key, true);
+  const period = object(o.period, 'period');
+  for (const key of ['start', 'end']) requireValue(typeof period[key] === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(period[key] as string), `period.${key}`);
+  requireValue(Object.values(object(o.source_hashes, 'source_hashes')).every(v => typeof v === 'string'), 'source_hashes');
+  const features = object(o.features, 'features'); for (const key of ['brief', 'removal', 'temporal', 'agent']) bool(features, key);
+  return o as Meta;
+}
+export function parseTransfers(value: unknown): TransferPage {
+  const o = object(value, 'transfers'); text(o, 'run_id');
+  for (const key of ['total', 'offset', 'limit']) num(o, key, true);
+  requireValue((o.limit as number) >= 1 && (o.limit as number) <= 200, 'limit');
+  requireValue(['all', 'in', 'out'].includes(o.direction as string), 'direction');
+  for (const key of ['sum_kzt', 'in_kzt', 'out_kzt']) money(o, key);
+  const items = arr(o, 'items');
+  requireValue(items.length <= (o.limit as number) && ((o.total as number) >= (o.offset as number) + items.length || items.length === 0), 'transfers.pagination');
+  const refs = new Set<string>();
+  for (const item of items) {
+    const t = object(item, 'transfer'); gid(t.src, 'src'); gid(t.dst, 'dst'); money(t, 'sum_kzt'); num(t, 'source_row', true); text(t, 'source_ref');
+    requireValue(typeof t.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(t.date), 'date');
+    requireValue(!refs.has(t.source_ref as string), 'duplicate source_ref'); refs.add(t.source_ref as string);
+  }
+  return o as TransferPage;
+}
+function clusterSummary(value: unknown) {
+  const o = object(value, 'cluster');
+  for (const key of ['cluster_id', 'n_nodes', 'n_seed']) num(o, key, true);
+  requireValue((o.cluster_id as number) > 0, 'cluster_id'); money(o, 'sum_kzt_internal'); text(o, 'hypothesis');
+  for (const id of arr(o, 'top_gids')) gid(id);
+  return o;
+}
+export function parseClusters(value: unknown): ClusterPage {
+  const o = object(value, 'clusters'); text(o, 'run_id'); arr(o, 'items').forEach(clusterSummary); return o as ClusterPage;
+}
+export function parseClusterDetail(value: unknown): ClusterDetail {
+  const o = clusterSummary(value); text(o, 'run_id'); num(o, 'boundary_count', true); money(o, 'cross_in_kzt'); money(o, 'cross_out_kzt');
+  const counts = object(o.role_counts, 'role_counts'); for (const key of roles) num(counts, key, true);
+  return o as ClusterDetail;
 }

@@ -82,3 +82,57 @@ Bundle 660 KB minified / 212 KB gzip, предупреждение Vite о ра�
 Статус B2: UI-контракт проверен, известных P0/P1 в объёме этапа нет.
 Настоящий API/UI/CSV пока НЕ проверен. Следующий B3: meta, transfers, clusters,
 download с проверкой X-Run-Id, интеграция с опубликованным API.
+
+## B3 — 23.09.2026, 14:46–14:59 Астана
+
+B2 commit `d09131b`; опубликован вместе с merge backend в `e63e343`.
+Интеграция проверена на backend `01f3216d7871fe37ff362b91329f3e1b74b0e3fb`
+(API реализация `6284c2c`), main на последнем fetch `e5f2b4e87127fba734a5a09220010539e0a36060`.
+Backend импортирован merge-коммитом `01972337832b0e0a81dd4c5ce989a8ce90fe0455` без правки его кода.
+
+Реализованы meta/counts/period/limitations, фильтры кластеров и карточка кластера,
+переводы all/in/out с пагинацией и source_ref/физической строкой, ссылки из сумм карточки,
+три CSV-download с проверкой Content-Type/attachment/X-Run-Id. При изменении snapshot
+все старые панели очищаются. Выбранный gid вне текущей страницы явно закрепляется
+в очереди без выдуманного глобального ранга. Никакого production fixture/fallback,
+агентского чата или анимации анализа нет. Agent/removal/temporal в реальном meta выключены.
+
+Фактические команды и результаты:
+
+- Независимо установлен CPython 3.12.14 в папку задачи через uv 0.12.18; новый `.venv`.
+  `python -m pip install -r requirements-dev.lock` → PASS, `pip check` → No broken requirements.
+- `.venv/bin/python -m pytest tests -q` → 61 PASS (один upstream Starlette/httpx deprecation warning).
+- `.venv/bin/python run.py --out work/integration-results` → localhost:8000,
+  полный pipeline 1.190291 с; 2248/3119/4840, 89 кластеров.
+- `npm test -- --run` → 18 PASS. `npm run build` → PASS.
+- `npm run test:e2e` → 12 PASS в настоящем Chromium: contract-only transport,
+  весь набор B1/B2 плюс duplicate source rows, 52 записи / две страницы, итог всей выборки,
+  работающие скачивания всех трёх файлов, export error/retry, invalidation при смене run.
+- `npm run test:integration` → 3 PASS без mock/route-подмен: реальный сервер,
+  1440×900 / 1280×800 / 1024×768, boundary/isolate, три произвольных gid из offset=537,
+  соответствие входящих сумм NodeDetail↔Transfers, кластер и три настоящих скачивания.
+  Каждый скачанный CSV побайтно совпал с API и опубликованным results-файлом.
+- Реальный run_id: `cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31`.
+  Screenshots и SHA-256 скачанных файлов: `web/evidence/b3/`.
+
+Отдельный review обнаружил P1: на 1024×768 graph counts обрезались при одновременной
+таблице переводов. Исправлено переключение «Граф / Переводы», на широком экране
+доступен также режим «Вместе». Добавлена проверка видимости counts; повторены все
+12 contract E2E и 3 реальных integration tests, все PASS. Повторный переход из
+переводов к обзору сбрасывает режим; предотвращена пустая центральная панель.
+Источник/направление/суммы не вычисляются на клиенте. `git diff --check` для исходников чист;
+предупреждения whitespace в собранном Cytoscape shader-коде не относятся к исходникам UI.
+
+Статус: B3 интегрирован и проверен; R1/R2 ещё впереди. Не заявляется полная релизная готовность.
+
+### Передача Мейраму: конкретные README-правки после интеграции B3
+
+1. Указать финальную ветку/commit: текущая инструкция `git switch codex/analysis-core`
+   пока даёт только интегрированный B1, а не свежий UI. Не объявлять B3 готовым в этой ветке
+   до merge. После интеграции заменить устаревшие статусы про отсутствующие graph/transfers.
+2. Перед `npm run test:e2e` требуется `npx playwright install chromium` на новой машине.
+   Сам `npm ci` браузер не скачивает. Для реального сервера добавлена команда
+   `npm run test:integration` (сервер заранее запущен, default localhost:8000).
+3. Предусмотреть SSH-вариант clone для пользователей с настроенным SSH, но без HTTPS
+   credential helper. На этой машине HTTPS clone фактически отказал; SSH clone прошёл.
+4. Не заявлять offline/чистый запуск/репетицию по B3. Эти проверки выполняются следующим этапом.
