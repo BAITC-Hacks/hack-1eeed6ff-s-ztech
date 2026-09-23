@@ -1,6 +1,6 @@
 {
   "snapshot_date": "2026-09-23",
-  "purpose": "Official HackAlem Finance materials and read-only audit; not completed application",
+  "purpose": "Official HackAlem Finance materials, user reference and read-only audit; not completed application",
   "files": [
     {
       "path": "data/README.md",
@@ -46,6 +46,11 @@
       "path": "docs/hackalem/sources/rules-extracted.txt",
       "bytes": 78777,
       "sha256": "c00a045d6c9279a02e8b853b30b9faf086c79b1766c48eebf24c5ceff0c8963e"
+    },
+    {
+      "path": "docs/hackalem/sources/user-master-context.md",
+      "bytes": 83642,
+      "sha256": "86bef757c6859a32c3c309cdf58e137670a72f3861a966b21464e39f3ff355ed"
     },
     {
       "path": "starter/README.md",
