@@ -307,6 +307,10 @@ def verify_outputs(
     ]
     if snap["transfers"] != expected_transfers:
         raise ValueError("Snapshot transfer rows differ from raw source")
+    transfers_by_gid = {gid: [] for gid in ids}
+    for transfer in expected_transfers:
+        transfers_by_gid[transfer["src"]].append(transfer)
+        transfers_by_gid[transfer["dst"]].append(transfer)
     expected_edges = [
         dict(src=str(src), dst=str(dst), sum_kzt=kzt(int(amount)), n_tx=int(count))
         for src, dst, amount, count in ds.edges[["src", "dst", "sum_tiyin", "n_tx"]].itertuples(
@@ -317,6 +321,32 @@ def verify_outputs(
         raise ValueError("Snapshot graph edges differ from raw aggregates")
     for node in nodes:
         gid = int(node["gid"])
+        chosen = [
+            candidate for candidate in node["candidates"] if candidate["role"] == node["role"]
+        ]
+        if (
+            len(chosen) != 1
+            or not chosen[0]["eligible"]
+            or node["raw_score"] != chosen[0]["raw_score"]
+            or node["role_score"] != chosen[0]["capped_score"]
+            or node["role_score"]
+            != min([chosen[0]["raw_score"]] + [cap["cap"] for cap in node["score_caps"]])
+        ):
+            raise ValueError(f"Node role score differs from selected candidate/caps: {gid}")
+        related = transfers_by_gid[node["gid"]]
+        expected_support = dict(
+            total=len(related),
+            source_refs=[
+                transfer["source_ref"]
+                for transfer in sorted(
+                    related,
+                    key=lambda transfer: (-parse_kzt(transfer["sum_kzt"]), transfer["source_row"]),
+                )[:5]
+            ],
+            url=f"/api/v1/nodes/{gid}/transfers",
+        )
+        if node["supporting_transfers"] != expected_support:
+            raise ValueError(f"Node supporting transfers differ from raw source: {gid}")
         incoming = list(g.in_edges(gid, data=True))
         outgoing = list(g.out_edges(gid, data=True))
         facts = dict(

@@ -1,0 +1,234 @@
+[
+  {
+    "case": "queue Enter at1024",
+    "node": "100000008346837100\nПриоритет\n0,937\nКонсолидация\nПризнаки консолидации. Вход 9: 254359.00 KZT; выход 25: 1258643.00 KZT; seed-путей 6.",
+    "focus": {
+      "tag": "H2",
+      "text": "Карточка узла",
+      "label": null,
+      "id": ""
+    }
+  },
+  {
+    "case": "Tab after queue selected",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Закрыть · Esc",
+      "label": null,
+      "id": ""
+    }
+  },
+  {
+    "case": "clipboard",
+    "gid": "100000008346837100",
+    "clipboard": "100000008346837100"
+  },
+  {
+    "case": "money accessible tree",
+    "snapshot": "- term: Вход\n- definition:\n  - button \"Показать входящие переводы\": 254 359,00 ₸\n- term: Выход\n- definition:\n  - button \"Показать исходящие переводы\": 1 258 643,00 ₸\n- term: Плательщики / получатели\n- definition: 9 / 25\n- term: \"Переводы: вход / выход\"\n- definition: 12 / 26"
+  },
+  {
+    "case": "dialog initial",
+    "focus": {
+      "tag": "TEXTAREA",
+      "text": "",
+      "label": null,
+      "id": "agent-question"
+    }
+  },
+  {
+    "case": "dialog Tab0",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Разобрать гипотезу",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab1",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Проверить переводы",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab2",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Следующий шаг",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab3",
+    "focus": {
+      "tag": "BODY",
+      "text": "NeverloseГраф денегПоиск по полному gidНайтиФайл для выгрузкиnodes_roles.csvclusters.csvto",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": false
+  },
+  {
+    "case": "dialog Tab4",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Закрыть · Esc",
+      "label": "Закрыть AI-аналитика",
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab5",
+    "focus": {
+      "tag": "SUMMARY",
+      "text": "Какие вопросы поддерживаются",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab6",
+    "focus": {
+      "tag": "INPUT",
+      "text": "",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab7",
+    "focus": {
+      "tag": "SUMMARY",
+      "text": "Как включить",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab8",
+    "focus": {
+      "tag": "TEXTAREA",
+      "text": "",
+      "label": null,
+      "id": "agent-question"
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab9",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Разобрать гипотезу",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab10",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Проверить переводы",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab11",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Следующий шаг",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab12",
+    "focus": {
+      "tag": "BODY",
+      "text": "NeverloseГраф денегПоиск по полному gidНайтиФайл для выгрузкиnodes_roles.csvclusters.csvto",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": false
+  },
+  {
+    "case": "dialog Tab13",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Закрыть · Esc",
+      "label": "Закрыть AI-аналитика",
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Tab14",
+    "focus": {
+      "tag": "SUMMARY",
+      "text": "Какие вопросы поддерживаются",
+      "label": null,
+      "id": ""
+    },
+    "inDialog": true
+  },
+  {
+    "case": "dialog Escape",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "AIАналитик",
+      "label": "Открыть AI-аналитика",
+      "id": ""
+    }
+  },
+  {
+    "case": "card Close",
+    "focus": {
+      "tag": "INPUT",
+      "text": "",
+      "label": null,
+      "id": "gid-search"
+    }
+  },
+  {
+    "case": "card→transfers focus",
+    "focus": {
+      "tag": "SECTION",
+      "text": "Исходные переводы100000008346837100Направление ВсеВходящиеИсходящиеВсего: 26 · 1 258 643,0",
+      "label": "Переводы выбранного узла",
+      "id": "transfers"
+    }
+  },
+  {
+    "case": "transfer endpoint Enter",
+    "focus": {
+      "tag": "H2",
+      "text": "Карточка узла",
+      "label": null,
+      "id": ""
+    }
+  },
+  {
+    "case": "transfer endpoint nextTab",
+    "focus": {
+      "tag": "BUTTON",
+      "text": "Закрыть · Esc",
+      "label": null,
+      "id": ""
+    }
+  }
+]
