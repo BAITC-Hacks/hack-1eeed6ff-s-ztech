@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { formatKzt, roleLabels, score, type NodeDetail } from '../domain';
+import { RuleChecks } from './RuleChecks';
 
 export function NodePanel({ node }: { node: NodeDetail }) {
   const [copy, setCopy] = useState('');
@@ -20,6 +21,15 @@ export function NodePanel({ node }: { node: NodeDetail }) {
     </section>
     <section><h3>Наблюдаемые потоки</h3><dl className="metrics"><div><dt>Вход</dt><dd>{formatKzt(node.in_kzt)}</dd></div><div><dt>Выход</dt><dd>{formatKzt(node.out_kzt)}</dd></div>
       <div><dt>Плательщики / получатели</dt><dd>{node.in_degree} / {node.out_degree}</dd></div><div><dt>Переводы: вход / выход</dt><dd>{node.in_tx} / {node.out_tx}</dd></div></dl></section>
+    <section><h3>Основание роли</h3><p className="mono caption">{node.role_rule_id}</p>
+      <p className="caption">До ограничений: {score(node.raw_score)} · После: {score(node.role_score)}</p>
+      {node.candidates.filter(c => c.role === node.role).map(c => <RuleChecks key={c.role} candidate={c} />)}
+      {node.score_caps.map(cap => <p key={cap.key} className="notice warning">Предел {score(cap.cap)}: {cap.reason}</p>)}
+    </section>
+    <section><h3>Вклад в приоритет</h3><ul className="contributions">{node.priority_contributions.map(c => <li key={c.key}><div><span>{c.label}</span><b>{score(c.contribution)}</b></div><div className="contribution-track" aria-hidden="true"><span style={{ width: `${Math.min(100, c.contribution * 100)}%` }} /></div><p className="caption">Нормированное: {score(c.normalized)} · вес: {score(c.weight)}</p></li>)}</ul></section>
+    <section><h3>Альтернативная гипотеза</h3>{node.alternative ? <><h3 className={`role ${node.alternative.role}`}>{roleLabels[node.alternative.role]}</h3><p>Соответствие: {score(node.alternative.capped_score)} · {node.alternative.eligible ? 'Условия допуска выполнены' : 'Условия допуска не выполнены'}</p><RuleChecks candidate={node.alternative} /></> : <p>API не выделил допустимую альтернативу. Дополнительная гипотеза не сформирована.</p>}
+      <details><summary>Все проверенные роли ({node.candidates.length})</summary>{node.candidates.map(c => <div className="candidate" key={c.role}><h3 className={`role ${c.role}`}>{roleLabels[c.role]}</h3><p className="caption">{c.eligible ? 'Допустима' : 'Не допущена'} · До ограничений {score(c.raw_score)} · После {score(c.capped_score)}</p><RuleChecks candidate={c} /></div>)}</details>
+    </section>
     <section><h3>Ограничения наблюдения</h3>{node.limitations.length ? <ul>{node.limitations.map((text, i) => <li key={i}>{text}</li>)}</ul> : <p>API не указал дополнительных ограничений для узла.</p>}</section>
     <section><h3>Что проверить дальше</h3>{node.next_data_requests.length ? <ul>{node.next_data_requests.map((text, i) => <li key={i}>{text}</li>)}</ul> : <p>Дополнительные запросы в ответе API отсутствуют.</p>}</section>
   </div>;

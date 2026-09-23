@@ -1,4 +1,4 @@
-import { parseNodeDetail, parseNodePage } from './contract';
+import { parseGraph, parseNodeDetail, parseNodePage } from './contract';
 import { validGid, type Filters, type Gid } from './domain';
 
 export class ApiError extends Error {
@@ -46,6 +46,18 @@ export class ApiSession {
     const value = parseNodeDetail(await requestJson(`/api/v1/nodes/${encodeURIComponent(gid)}`, signal));
     signal.throwIfAborted();
     if (value.gid !== gid) throw new ApiError('API вернул другой gid. Карточка не показана.', 502, 'GID_MISMATCH');
+    return this.accept(value);
+  }
+  async graph(gid: Gid | null, clusterId: number | null, hops: number, signal: AbortSignal) {
+    const mode = gid ? 'ego' : clusterId !== null ? 'cluster' : 'overview';
+    const query = new URLSearchParams({ mode, limit: '250' });
+    if (gid) { query.set('gid', gid); query.set('hops', String(hops)); }
+    if (mode === 'cluster') query.set('cluster_id', String(clusterId));
+    const value = parseGraph(await requestJson(`/api/v1/graph?${query}`, signal));
+    signal.throwIfAborted();
+    if (value.scope.mode !== mode || (gid && value.scope.gid !== gid) || (mode === 'cluster' && value.scope.cluster_id !== clusterId)) {
+      throw new ApiError('API вернул граф другого среза.', 502, 'GRAPH_SCOPE_MISMATCH');
+    }
     return this.accept(value);
   }
 }
