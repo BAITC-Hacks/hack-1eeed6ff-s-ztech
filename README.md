@@ -1,3 +1,5 @@
+<img width="2964" height="841" alt="banner" src="https://github.com/user-attachments/assets/b63b277c-344f-4059-a650-3aedf28ea297" />
+
 # Neverlose · Граф денег
 
 **Кого из 2 248 участников финансовой сети проверить первым — и почему?**
