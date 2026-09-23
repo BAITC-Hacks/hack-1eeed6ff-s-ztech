@@ -33,5 +33,20 @@
     "seconds": 4.8,
     "server_pipeline_seconds": 0.936258,
     "isolation": "macOS sandbox-exec forbids external networking for server and Chromium; localhost allowed"
+  },
+  "fresh_clone": {
+    "commit": "a6a0116f1c540993de5bfec33b25377af5d55ec2",
+    "checked_at": "2026-09-23T16:13:59+05:00",
+    "new_venv": true,
+    "installed": "requirements.lock",
+    "pip_check": "PASS",
+    "pipeline_wall_seconds": 5.489981,
+    "verify_only": "valid",
+    "env_file_present": false,
+    "agent_without_key_cli_exit": 2,
+    "agent_default_http_status": 503,
+    "local_assets_loaded": 2,
+    "csv_hashes_unchanged": true,
+    "platform": "same laptop A, not a third machine"
   }
 }
