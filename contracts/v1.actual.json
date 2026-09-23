@@ -1,0 +1,1133 @@
+{
+  "synthetic": false,
+  "notice": "Реальный расчёт официальных данных",
+  "meta": {
+    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "schema_version": "1",
+    "config_version": "v1",
+    "algorithm_version": "1.0.0",
+    "counts": {
+      "nodes": 2248,
+      "edges": 3119,
+      "transactions": 4840,
+      "seeds": 81,
+      "isolates": 19,
+      "boundary": 444,
+      "clusters": 89
+    },
+    "period": {
+      "start": "2026-07-01",
+      "end": "2026-07-31"
+    },
+    "total_kzt": "365890012.01",
+    "source_hashes": {
+      "nodes.parquet": "d2a45b0df6e9352832d5fb09839d10b9e23f898156c3bab263b051b31cc0296d",
+      "edges.parquet": "4e71dde5cd3115bcb26e91202665532ee6581cf8233a9fc8059ea59fb7358a38",
+      "transactions.parquet": "c30c5317b5439591dde86f2058dc47a3d19b2900c055ded994fe547f6fb7e7da"
+    },
+    "package_versions": {
+      "pandas": "2.2.3",
+      "numpy": "2.3.5",
+      "pyarrow": "25.0.1",
+      "networkx": "3.7",
+      "scipy": "1.18.1"
+    },
+    "limitations": [
+      "Роли — проверяемые структурные гипотезы; score не является вероятностью виновности.",
+      "Только внутрибанковские исходящие пути до четырёх колен, июль 2026, переводы от 5000 KZT.",
+      "Входящие извне выборки и остатки неизвестны; разность потоков не является полным балансом.",
+      "Дата имеет точность до дня; порядок операций внутри дня неизвестен.",
+      "Размеченных ролей нет; accuracy, precision и recall на этом наборе не измерены.",
+      "Seed-достижимость отражает топологию, а не происхождение конкретных денег."
+    ],
+    "features": {
+      "brief": true,
+      "removal": false,
+      "temporal": false,
+      "agent": false
+    },
+    "generated_at": "2026-09-23T09:44:21.249690+00:00",
+    "duration_seconds": 0.7379552081692964
+  },
+  "nodes": {
+    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "items": [
+      {
+        "gid": "100000008346837100",
+        "role": "consolidator",
+        "role_score": 0.9578422484134179,
+        "cluster_id": 13,
+        "priority_score": 0.9370375985420734,
+        "evidence": "Признаки консолидации. Вход 9: 254359.00 KZT; выход 25: 1258643.00 KZT; seed-путей 6.",
+        "depth": 2,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000003684369100",
+        "role": "consolidator",
+        "role_score": 0.65,
+        "cluster_id": 3,
+        "priority_score": 0.9230317537891216,
+        "evidence": "Признаки консолидации. Вход 24: 3848436.00 KZT; выход 62: 8588655.00 KZT; seed-путей 6.",
+        "depth": 0,
+        "is_seed": true,
+        "flags": [
+          "seed_inflow_incomplete",
+          "out_exceeds_in"
+        ]
+      },
+      {
+        "gid": "100000008165763100",
+        "role": "consolidator",
+        "role_score": 0.9950135992747053,
+        "cluster_id": 3,
+        "priority_score": 0.9148312948804687,
+        "evidence": "Признаки консолидации. Вход 15: 1165815.00 KZT; выход 17: 1267858.00 KZT; seed-путей 6.",
+        "depth": 1,
+        "is_seed": false,
+        "flags": [
+          "out_exceeds_in"
+        ]
+      }
+    ],
+    "total": 2248,
+    "offset": 0,
+    "limit": 3
+  },
+  "node_detail": {
+    "gid": "100000008346837100",
+    "role": "consolidator",
+    "role_score": 0.9578422484134179,
+    "cluster_id": 13,
+    "priority_score": 0.9370375985420734,
+    "evidence": "Признаки консолидации. Вход 9: 254359.00 KZT; выход 25: 1258643.00 KZT; seed-путей 6.",
+    "depth": 2,
+    "is_seed": false,
+    "flags": [
+      "out_exceeds_in"
+    ],
+    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "in_degree": 9,
+    "out_degree": 25,
+    "in_kzt": "254359.00",
+    "out_kzt": "1258643.00",
+    "in_tx": 12,
+    "out_tx": 26,
+    "observed_ratio": 4.948293553599441,
+    "seed_reach_count": 6,
+    "pagerank": 0.0005440853289473361,
+    "betweenness": 0.00846621055274969,
+    "participation": 0.5178006037075791,
+    "role_rule_id": "v1:consolidator",
+    "candidates": [
+      {
+        "role": "coordinator",
+        "eligible": true,
+        "raw_score": 0.8479554890051866,
+        "capped_score": 0.55,
+        "checks": [
+          {
+            "key": "depth",
+            "actual": 2.0,
+            "operator": "<",
+            "threshold": 4.0,
+            "passed": true,
+            "text": "До границы выгрузки"
+          },
+          {
+            "key": "in_degree",
+            "actual": 9.0,
+            "operator": ">=",
+            "threshold": 2.0,
+            "passed": true,
+            "text": "Несколько входящих связей"
+          },
+          {
+            "key": "out_degree",
+            "actual": 25.0,
+            "operator": ">=",
+            "threshold": 2.0,
+            "passed": true,
+            "text": "Несколько исходящих связей"
+          },
+          {
+            "key": "seed_reach_count",
+            "actual": 6.0,
+            "operator": ">=",
+            "threshold": 2.0,
+            "passed": true,
+            "text": "Достижим от разных seed"
+          },
+          {
+            "key": "participation",
+            "actual": 0.5178006037075791,
+            "operator": ">=",
+            "threshold": 0.3,
+            "passed": true,
+            "text": "Оборот распределён между кластерами"
+          },
+          {
+            "key": "betweenness_percentile",
+            "actual": 1.0,
+            "operator": ">=",
+            "threshold": 0.9,
+            "passed": true,
+            "text": "Высокий относительный ранг посредничества"
+          }
+        ]
+      },
+      {
+        "role": "consolidator",
+        "eligible": true,
+        "raw_score": 0.9578422484134179,
+        "capped_score": 0.9578422484134179,
+        "checks": [
+          {
+            "key": "in_degree",
+            "actual": 9.0,
+            "operator": ">=",
+            "threshold": 3.0,
+            "passed": true,
+            "text": "Несколько наблюдаемых плательщиков"
+          }
+        ]
+      },
+      {
+        "role": "distributor",
+        "eligible": true,
+        "raw_score": 0.9527377521613833,
+        "capped_score": 0.9527377521613833,
+        "checks": [
+          {
+            "key": "out_degree",
+            "actual": 25.0,
+            "operator": ">=",
+            "threshold": 5.0,
+            "passed": true,
+            "text": "Веер наблюдаемых получателей"
+          }
+        ]
+      },
+      {
+        "role": "transit",
+        "eligible": false,
+        "raw_score": 0.37287630402384503,
+        "capped_score": 0.37287630402384503,
+        "checks": [
+          {
+            "key": "is_seed",
+            "actual": 0.0,
+            "operator": "==",
+            "threshold": 0.0,
+            "passed": true,
+            "text": "Не исходный seed"
+          },
+          {
+            "key": "boundary",
+            "actual": 0.0,
+            "operator": "==",
+            "threshold": 0.0,
+            "passed": true,
+            "text": "Не граница выгрузки"
+          },
+          {
+            "key": "in_degree",
+            "actual": 9.0,
+            "operator": ">=",
+            "threshold": 1.0,
+            "passed": true,
+            "text": "Есть входящие связи"
+          },
+          {
+            "key": "out_degree",
+            "actual": 25.0,
+            "operator": ">=",
+            "threshold": 1.0,
+            "passed": true,
+            "text": "Есть исходящие связи"
+          },
+          {
+            "key": "positive_inflow",
+            "actual": 1.0,
+            "operator": "==",
+            "threshold": 1.0,
+            "passed": true,
+            "text": "Положительный наблюдаемый вход"
+          },
+          {
+            "key": "observed_ratio",
+            "actual": 4.948293553599441,
+            "operator": ">=",
+            "threshold": 0.8,
+            "passed": true,
+            "text": "Нижняя граница отношения выход/вход"
+          },
+          {
+            "key": "observed_ratio",
+            "actual": 4.948293553599441,
+            "operator": "<=",
+            "threshold": 1.2,
+            "passed": false,
+            "text": "Верхняя граница отношения выход/вход"
+          }
+        ]
+      },
+      {
+        "role": "terminal",
+        "eligible": false,
+        "raw_score": 0.9578422484134179,
+        "capped_score": 0.65,
+        "checks": [
+          {
+            "key": "is_seed",
+            "actual": 0.0,
+            "operator": "==",
+            "threshold": 0.0,
+            "passed": true,
+            "text": "Не исходный seed"
+          },
+          {
+            "key": "depth",
+            "actual": 2.0,
+            "operator": "<",
+            "threshold": 4.0,
+            "passed": true,
+            "text": "До границы четвёртого колена"
+          },
+          {
+            "key": "in_degree",
+            "actual": 9.0,
+            "operator": ">=",
+            "threshold": 1.0,
+            "passed": true,
+            "text": "Есть входящие связи"
+          },
+          {
+            "key": "out_degree",
+            "actual": 25.0,
+            "operator": "==",
+            "threshold": 0.0,
+            "passed": false,
+            "text": "В срезе нет исходящих связей"
+          },
+          {
+            "key": "positive_inflow",
+            "actual": 1.0,
+            "operator": "==",
+            "threshold": 1.0,
+            "passed": true,
+            "text": "Положительный наблюдаемый вход"
+          }
+        ]
+      },
+      {
+        "role": "peripheral",
+        "eligible": false,
+        "raw_score": 0.2,
+        "capped_score": 0.2,
+        "checks": [
+          {
+            "key": "eligible_specific_roles",
+            "actual": 3.0,
+            "operator": "==",
+            "threshold": 0.0,
+            "passed": false,
+            "text": "Нет допустимой более конкретной роли"
+          }
+        ]
+      }
+    ],
+    "priority_contributions": [
+      {
+        "key": "turnover",
+        "label": "Наблюдаемый оборот",
+        "raw": 1513002.0,
+        "normalized": 0.952445042620009,
+        "weight": 0.3,
+        "contribution": 0.2857335127860027
+      },
+      {
+        "key": "betweenness",
+        "label": "Посредническая центральность",
+        "raw": 0.00846621055274969,
+        "normalized": 1.0,
+        "weight": 0.25,
+        "contribution": 0.25
+      },
+      {
+        "key": "seed_reach",
+        "label": "Достижимость от seed",
+        "raw": 6.0,
+        "normalized": 1.0,
+        "weight": 0.2,
+        "contribution": 0.2
+      },
+      {
+        "key": "degree",
+        "label": "Число контрагентов",
+        "raw": 25.0,
+        "normalized": 0.9968268359020852,
+        "weight": 0.15,
+        "contribution": 0.1495240253853128
+      },
+      {
+        "key": "participation",
+        "label": "Связи между кластерами",
+        "raw": 0.5178006037075791,
+        "normalized": 0.5178006037075791,
+        "weight": 0.1,
+        "contribution": 0.05178006037075791
+      }
+    ],
+    "limitations": [
+      "Наблюдаемый выход больше входа; неизвестны внешние поступления и начальный остаток.",
+      "Роли — проверяемые структурные гипотезы; score не является вероятностью виновности.",
+      "Только внутрибанковские исходящие пути до четырёх колен, июль 2026, переводы от 5000 KZT.",
+      "Входящие извне выборки и остатки неизвестны; разность потоков не является полным балансом.",
+      "Дата имеет точность до дня; порядок операций внутри дня неизвестен.",
+      "Размеченных ролей нет; accuracy, precision и recall на этом наборе не измерены.",
+      "Seed-достижимость отражает топологию, а не происхождение конкретных денег."
+    ],
+    "next_data_requests": [
+      "Проверить недостающие входящие и остаток на начало периода; не трактовать разность как баланс."
+    ],
+    "raw_score": 0.9578422484134179,
+    "score_caps": [],
+    "supporting_transfers": {
+      "total": 38,
+      "source_refs": [
+        "tx:c30c5317b543:3117",
+        "tx:c30c5317b543:3207",
+        "tx:c30c5317b543:2965",
+        "tx:c30c5317b543:1728",
+        "tx:c30c5317b543:1301"
+      ],
+      "url": "/api/v1/nodes/100000008346837100/transfers"
+    },
+    "alternative": {
+      "role": "distributor",
+      "eligible": true,
+      "raw_score": 0.9527377521613833,
+      "capped_score": 0.9527377521613833,
+      "checks": [
+        {
+          "key": "out_degree",
+          "actual": 25.0,
+          "operator": ">=",
+          "threshold": 5.0,
+          "passed": true,
+          "text": "Веер наблюдаемых получателей"
+        }
+      ]
+    },
+    "why": "Наблюдаемый оборот: +28.6 пункта; Посредническая центральность: +25.0 пункта. Наблюдаемый выход больше входа; неизвестны внешние поступления и начальный остаток."
+  },
+  "graph": {
+    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "scope": {
+      "mode": "ego",
+      "gid": "100000008346837100",
+      "hops": 1
+    },
+    "nodes": [
+      {
+        "id": "n:100000008346837100",
+        "kind": "node",
+        "gid": "100000008346837100",
+        "cluster_id": 13,
+        "label": "100000008346837100",
+        "role": "consolidator",
+        "priority_score": 0.9370375985420734,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000005910114100",
+        "kind": "node",
+        "gid": "100000005910114100",
+        "cluster_id": 1,
+        "label": "100000005910114100",
+        "role": "distributor",
+        "priority_score": 0.88924779957178,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000000343175100",
+        "kind": "node",
+        "gid": "100000000343175100",
+        "cluster_id": 12,
+        "label": "100000000343175100",
+        "role": "distributor",
+        "priority_score": 0.87371347003325,
+        "boundary": false,
+        "is_seed": true,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000005074393100",
+        "kind": "node",
+        "gid": "100000005074393100",
+        "cluster_id": 13,
+        "label": "100000005074393100",
+        "role": "consolidator",
+        "priority_score": 0.8604891239567576,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000004351795100",
+        "kind": "node",
+        "gid": "100000004351795100",
+        "cluster_id": 1,
+        "label": "100000004351795100",
+        "role": "distributor",
+        "priority_score": 0.8379390158307016,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000008733194100",
+        "kind": "node",
+        "gid": "100000008733194100",
+        "cluster_id": 13,
+        "label": "100000008733194100",
+        "role": "consolidator",
+        "priority_score": 0.8105833369935127,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000007593823100",
+        "kind": "node",
+        "gid": "100000007593823100",
+        "cluster_id": 1,
+        "label": "100000007593823100",
+        "role": "coordinator",
+        "priority_score": 0.8051000040988197,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000004070318100",
+        "kind": "node",
+        "gid": "100000004070318100",
+        "cluster_id": 1,
+        "label": "100000004070318100",
+        "role": "distributor",
+        "priority_score": 0.8036921571984291,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000005048668100",
+        "kind": "node",
+        "gid": "100000005048668100",
+        "cluster_id": 4,
+        "label": "100000005048668100",
+        "role": "coordinator",
+        "priority_score": 0.786558451638541,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000003796063100",
+        "kind": "node",
+        "gid": "100000003796063100",
+        "cluster_id": 6,
+        "label": "100000003796063100",
+        "role": "distributor",
+        "priority_score": 0.7550436487471758,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000004569484100",
+        "kind": "node",
+        "gid": "100000004569484100",
+        "cluster_id": 8,
+        "label": "100000004569484100",
+        "role": "coordinator",
+        "priority_score": 0.7368224977395038,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000004188160100",
+        "kind": "node",
+        "gid": "100000004188160100",
+        "cluster_id": 5,
+        "label": "100000004188160100",
+        "role": "distributor",
+        "priority_score": 0.7309864171962572,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000001236706100",
+        "kind": "node",
+        "gid": "100000001236706100",
+        "cluster_id": 13,
+        "label": "100000001236706100",
+        "role": "consolidator",
+        "priority_score": 0.7184530391307378,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000008003034100",
+        "kind": "node",
+        "gid": "100000008003034100",
+        "cluster_id": 13,
+        "label": "100000008003034100",
+        "role": "peripheral",
+        "priority_score": 0.6885141098972422,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000008620570100",
+        "kind": "node",
+        "gid": "100000008620570100",
+        "cluster_id": 4,
+        "label": "100000008620570100",
+        "role": "peripheral",
+        "priority_score": 0.6759497714441542,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000008121806100",
+        "kind": "node",
+        "gid": "100000008121806100",
+        "cluster_id": 4,
+        "label": "100000008121806100",
+        "role": "peripheral",
+        "priority_score": 0.6579278415663965,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000008379273100",
+        "kind": "node",
+        "gid": "100000008379273100",
+        "cluster_id": 8,
+        "label": "100000008379273100",
+        "role": "transit",
+        "priority_score": 0.6539844920294965,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000005053653100",
+        "kind": "node",
+        "gid": "100000005053653100",
+        "cluster_id": 13,
+        "label": "100000005053653100",
+        "role": "peripheral",
+        "priority_score": 0.6009424378805028,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000006020215100",
+        "kind": "node",
+        "gid": "100000006020215100",
+        "cluster_id": 13,
+        "label": "100000006020215100",
+        "role": "transit",
+        "priority_score": 0.5956687083611716,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000004877085100",
+        "kind": "node",
+        "gid": "100000004877085100",
+        "cluster_id": 13,
+        "label": "100000004877085100",
+        "role": "peripheral",
+        "priority_score": 0.5871416358089341,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000003843844100",
+        "kind": "node",
+        "gid": "100000003843844100",
+        "cluster_id": 13,
+        "label": "100000003843844100",
+        "role": "peripheral",
+        "priority_score": 0.5660612564098881,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000004004621100",
+        "kind": "node",
+        "gid": "100000004004621100",
+        "cluster_id": 13,
+        "label": "100000004004621100",
+        "role": "terminal",
+        "priority_score": 0.5632380654344566,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000000534581100",
+        "kind": "node",
+        "gid": "100000000534581100",
+        "cluster_id": 4,
+        "label": "100000000534581100",
+        "role": "peripheral",
+        "priority_score": 0.5405948492899243,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000002736316100",
+        "kind": "node",
+        "gid": "100000002736316100",
+        "cluster_id": 1,
+        "label": "100000002736316100",
+        "role": "terminal",
+        "priority_score": 0.536605382954812,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000008088082100",
+        "kind": "node",
+        "gid": "100000008088082100",
+        "cluster_id": 13,
+        "label": "100000008088082100",
+        "role": "peripheral",
+        "priority_score": 0.5005638194506021,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000004340038100",
+        "kind": "node",
+        "gid": "100000004340038100",
+        "cluster_id": 13,
+        "label": "100000004340038100",
+        "role": "peripheral",
+        "priority_score": 0.4768760670952859,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000003724440100",
+        "kind": "node",
+        "gid": "100000003724440100",
+        "cluster_id": 3,
+        "label": "100000003724440100",
+        "role": "terminal",
+        "priority_score": 0.47520287872668326,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000003050771100",
+        "kind": "node",
+        "gid": "100000003050771100",
+        "cluster_id": 13,
+        "label": "100000003050771100",
+        "role": "terminal",
+        "priority_score": 0.4582469686856719,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000008571443100",
+        "kind": "node",
+        "gid": "100000008571443100",
+        "cluster_id": 13,
+        "label": "100000008571443100",
+        "role": "terminal",
+        "priority_score": 0.4492292550835286,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000006714366100",
+        "kind": "node",
+        "gid": "100000006714366100",
+        "cluster_id": 13,
+        "label": "100000006714366100",
+        "role": "peripheral",
+        "priority_score": 0.3828849441622435,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000005709551100",
+        "kind": "node",
+        "gid": "100000005709551100",
+        "cluster_id": 13,
+        "label": "100000005709551100",
+        "role": "terminal",
+        "priority_score": 0.313697843517435,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000002945031100",
+        "kind": "node",
+        "gid": "100000002945031100",
+        "cluster_id": 13,
+        "label": "100000002945031100",
+        "role": "terminal",
+        "priority_score": 0.2807234155228186,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      },
+      {
+        "id": "n:100000002818726100",
+        "kind": "node",
+        "gid": "100000002818726100",
+        "cluster_id": 13,
+        "label": "100000002818726100",
+        "role": "terminal",
+        "priority_score": 0.26632233880680245,
+        "boundary": false,
+        "is_seed": false,
+        "n_nodes": 1
+      }
+    ],
+    "edges": [
+      {
+        "id": "e:100000003796063100:100000008346837100",
+        "source": "n:100000003796063100",
+        "target": "n:100000008346837100",
+        "sum_kzt": "112000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000004070318100:100000008346837100",
+        "source": "n:100000004070318100",
+        "target": "n:100000008346837100",
+        "sum_kzt": "60059.00",
+        "n_tx": 4
+      },
+      {
+        "id": "e:100000004188160100:100000008346837100",
+        "source": "n:100000004188160100",
+        "target": "n:100000008346837100",
+        "sum_kzt": "6000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000004569484100:100000008346837100",
+        "source": "n:100000004569484100",
+        "target": "n:100000008346837100",
+        "sum_kzt": "25000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000005048668100:100000008346837100",
+        "source": "n:100000005048668100",
+        "target": "n:100000008346837100",
+        "sum_kzt": "7000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000007593823100:100000008346837100",
+        "source": "n:100000007593823100",
+        "target": "n:100000008346837100",
+        "sum_kzt": "5800.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008003034100:100000008346837100",
+        "source": "n:100000008003034100",
+        "target": "n:100000008346837100",
+        "sum_kzt": "28500.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008121806100:100000008346837100",
+        "source": "n:100000008121806100",
+        "target": "n:100000008346837100",
+        "sum_kzt": "5000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000000343175100",
+        "source": "n:100000008346837100",
+        "target": "n:100000000343175100",
+        "sum_kzt": "10000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000000534581100",
+        "source": "n:100000008346837100",
+        "target": "n:100000000534581100",
+        "sum_kzt": "8988.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000001236706100",
+        "source": "n:100000008346837100",
+        "target": "n:100000001236706100",
+        "sum_kzt": "26900.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000002736316100",
+        "source": "n:100000008346837100",
+        "target": "n:100000002736316100",
+        "sum_kzt": "29289.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000002818726100",
+        "source": "n:100000008346837100",
+        "target": "n:100000002818726100",
+        "sum_kzt": "10879.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000002945031100",
+        "source": "n:100000008346837100",
+        "target": "n:100000002945031100",
+        "sum_kzt": "15000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000003050771100",
+        "source": "n:100000008346837100",
+        "target": "n:100000003050771100",
+        "sum_kzt": "229000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000003724440100",
+        "source": "n:100000008346837100",
+        "target": "n:100000003724440100",
+        "sum_kzt": "25000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000003843844100",
+        "source": "n:100000008346837100",
+        "target": "n:100000003843844100",
+        "sum_kzt": "16680.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000004004621100",
+        "source": "n:100000008346837100",
+        "target": "n:100000004004621100",
+        "sum_kzt": "25361.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000004340038100",
+        "source": "n:100000008346837100",
+        "target": "n:100000004340038100",
+        "sum_kzt": "9978.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000004351795100",
+        "source": "n:100000008346837100",
+        "target": "n:100000004351795100",
+        "sum_kzt": "29511.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000004877085100",
+        "source": "n:100000008346837100",
+        "target": "n:100000004877085100",
+        "sum_kzt": "25000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000005048668100",
+        "source": "n:100000008346837100",
+        "target": "n:100000005048668100",
+        "sum_kzt": "6500.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000005053653100",
+        "source": "n:100000008346837100",
+        "target": "n:100000005053653100",
+        "sum_kzt": "33873.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000005074393100",
+        "source": "n:100000008346837100",
+        "target": "n:100000005074393100",
+        "sum_kzt": "329133.00",
+        "n_tx": 2
+      },
+      {
+        "id": "e:100000008346837100:100000005709551100",
+        "source": "n:100000008346837100",
+        "target": "n:100000005709551100",
+        "sum_kzt": "24560.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000005910114100",
+        "source": "n:100000008346837100",
+        "target": "n:100000005910114100",
+        "sum_kzt": "92009.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000006020215100",
+        "source": "n:100000008346837100",
+        "target": "n:100000006020215100",
+        "sum_kzt": "30000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000006714366100",
+        "source": "n:100000008346837100",
+        "target": "n:100000006714366100",
+        "sum_kzt": "10500.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000007593823100",
+        "source": "n:100000008346837100",
+        "target": "n:100000007593823100",
+        "sum_kzt": "5000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000008088082100",
+        "source": "n:100000008346837100",
+        "target": "n:100000008088082100",
+        "sum_kzt": "39138.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000008571443100",
+        "source": "n:100000008346837100",
+        "target": "n:100000008571443100",
+        "sum_kzt": "40000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000008620570100",
+        "source": "n:100000008346837100",
+        "target": "n:100000008620570100",
+        "sum_kzt": "65000.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008346837100:100000008733194100",
+        "source": "n:100000008346837100",
+        "target": "n:100000008733194100",
+        "sum_kzt": "121344.00",
+        "n_tx": 1
+      },
+      {
+        "id": "e:100000008379273100:100000008346837100",
+        "source": "n:100000008379273100",
+        "target": "n:100000008346837100",
+        "sum_kzt": "5000.00",
+        "n_tx": 1
+      }
+    ],
+    "counts": {
+      "matched_nodes": 33,
+      "shown_nodes": 33,
+      "matched_edges": 34,
+      "shown_edges": 34
+    },
+    "truncated": false
+  },
+  "cluster_detail": {
+    "cluster_id": 13,
+    "n_nodes": 52,
+    "n_seed": 5,
+    "sum_kzt_internal": "4171441.00",
+    "top_gids": [
+      "100000008346837100",
+      "100000005074393100",
+      "100000008733194100"
+    ],
+    "hypothesis": "Гипотеза о связанной структуре: 52 узлов; преобладает профиль «Нет специфической роли» (32). Кластер не доказывает общую организацию.",
+    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "role_counts": {
+      "consolidator": 5,
+      "transit": 2,
+      "distributor": 0,
+      "terminal": 13,
+      "coordinator": 0,
+      "peripheral": 32
+    },
+    "boundary_count": 13,
+    "cross_in_kzt": "813305.00",
+    "cross_out_kzt": "354797.00"
+  },
+  "transfers": {
+    "run_id": "cccc360c4ef414ab213f6ca7094f68d889baba6a28fadbf15b4a93198fa6bc31",
+    "items": [
+      {
+        "source_ref": "tx:c30c5317b543:149",
+        "source_row": 149,
+        "src": "100000008346837100",
+        "dst": "100000001236706100",
+        "date": "2026-07-02",
+        "sum_kzt": "26900.00"
+      },
+      {
+        "source_ref": "tx:c30c5317b543:224",
+        "source_row": 224,
+        "src": "100000008346837100",
+        "dst": "100000003843844100",
+        "date": "2026-07-02",
+        "sum_kzt": "16680.00"
+      }
+    ],
+    "total": 38,
+    "offset": 0,
+    "limit": 2,
+    "direction": "all",
+    "sum_kzt": "1513002.00",
+    "in_kzt": "254359.00",
+    "out_kzt": "1258643.00"
+  }
+}
