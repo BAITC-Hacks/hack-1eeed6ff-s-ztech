@@ -92,3 +92,11 @@ Astra 6 Ultra обнаружила и воспроизвела ошибки то
 ## Новый clone после F13 — 2026-09-23T16:13:59+05:00
 
 Из официального main a6a0116 создан новый neverlose-f13-clean без .env/node_modules/старой .venv. Новый venv, runtime lock install, pip check PASS, первый raw→CSV 5.489981 s, verify-only valid, три CSV имеют прежние hashes. Запущен обычный `python run.py --port 8006`: health/meta/local JS+CSS=200, features.agent=false, agent POST=503 AGENT_DISABLED. CLI --ask без ключа завершился кодом2 и понятным сообщением без traceback. Это новая проверка на машине A, не третий ноутбук. Временные серверы остановлены; пользовательский 8000 запущен с --assistant, out work/live-results, ключ не печатается.
+
+## Интеграция B5 — 2026-09-23T16:28:54+05:00
+
+Проверенный код `50bf33aab18a35c15927adb94eae9058712da615`, прямой потомок main `57a9ccf`. B завершил темы и возврат к обзору; A получил целиком его commit fast-forward, web source не правил. Отдельный Astra 6 Ultra read-only review проверил смену темы, сохранение Cytoscape/точных gid/денег, cancel late requests при возврате и неизменность API/архитектуры: конкретных P0/P1/P2 не найдено.
+
+Фактические проверки на A: 19 frontend unit PASS; build PASS, dist совпадает с B; 34 contract E2E PASS (22.3s, обе темы). 3 real integration PASS (8.4s), включая обе темы × три размера, поиск/граф/карточку/переводы/возврат, boundary/isolate/cluster и browser download/API/disk равенство трёх CSV. Сервер и Chromium отдельно ограничены `sandbox-exec -f web/scripts/offline-macos.sb`; обычный offline запуск, без агента. Pipeline0.980855s, verify valid:2248/89/top50. Python130 PASS(5.93s) повторены непосредственно перед B5; Python/API в B5 не менялись. Просмотрены реальные screenshots, build не выдаётся за визуальную приёмку.
+
+Evidence и команды: `docs/hackalem/evidence/b5-a/report.json`, run/download hashes и два новых screenshots. Обычное предупреждение Vite681.98KB и whitespace в generated Cytoscape shader остаются неблокирующими; source diff check PASS. Новых оплачиваемых OpenAI запросов0. E1/F13 UI, E2 отсутствуют; новый clone/устное демо/подача B5 не заявляются. Приёмка B5 PASS; окончательный G6 остаётся открытым.

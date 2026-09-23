@@ -1,0 +1,91 @@
+{
+  "checked_at": "2026-09-23T16:28:54+05:00",
+  "code_sha": "50bf33aab18a35c15927adb94eae9058712da615",
+  "backend_sha": "57a9ccf1bcf315add266b177578d9984aacf1b13",
+  "review": "Separate read-only Astra 6 Ultra review of 57a9ccf..50bf33a: no actionable P0/P1/P2. Backend/API/contracts/locks unchanged. Theme and home reset reviewed, no web source edits by A.",
+  "integration": "Fast-forward from 57a9ccf; complete B commit and history preserved.",
+  "run_id": "c4894b7dbe3a21e042250ec621491f817f1fb61db1ece87c1771ee668786795d",
+  "counts": {
+    "nodes": 2248,
+    "edges": 3119,
+    "transactions": 4840,
+    "seeds": 81,
+    "isolates": 19,
+    "boundary": 444,
+    "clusters": 89
+  },
+  "top_nodes": 50,
+  "csv_sha256": {
+    "nodes_roles.csv": "d2ed563d2764d1afa4e0115e56123cad9569e14a779acc8efe98f79329bab759",
+    "clusters.csv": "659391a8cf1d6e6c564578a6459ee3e6ead42de25a96431af8baf5a1839d0891",
+    "top_nodes.csv": "0c0f4ea0274ad6227ad0b65ed4000e22e7c44ba65d82c8497fe2b02a1da9aef7"
+  },
+  "results": {
+    "python_pytest": {
+      "passed": 130,
+      "seconds": 5.93,
+      "scope": "Fresh acceptance before B5; B5 does not change backend or Python tests"
+    },
+    "frontend_unit": {
+      "passed": 19
+    },
+    "frontend_build": "pass; regenerated dist exactly matches committed B5",
+    "contract_e2e": {
+      "passed": 34,
+      "seconds": 22.3
+    },
+    "real_api_e2e": {
+      "passed": 3,
+      "seconds": 8.4
+    },
+    "pipeline_wall_seconds": 0.980855,
+    "verify_outputs": "valid"
+  },
+  "commands": [
+    ".venv/bin/python -m pytest -q",
+    "npm --prefix web test -- --run",
+    "cd web && npm run build",
+    "cd web && PLAYWRIGHT_BROWSERS_PATH=../work/pw-browsers <Node24>/node node_modules/playwright/cli.js test --output=../work/b5-contract-a",
+    "sandbox-exec -f web/scripts/offline-macos.sb .venv/bin/python run.py --out work/b5-offline-results --port 8007",
+    ".venv/bin/python run.py --verify-only --out work/b5-offline-results",
+    "cd web && PLAYWRIGHT_BROWSERS_PATH=../work/pw-browsers NEVERLOSE_BASE_URL=http://127.0.0.1:8007 NEVERLOSE_RESULTS=<repo>/work/b5-offline-results sandbox-exec -f scripts/offline-macos.sb <Node24>/node node_modules/playwright/cli.js test --config playwright.integration.config.ts --output=../work/b5-real-a"
+  ],
+  "node24_path": "/Users/bahytzanmeiram/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+  "themes": [
+    "light",
+    "dark"
+  ],
+  "viewports": [
+    [
+      1440,
+      900
+    ],
+    [
+      1280,
+      800
+    ],
+    [
+      1024,
+      768
+    ]
+  ],
+  "network_isolation": "macOS sandbox-exec denies external network to API and browser/test processes; loopback permitted. Entire laptop network not disabled.",
+  "visual_review": "Viewed B5 light/dark1440 screenshots and newly captured A dark1440/light1024. No overlapping panels or clipped primary actions observed.",
+  "warnings": [
+    "Vite JS chunk681.98KB; known non-blocking size warning",
+    "Starlette/httpx deprecation from Python tests",
+    "Generated Cytoscape shader strings contain trailing whitespace; source-only diff check passes"
+  ],
+  "limitations": [
+    "No new clean clone or human spoken rehearsal in B5 acceptance",
+    "E1 UI absent",
+    "F13 UI absent; no new paid model requests",
+    "E2 absent",
+    "Submission unconfirmed"
+  ],
+  "dist_sha256": {
+    "web/dist/assets/index-BlhoVejJ.js": "dddae9fc6a83bbcff386ab339880ace621101930185ee9432f1b8a5a3c033469",
+    "web/dist/assets/index-D1lFkpSl.css": "1b93ef14c03d7e1a100a8605f6ae394b1c58e0d10c81fed56270656b6a75cd84",
+    "web/dist/index.html": "e99871179894e47b16a1e66e4cdfc53c4c53e7c24b77db007884972bf17651b6"
+  }
+}
