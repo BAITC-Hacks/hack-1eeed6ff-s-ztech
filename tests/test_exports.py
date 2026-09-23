@@ -326,3 +326,46 @@ def test_verifier_preserves_direction_of_cross_cluster_amounts(raw_dir, tmp_path
     _write_outputs(snapshot, out)
     with pytest.raises(ValueError, match="Cluster statistics"):
         verify_outputs(raw_dir, out)
+
+
+@pytest.mark.parametrize("change", ["role_score", "candidate_score", "cap"])
+def test_verifier_rejects_inconsistent_selected_role_score(raw_dir, tmp_path, change):
+    from app.pipeline import _write_outputs
+
+    out = tmp_path / "results"
+    snapshot = run_pipeline(raw_dir, out)
+    node = next(n for n in snapshot["nodes"] if n["gid"] == str(A))
+    if change == "role_score":
+        node["role_score"] = 0.123456
+    elif change == "candidate_score":
+        chosen = next(c for c in node["candidates"] if c["role"] == node["role"])
+        chosen["capped_score"] = 0.123456
+    else:
+        node["score_caps"][0]["cap"] = 0.01
+    _write_outputs(snapshot, out)
+    with pytest.raises(ValueError, match="selected candidate/caps"):
+        verify_outputs(raw_dir, out)
+
+
+@pytest.mark.parametrize("change", ["unknown_ref", "wrong_node", "duplicate_ref", "total", "url"])
+def test_verifier_rejects_supporting_transfers_that_disagree_with_raw(raw_dir, tmp_path, change):
+    from app.pipeline import _write_outputs
+
+    out = tmp_path / "results"
+    snapshot = run_pipeline(raw_dir, out)
+    node = next(n for n in snapshot["nodes"] if n["gid"] == str(A))
+    support = node["supporting_transfers"]
+    if change == "unknown_ref":
+        support["source_refs"][0] = "tx:nonexistent:999999"
+    elif change == "wrong_node":
+        isolated = next(n for n in snapshot["nodes"] if n["gid"] == str(C))
+        isolated["supporting_transfers"]["source_refs"] = support["source_refs"][:1]
+    elif change == "duplicate_ref":
+        support["source_refs"][1] = support["source_refs"][0]
+    elif change == "total":
+        support["total"] += 1
+    else:
+        support["url"] = f"/api/v1/nodes/{C}/transfers"
+    _write_outputs(snapshot, out)
+    with pytest.raises(ValueError, match="supporting transfers differ from raw"):
+        verify_outputs(raw_dir, out)

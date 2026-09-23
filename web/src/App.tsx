@@ -37,7 +37,14 @@ export function App() {
   const clusterRequest = useRef(new LatestRequest());
   const transfersRef = useRef<HTMLElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
+  const cardHeadingRef = useRef<HTMLHeadingElement>(null);
+  const selectionFocusOrigin = useRef<HTMLElement | null>(null);
   useLayoutEffect(() => { if (entered) searchRef.current?.focus(); }, [entered]);
+  useLayoutEffect(() => {
+    const origin = selectionFocusOrigin.current;
+    selectionFocusOrigin.current = null;
+    if (origin && (!origin.isConnected || origin.getClientRects().length === 0)) cardHeadingRef.current?.focus();
+  });
   const [queue, setQueue] = useState<Remote<NodePage>>(idle);
   const [detail, setDetail] = useState<Remote<NodeDetail>>(idle);
   const [graph, setGraph] = useState<Remote<GraphResponse>>(idle);
@@ -133,6 +140,7 @@ export function App() {
   }, [graphExpanded]);
   async function select(gid: Gid) {
     if (fatal) return;
+    selectionFocusOrigin.current = document.activeElement instanceof HTMLElement && document.activeElement !== document.body ? document.activeElement : null;
     setGraphExpanded(false);
     const request = nodeRequest.current.start();
     setSelected(gid); setClusterId(null); setGraph(idle); setGraphRefresh(v => v + 1); setDetail({ data: null, loading: true, error: null }); setView('detail'); setSearchError('');
@@ -212,7 +220,7 @@ export function App() {
           {transfers.loading && <Loading text="Загрузка переводов…" />}{transfers.error && <Failure error={transfers.error} retry={() => setTransferRefresh(v => v + 1)} />}
           {transfers.data && <Transfers page={transfers.data} gid={selected} direction={direction} offset={transferOffset} setDirection={value => { setDirection(value); setTransferOffset(0); }} setOffset={setTransferOffset} select={gid => void select(gid)} />}
         </section>}</div>
-        <aside className="panel detail-panel" aria-label="Карточка узла"><div className="panel-heading"><div><span className="eyebrow">Детали исследования</span><h2>{clusterId !== null ? 'Карточка кластера' : 'Карточка узла'}</h2></div><button className="drawer-close quiet" onClick={() => { setView('network'); searchRef.current?.focus(); }}>Закрыть · Esc</button></div><div className="panel-body">
+        <aside className="panel detail-panel" aria-label={clusterId !== null ? 'Карточка кластера' : 'Карточка узла'}><div className="panel-heading"><div><span className="eyebrow">Детали исследования</span><h2 ref={cardHeadingRef} tabIndex={-1}>{clusterId !== null ? 'Карточка кластера' : 'Карточка узла'}</h2></div><button className="drawer-close quiet" onClick={() => { setView('network'); searchRef.current?.focus(); }}>Закрыть · Esc</button></div><div className="panel-body">
           {detail.loading && <Loading text={`Загрузка узла ${selected}…`} />}{detail.error && <Failure error={detail.error} retry={() => selected && void select(selected)} />}
           {detail.data && <NodePanel node={detail.data} showTransfers={showTransfers} openCluster={id => { openCluster(id); setView('detail'); }} />}
           {cluster.loading && <Loading text="Загрузка кластера…" />}{cluster.error && <Failure error={cluster.error} retry={() => setGraphRefresh(v => v + 1)} />}{cluster.data && <ClusterPanel cluster={cluster.data} select={gid => void select(gid)} />}

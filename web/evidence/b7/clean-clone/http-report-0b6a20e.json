@@ -1,0 +1,81 @@
+{
+  "timestamp": "2026-09-23T12:31:09.663980+00:00",
+  "environment_keys": [
+    "LANG",
+    "PATH",
+    "__CF_USER_TEXT_ENCODING"
+  ],
+  "checks": {
+    "meta_verify": {
+      "nodes": 2248,
+      "edges": 3119,
+      "transactions": 4840,
+      "seeds": 81,
+      "isolates": 19,
+      "boundary": 444,
+      "clusters": 89
+    },
+    "ui_assets": [
+      {
+        "path": "/assets/index-BG737buB.js",
+        "bytes": 707058,
+        "content_type": "text/javascript; charset=utf-8"
+      },
+      {
+        "path": "/assets/index-_ETgVUsK.css",
+        "bytes": 34538,
+        "content_type": "text/css; charset=utf-8"
+      }
+    ],
+    "readme_example": {
+      "gid": "100000008346837100",
+      "role": "consolidator",
+      "cluster_id": 13,
+      "in_kzt": "254359.00",
+      "out_kzt": "1258643.00"
+    },
+    "boundary_isolate": true,
+    "overview": {
+      "matched_nodes": 89,
+      "shown_nodes": 89,
+      "matched_edges": 210,
+      "shown_edges": 210
+    },
+    "csv": [
+      {
+        "file": "nodes_roles.csv",
+        "data_rows": 2248,
+        "sha256": "d2ed563d2764d1afa4e0115e56123cad9569e14a779acc8efe98f79329bab759",
+        "bytes": 392486
+      },
+      {
+        "file": "clusters.csv",
+        "data_rows": 89,
+        "sha256": "659391a8cf1d6e6c564578a6459ee3e6ead42de25a96431af8baf5a1839d0891",
+        "bytes": 25853
+      },
+      {
+        "file": "top_nodes.csv",
+        "data_rows": 50,
+        "sha256": "8718df3b8b7e78332661300c4b66de382e36464b82c18197940e091457e5c445",
+        "bytes": 27093
+      }
+    ],
+    "unknown_gid": {
+      "error": {
+        "code": "NODE_NOT_FOUND",
+        "message": "Узел не найден",
+        "details": {}
+      },
+      "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3"
+    }
+  },
+  "external_network_probe": {
+    "blocked": true,
+    "errno": 1,
+    "message": "[Errno 1] Operation not permitted"
+  },
+  "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+  "algorithm_version": "1.0.2",
+  "status": "passed"
+}

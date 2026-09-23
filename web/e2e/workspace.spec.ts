@@ -2,6 +2,7 @@ import { openWorkspace } from '../test-support/workspace';
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { A, B, C, fixture, mockApi, nodeDetail } from './fixture';
+import { formatKzt } from '../src/domain';
 
 test.beforeEach(async ({ page }) => { await mockApi(page); });
 for (const size of [{ width: 1440, height: 900 }, { width: 1280, height: 800 }, { width: 1024, height: 768 }]) {
@@ -284,4 +285,30 @@ test('refresh from the narrow card returns to a usable overview', async ({page})
   await page.getByRole('button',{name:'Обновить',exact:true}).click();
   await expect(page.getByTestId('network-canvas')).toBeVisible();
   await expect(page.getByRole('heading',{name:'Обзор кластеров',exact:true})).toBeVisible();
+});
+
+test('narrow keyboard selection keeps focus in the visible card and exposes flow amounts', async ({ page }) => {
+  await page.setViewportSize({ width: 1024, height: 768 }); await openWorkspace(page);
+  await page.getByRole('button', { name: 'Приоритеты', exact: true }).click();
+  await page.getByRole('list', { name: 'Очередь узлов' }).getByRole('button').filter({ has: page.getByText(A, { exact: true }) }).press('Enter');
+  const heading = page.getByRole('heading', { name: 'Карточка узла', exact: true });
+  await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', A);
+  await expect(heading).toBeFocused();
+  const incoming = page.getByRole('button', { name: 'Показать входящие переводы', exact: true });
+  const outgoing = page.getByRole('button', { name: 'Показать исходящие переводы', exact: true });
+  await expect(incoming).toHaveAccessibleDescription(formatKzt(nodeDetail(A)!.in_kzt));
+  await expect(outgoing).toHaveAccessibleDescription(formatKzt(nodeDetail(A)!.out_kzt));
+  await outgoing.press('Enter');
+  const transfers = page.getByLabel('Переводы выбранного узла', { exact: true });
+  await transfers.getByRole('button', { name: B, exact: true }).first().press('Enter');
+  await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
+  await expect(heading).toBeFocused();
+  await page.getByRole('button', { name: 'Закрыть · Esc', exact: true }).press('Enter');
+  const search = page.getByRole('textbox', { name: 'Поиск по полному gid' });
+  await expect(search).toBeFocused();
+  await search.fill(A); await search.press('Enter');
+  await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', A);
+  await expect(search).toBeFocused();
+  await page.getByTestId('node-detail').getByRole('button', { name: /^Кластер / }).click();
+  await expect(page.getByRole('complementary', { name: 'Карточка кластера', exact: true })).toBeVisible();
 });

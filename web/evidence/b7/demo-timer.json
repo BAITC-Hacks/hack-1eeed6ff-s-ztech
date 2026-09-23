@@ -1,0 +1,38 @@
+{
+  "started_at": "2026-09-23T12:35:58.747Z",
+  "finished_at": "2026-09-23T12:37:39.435Z",
+  "elapsed_seconds": 100.688,
+  "steps": [
+    {
+      "name": "intro/problem",
+      "at": "2026-09-23T12:35:58.747Z"
+    },
+    {
+      "name": "node/explanation",
+      "at": "2026-09-23T12:36:21.326Z"
+    },
+    {
+      "name": "evidence/source/alternative",
+      "at": "2026-09-23T12:36:45.122Z"
+    },
+    {
+      "name": "boundary",
+      "at": "2026-09-23T12:37:00.926Z"
+    },
+    {
+      "name": "random raw gid/filter reset",
+      "gid": "100000004825069100",
+      "at": "2026-09-23T12:37:27.713Z"
+    },
+    {
+      "name": "saved CSV verified/end",
+      "at": "2026-09-23T12:37:39.435Z"
+    }
+  ],
+  "pipeline_seconds": 1.16631,
+  "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+  "browser": "Codex IAB, separate temporary tab; CSV saves in separate Chromium with real integration test",
+  "csv_test": "1 passed (2.0s), three files byte-equal API and new pipeline",
+  "spoken_human_presentation": false,
+  "claim": "Technical rehearsal of actions, not a measured human speech; planned spoken budget4:30"
+}
