@@ -250,7 +250,7 @@ def test_http_transport_limits_endpoint_and_redacts_provider_errors(monkeypatch,
 
 
 def test_api_default_offline_and_explicit_agent_activation(snapshot, tmp_path):
-    plain = TestClient(create_app(snapshot, tmp_path))
+    plain = TestClient(create_app(snapshot, tmp_path), base_url="http://127.0.0.1")
     assert plain.get("/api/v1/meta").json()["features"]["agent"] is False
     assert plain.post("/api/v1/agent/query", json={"question": "Вопрос"}).status_code == 503
     assistant = Assistant(snapshot, AgentConfig("test-secret"), FactSelectingProvider())

@@ -1,0 +1,124 @@
+{
+  "stage": "B7 independent full-stack MVP audit",
+  "recorded_at_utc": "2026-09-23T12:26:27.703262+00:00",
+  "integration_main_sha": "1b97707aad6d7b3462139005cef4696b2ea9e702",
+  "upstream_code_sha": "f45632fdab6af0c5eb368a6fc537ce70cdff5622",
+  "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+  "environment": {
+    "os": "macOS 27.0 (26A428)",
+    "hardware": "Apple M2",
+    "python": "3.12.14",
+    "node": "25.2.1",
+    "npm": "11.6.2",
+    "chromium": "140.0.7339.186"
+  },
+  "checks": {
+    "python": {
+      "passed": 187,
+      "seconds": 8.98
+    },
+    "ruff": "PASS",
+    "frontend_unit": {
+      "passed": 33
+    },
+    "build": {
+      "status": "PASS",
+      "js_kb": 707.06,
+      "warning": "Vite chunk >500KB"
+    },
+    "contract_browser": {
+      "passed": 62,
+      "duration_display": "1.2m",
+      "http": "synthetic contract responses, explicitly test-only"
+    },
+    "welcome_repeat": {
+      "passed": 10,
+      "seconds": 20.7
+    },
+    "real_api_browser": {
+      "passed": 5,
+      "seconds": 17.8,
+      "http_substitution": false
+    },
+    "dimensions": [
+      [
+        1440,
+        900
+      ],
+      [
+        1280,
+        800
+      ],
+      [
+        1024,
+        768
+      ]
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "downloads": "3 saved browser downloads byte-equal HTTP responses and pipeline output",
+    "offline": "API and browser processes sandboxed; external network denied, loopback allowed",
+    "live_paid_ai_calls": 0
+  },
+  "fixes": [
+    {
+      "priority": "P2",
+      "name": "Global Host validation",
+      "before": "Non-agent meta/CSV accepted an untrusted Host; 200 observed",
+      "after": "All routes require one raw localhost/127.0.0.1/[::1] authority; invalid Host returns 403",
+      "scope": "Defense against DNS rebinding; full browser exploit was not attempted"
+    },
+    {
+      "priority": "P2",
+      "name": "Snapshot metadata verification",
+      "before": "Rehashed incorrect nested run_id, counts and cluster role counts passed verify_outputs",
+      "after": "Metadata, manifest and directed cluster statistics are checked against raw data; original repros rejected"
+    },
+    {
+      "priority": "P2",
+      "name": "Agent request context",
+      "before": "Changing selected node cancelled a context-free overview request",
+      "after": "Cancellation keyed by effective request context and run_id"
+    },
+    {
+      "priority": "P2",
+      "name": "Agent question suggestions",
+      "before": "Node prompts remained when node context disabled",
+      "after": "Prompts, labels and placeholder follow effective context"
+    },
+    {
+      "priority": "P2",
+      "name": "Entry keyboard focus",
+      "before": "One of 62 tests failed because requestAnimationFrame could precede React commit",
+      "after": "useLayoutEffect focuses mounted search on entry; 10 repeats plus 62 tests passed"
+    }
+  ],
+  "independent_reviews": {
+    "security": "Read-only before/after probes; 23 malformed-authority bypass variants rejected; no new findings",
+    "backend": "Independent full-dataset invariants and original mutation repros; no new findings",
+    "frontend": "Read-only agent-context and focus fix review; no new findings",
+    "test_coverage": "Review identified conditional skip of real transfer pagination; test made mandatory on 125-transfer node; API count/sum assertions strengthened and 5 real tests repeated"
+  },
+  "known_boundaries": [
+    "Not a full penetration test or a bank production certification",
+    "No labeled role/priority accuracy benchmark or analyst usability study",
+    "No new live paid provider call; enabled-agent UI checked with synthetic contract responses",
+    "No Safari/Firefox/Windows/Linux or million-node acceptance",
+    "E1 has backend API but no UI; E2 absent",
+    "Vite bundle warning; known dependency advisories were zero at audit time, unknown vulnerabilities not ruled out"
+  ],
+  "artifacts_sha256": {
+    "web/dist/index.html": "afb5c19ba6e23528120942cba55e8d72a1a87ed12c6af11473b99a5da45386f4",
+    "web/dist/assets/index-BG737buB.js": "54c2a9b019ce74bace433b6b64879e58f36a2ea59a17abe49de72ff1a8897e74",
+    "web/dist/assets/index-_ETgVUsK.css": "b88f0ea3a9caae98f934a9f0b7a4b11c79f8208b97c1931d4d64e7c50e271424"
+  },
+  "fresh_clone": "Clean installation and HTTP checks at f45632f passed; post-fix checkout/browser acceptance will be recorded separately",
+  "open_confirmed_p0_p1": "None found in tested scope; not a guarantee of absence",
+  "rating": {
+    "mvp": 8,
+    "scale": 10,
+    "bank_production_ready": false
+  }
+}

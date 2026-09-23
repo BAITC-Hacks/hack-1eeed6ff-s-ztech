@@ -20,7 +20,7 @@ export function AgentPanel({ api, gid, enabled, runId, select, fail }: Props) {
   }, [open]);
   useEffect(() => {
     latest.current.cancel(); setPending(false); setResult(null); setError(''); setElapsed(0);
-  }, [gid, withNode, runId]);
+  }, [context, runId]);
   useEffect(() => {
     if (!pending) return;
     const started = Date.now(); const timer = window.setInterval(() => setElapsed(Math.floor((Date.now() - started) / 1000)), 1000);
@@ -58,8 +58,8 @@ export function AgentPanel({ api, gid, enabled, runId, select, fail }: Props) {
         {!enabled && <div className="agent-disabled" role="status"><strong>AI-аналитик не включён на этом сервере.</strong><p>Граф, объяснения и CSV доступны локально. Для AI нужен настроенный серверный ключ и интернет.</p><details><summary>Как включить</summary><p>Настройте OPENAI_API_KEY на сервере и запустите <code>python run.py --assistant</code>. Ключ не вводится в браузере.</p></details></div>}
         <form onSubmit={event => void submit(event)} className="agent-form">
           <label htmlFor="agent-question">Вопрос аналитику</label>
-          <textarea id="agent-question" ref={input} value={question} onChange={event => setQuestion(event.target.value)} maxLength={2000} rows={3} disabled={pending} placeholder={gid ? 'Почему этот узел приоритетный и какие переводы это подтверждают?' : 'Какие узлы проверить первыми и почему?'} />
-          <div className="agent-prompts" aria-label="Примеры вопросов">{(gid ? prompts : ['Какие узлы проверить первыми? Покажи основания и ограничения.', 'Какие данные стоит запросить для продолжения анализа?']).map((prompt, index) => <button type="button" key={prompt} disabled={pending} onClick={() => { setQuestion(prompt); input.current?.focus(); }}>{gid ? ['Разобрать гипотезу', 'Проверить переводы', 'Следующий шаг'][index] : ['С чего начать', 'Чего не хватает'][index]}</button>)}</div>
+          <textarea id="agent-question" ref={input} value={question} onChange={event => setQuestion(event.target.value)} maxLength={2000} rows={3} disabled={pending} placeholder={context ? 'Почему этот узел приоритетный и какие переводы это подтверждают?' : 'Какие узлы проверить первыми и почему?'} />
+          <div className="agent-prompts" aria-label="Примеры вопросов">{(context ? prompts : ['Какие узлы проверить первыми? Покажи основания и ограничения.', 'Какие данные стоит запросить для продолжения анализа?']).map((prompt, index) => <button type="button" key={prompt} disabled={pending} onClick={() => { setQuestion(prompt); input.current?.focus(); }}>{context ? ['Разобрать гипотезу', 'Проверить переводы', 'Следующий шаг'][index] : ['С чего начать', 'Чего не хватает'][index]}</button>)}</div>
           <div className="agent-submit"><span>{question.length} / 2000</span><button type="submit" disabled={!enabled || pending || !question.trim()}>Задать вопрос</button></div>
           <p className="agent-disclosure">По нажатию вопрос и выбранные факты передаются OpenAI. Открытие панели запрос не запускает.</p>
         </form>

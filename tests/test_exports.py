@@ -224,3 +224,105 @@ def test_verifier_rejects_node_facts_that_disagree_with_raw(raw_dir, tmp_path, f
     _write_outputs(snapshot, out)
     with pytest.raises(ValueError, match="raw"):
         verify_outputs(raw_dir, out)
+
+
+@pytest.mark.parametrize(
+    "field", ["nodes", "edges", "transactions", "seeds", "isolates", "boundary", "clusters"]
+)
+def test_verifier_rejects_inconsistent_counts_even_with_rehashed_outputs(raw_dir, tmp_path, field):
+    from app.pipeline import _write_outputs
+
+    out = tmp_path / "results"
+    snapshot = run_pipeline(raw_dir, out)
+    snapshot["meta"]["counts"][field] += 1
+    _write_outputs(snapshot, out)
+    with pytest.raises(ValueError, match="Snapshot metadata"):
+        verify_outputs(raw_dir, out)
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("run_id", "wrong-run"),
+        ("schema_version", "999"),
+        ("algorithm_version", "wrong-version"),
+        ("config_version", "wrong-version"),
+        ("package_versions", {}),
+        ("period", {"start": "2025-01-01", "end": "2025-01-31"}),
+    ],
+)
+def test_verifier_rejects_inconsistent_snapshot_metadata(raw_dir, tmp_path, field, value):
+    from app.pipeline import _write_outputs
+
+    out = tmp_path / "results"
+    snapshot = run_pipeline(raw_dir, out)
+    snapshot["meta"][field] = value
+    _write_outputs(snapshot, out)
+    with pytest.raises(ValueError, match="Snapshot metadata"):
+        verify_outputs(raw_dir, out)
+
+
+@pytest.mark.parametrize(
+    "field", ["role_counts", "boundary_count", "cross_in_kzt", "cross_out_kzt"]
+)
+def test_verifier_rejects_inconsistent_cluster_aggregates(raw_dir, tmp_path, field):
+    from app.pipeline import _write_outputs
+
+    out = tmp_path / "results"
+    snapshot = run_pipeline(raw_dir, out)
+    group = snapshot["clusters"][0]
+    if field == "role_counts":
+        group[field]["peripheral"] += 1
+    elif field == "boundary_count":
+        group[field] += 1
+    else:
+        group[field] = "999.99"
+    _write_outputs(snapshot, out)
+    with pytest.raises(ValueError, match="Cluster statistics"):
+        verify_outputs(raw_dir, out)
+
+
+@pytest.mark.parametrize(
+    "field,value",
+    [
+        ("counts", {}),
+        ("input_rows", {}),
+        ("algorithm_version", "wrong-version"),
+        ("package_versions", {}),
+        ("generated_at", "wrong-date"),
+        ("duration_seconds", -1),
+        ("limitations", []),
+    ],
+)
+def test_verifier_rejects_manifest_metadata_that_disagrees_with_result(
+    raw_dir, tmp_path, field, value
+):
+    out = tmp_path / "results"
+    run_pipeline(raw_dir, out)
+    path = out / "manifest.json"
+    manifest = json.loads(path.read_text())
+    manifest[field] = value
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="Manifest metadata"):
+        verify_outputs(raw_dir, out)
+
+
+def test_verifier_preserves_direction_of_cross_cluster_amounts(raw_dir, tmp_path, monkeypatch):
+    from app.pipeline import _write_outputs
+
+    # A -> B has two real fixture rows. Separate their clusters to exercise
+    # nonzero external amounts rather than only empty cross-cluster sums.
+    monkeypatch.setattr("app.pipeline.assign_clusters", lambda graph, rules: {A: 1, B: 2, C: 3})
+    out = tmp_path / "results"
+    snapshot = run_pipeline(raw_dir, out)
+    groups = {group["cluster_id"]: group for group in snapshot["clusters"]}
+    assert groups[1]["cross_out_kzt"] == groups[2]["cross_in_kzt"] == "10000.02"
+    assert groups[1]["cross_in_kzt"] == groups[2]["cross_out_kzt"] == "0.00"
+    assert verify_outputs(raw_dir, out)["status"] == "valid"
+    groups[1]["cross_in_kzt"], groups[1]["cross_out_kzt"] = (
+        groups[1]["cross_out_kzt"],
+        groups[1]["cross_in_kzt"],
+    )
+    _write_outputs(snapshot, out)
+    with pytest.raises(ValueError, match="Cluster statistics"):
+        verify_outputs(raw_dir, out)

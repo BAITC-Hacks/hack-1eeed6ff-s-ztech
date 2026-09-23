@@ -1,0 +1,8 @@
+{
+  "run_id": "d194e7cad44fdc0265a5d8f2eeeb9ab7a4a16a88a98e3eeecd164ad01a4658d3",
+  "sha256": {
+    "nodes_roles.csv": "d2ed563d2764d1afa4e0115e56123cad9569e14a779acc8efe98f79329bab759",
+    "clusters.csv": "659391a8cf1d6e6c564578a6459ee3e6ead42de25a96431af8baf5a1839d0891",
+    "top_nodes.csv": "8718df3b8b7e78332661300c4b66de382e36464b82c18197940e091457e5c445"
+  }
+}

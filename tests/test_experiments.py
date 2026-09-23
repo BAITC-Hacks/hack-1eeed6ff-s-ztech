@@ -83,7 +83,7 @@ def test_pair_counts_match_independent_path_enumeration_for_small_random_graphs(
 def removal_client(raw_dir, tmp_path):
     out = tmp_path / "out"
     snapshot = run_pipeline(raw_dir, out)
-    return TestClient(create_app(snapshot, out)), snapshot, out
+    return TestClient(create_app(snapshot, out), base_url="http://127.0.0.1"), snapshot, out
 
 
 def test_api_preserves_snapshot_exports_and_exact_ids_and_order_invariant_result(removal_client):

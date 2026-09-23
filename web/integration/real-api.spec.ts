@@ -87,6 +87,8 @@ test('real CSV downloads match the API and published result files byte for byte'
     expect(bytes.equals(await response.body())).toBe(true);
     const disk = await readFile(resolve(process.env.NEVERLOSE_RESULTS ?? '../results', name));
     expect(bytes.equals(disk)).toBe(true); evidence[name] = createHash('sha256').update(bytes).digest('hex');
+    await page.getByRole('button', { name: 'Закрыть сообщение выгрузки', exact: true }).click();
+    await expect(page.locator('.export-message')).toHaveCount(0);
   }
   await writeFile(info.outputPath('download-hashes.json'), JSON.stringify({ run_id: meta.run_id, sha256: evidence }, null, 2));
 });

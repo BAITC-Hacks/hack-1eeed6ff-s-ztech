@@ -1,0 +1,40 @@
+{
+  "checked_at_utc": "2026-09-23T12:15:48.343124+00:00",
+  "head": "f45632fdab6af0c5eb368a6fc537ce70cdff5622",
+  "npm": {
+    "endpoint": "https://registry.npmjs.org",
+    "command": "npm audit --json --registry=https://registry.npmjs.org",
+    "exit_code": 0,
+    "metadata": {
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      },
+      "dependencies": {
+        "prod": 4,
+        "dev": 148,
+        "optional": 54,
+        "peer": 7,
+        "peerOptional": 0,
+        "total": 152
+      }
+    },
+    "advisories": []
+  },
+  "python": {
+    "endpoint": "https://api.osv.dev/v1/querybatch",
+    "production_locked_packages": 22,
+    "production_and_development_locked_packages": 31,
+    "advisories": []
+  },
+  "lock_sha256": {
+    "web/package-lock.json": "5b56627ebd44aca12911c676df4d67c5d7a08cc6225bcc3afc63c78c7fd665ba",
+    "requirements.lock": "7dd57ff3ee3edda02e5aa27257d66ff3bc8e1f8646b960fa081c40d0bc7e642f",
+    "requirements-dev.lock": "be9c968c89e754c5c8dcdf68438e2ef49b62d4931e0b11924e949d1e7cf6b3d4"
+  },
+  "scope": "Known advisories returned for locked package names and versions. No updates installed; no paid services; only public dependency identifiers sent. Does not establish absence of undisclosed vulnerabilities or cover OS/browser binaries."
+}

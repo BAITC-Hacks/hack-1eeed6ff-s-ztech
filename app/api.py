@@ -90,6 +90,19 @@ def create_app(
             },
         )
 
+    @app.middleware("http")
+    async def local_host_only(request: Request, call_next):
+        # Loopback binding alone does not stop a browser DNS-rebinding request.
+        # Validate the raw authority, not just url.hostname (which accepts userinfo).
+        hosts = request.headers.getlist("host")
+        if len(hosts) != 1 or not re.fullmatch(
+            r"(?:localhost|127\.0\.0\.1|\[::1\])(?::[0-9]{1,5})?", hosts[0], re.IGNORECASE
+        ):
+            return error_response(
+                403, "HOST_DENIED", "Доступ разрешён только через локальный адрес приложения."
+            )
+        return await call_next(request)
+
     @app.exception_handler(ApiError)
     async def known_error(request, exc):
         return error_response(exc.status, exc.code, exc.message, exc.details)

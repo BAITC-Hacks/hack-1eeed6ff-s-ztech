@@ -135,3 +135,37 @@ test('expanded graph hides AI dock and Escape restores its entry', async ({ page
   await expect(page.getByRole('button', { name:'Открыть AI-аналитика' })).toBeHidden();
   await page.keyboard.press('Escape'); await expect(page.getByRole('button', { name:'Открыть AI-аналитика' })).toBeVisible();
 });
+
+
+test('overview agent context and pending answer survive unrelated node selection', async ({page}) => {
+  await setup(page, true);
+  let release!: () => void;
+  let calls = 0;
+  const wait = new Promise<void>(resolve => { release = resolve; });
+  await page.route('**/api/v1/agent/query', async route => {
+    calls++;
+    expect(route.request().postDataJSON().gid).toBeNull();
+    await wait;
+    await route.fulfill({json: answer()}).catch(() => {});
+  });
+  await openWorkspace(page);
+  const search = page.getByRole('textbox', {name:'Поиск по полному gid'});
+  await search.fill(A); await search.press('Enter');
+  await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', A);
+  await page.getByRole('button', {name:'Открыть AI-аналитика'}).click();
+  await page.getByLabel(/Учитывать выбранный узел/).uncheck();
+  await expect(page.getByRole('button', {name:'Разобрать гипотезу', exact:true})).toHaveCount(0);
+  await page.getByRole('button', {name:'С чего начать', exact:true}).click();
+  await expect(page.getByLabel('Вопрос аналитику', {exact:true})).toHaveValue('Какие узлы проверить первыми? Покажи основания и ограничения.');
+  await page.getByRole('button', {name:'Задать вопрос', exact:true}).click();
+  await expect(page.getByText('Аналитик обрабатывает вопрос…')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await search.fill(B); await search.press('Enter');
+  await expect(page.getByTestId('node-detail')).toHaveAttribute('data-gid', B);
+  await page.getByRole('button', {name:'Открыть AI-аналитика'}).click();
+  await expect(page.getByLabel(/Учитывать выбранный узел/)).not.toBeChecked();
+  await expect(page.getByText('Аналитик обрабатывает вопрос…')).toBeVisible();
+  release();
+  await expect(page.getByText(`Тестовое наблюдение для ${B}.`, {exact:true})).toBeVisible();
+  expect(calls).toBe(1);
+});

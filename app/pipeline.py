@@ -261,7 +261,7 @@ def verify_outputs(
     snap = json.loads((out / "snapshot.json").read_text())
     ds = load_dataset(Path(data_dir), profile=profile)
     rules = load_rules(rules_path)
-    run_id, _ = identity(ds.hashes, rules)
+    run_id, versions = identity(ds.hashes, rules)
     if (
         snap.get("run_id") != run_id
         or manifest.get("run_id") != run_id
@@ -383,17 +383,27 @@ def verify_outputs(
         raise ValueError("Invalid cluster IDs")
     for cluster in groups:
         members = [n for n in nodes if n["cluster_id"] == cluster["cluster_id"]]
-        internal = sum(
-            d["sum_tiyin"]
-            for a, b, d in g.edges(data=True)
-            if node_map[str(a)]["cluster_id"]
-            == cluster["cluster_id"]
-            == node_map[str(b)]["cluster_id"]
-        )
+        internal = cross_in = cross_out = 0
+        cid = cluster["cluster_id"]
+        for a, b, data in g.edges(data=True):
+            source = node_map[str(a)]["cluster_id"]
+            target = node_map[str(b)]["cluster_id"]
+            if source == target == cid:
+                internal += data["sum_tiyin"]
+            elif source != target:
+                if source == cid:
+                    cross_out += data["sum_tiyin"]
+                if target == cid:
+                    cross_in += data["sum_tiyin"]
         if (
             cluster["n_nodes"] != len(members)
             or cluster["n_seed"] != sum(n["is_seed"] for n in members)
             or parse_kzt(cluster["sum_kzt_internal"]) != internal
+            or parse_kzt(cluster["cross_in_kzt"]) != cross_in
+            or parse_kzt(cluster["cross_out_kzt"]) != cross_out
+            or cluster["boundary_count"] != sum("boundary" in n["flags"] for n in members)
+            or cluster["role_counts"]
+            != {role: sum(n["role"] == role for n in members) for role in ROLE_NAMES}
         ):
             raise ValueError("Cluster statistics differ from raw")
         if cluster["top_gids"] != [n["gid"] for n in members[:3]]:
@@ -407,6 +417,40 @@ def verify_outputs(
         or parse_kzt(snap["meta"]["total_kzt"]) != ds.audit["total_tiyin"]
     ):
         raise ValueError("Transaction count/total differs from raw")
+    expected_counts = dict(
+        nodes=len(ds.nodes),
+        edges=len(ds.edges),
+        transactions=len(ds.transactions),
+        seeds=int(ds.nodes.is_seed.sum()),
+        isolates=nx.number_of_isolates(g),
+        boundary=sum(g.nodes[v]["depth"] == 4 and g.out_degree(v) == 0 for v in g),
+        clusters=len(groups),
+    )
+    expected_meta = dict(
+        run_id=run_id,
+        schema_version="1",
+        config_version=rules["version"],
+        algorithm_version=ALGORITHM_VERSION,
+        counts=expected_counts,
+        source_hashes=ds.hashes,
+        package_versions=versions,
+        period=dict(start="2026-07-01", end="2026-07-31"),
+    )
+    if snap.get("schema_version") != "1" or any(
+        snap["meta"].get(key) != value for key, value in expected_meta.items()
+    ):
+        raise ValueError("Snapshot metadata differs from verified result")
+    expected_manifest = dict(
+        algorithm_version=ALGORITHM_VERSION,
+        package_versions=versions,
+        input_rows=ds.audit["rows"],
+        counts=expected_counts,
+        generated_at=snap["meta"]["generated_at"],
+        duration_seconds=snap["meta"]["duration_seconds"],
+        limitations=LIMITATIONS,
+    )
+    if any(manifest.get(key) != value for key, value in expected_manifest.items()):
+        raise ValueError("Manifest metadata differs from verified result")
     return dict(
         status="valid",
         run_id=run_id,

@@ -14,7 +14,7 @@ from app.schemas import NodeDetail
 def client(raw_dir, tmp_path):
     out = tmp_path / "output"
     s = run_pipeline(raw_dir, out)
-    return TestClient(create_app(s, out))
+    return TestClient(create_app(s, out), base_url="http://127.0.0.1")
 
 
 def test_long_ids_survive_api_and_real_node_parser(client):
@@ -138,7 +138,7 @@ def test_exports_stay_with_loaded_snapshot_after_disk_replacement(raw_dir, tmp_p
     rules_path.write_text(json.dumps(rules))
     changed = run_pipeline(raw_dir, out, rules_path=rules_path)
     assert original["run_id"] != changed["run_id"]
-    client = TestClient(create_app(original, out))
+    client = TestClient(create_app(original, out), base_url="http://127.0.0.1")
     node = client.get(f"/api/v1/nodes/{A}").json()
     response = client.get("/api/v1/exports/nodes_roles.csv")
     rows = {r["gid"]: r for r in csv.DictReader(io.StringIO(response.text))}
@@ -153,3 +153,35 @@ def test_exports_stay_with_loaded_snapshot_after_disk_replacement(raw_dir, tmp_p
 )
 def test_negative_cluster_identifier_is_invalid_parameter(client, path):
     assert client.get(path).status_code == 422
+
+
+@pytest.mark.parametrize(
+    "host",
+    [
+        "untrusted.example:8000",
+        "localhost.evil.test",
+        "user@localhost",
+        "127.0.0.1.evil.test",
+        "[::1]@evil.test",
+        "",
+    ],
+)
+@pytest.mark.parametrize(
+    "path", ["/health", "/api/v1/meta", "/api/v1/exports/nodes_roles.csv", "/"]
+)
+def test_foreign_hosts_cannot_read_any_local_route(client, host, path):
+    response = client.get(path, headers={"host": host})
+    assert response.status_code == 403
+    assert response.json()["error"]["code"] == "HOST_DENIED"
+    assert set(response.json()) == {"error", "run_id"}
+
+
+@pytest.mark.parametrize("host", ["127.0.0.1", "localhost:8000", "LOCALHOST:8000", "[::1]:8000"])
+def test_documented_loopback_hosts_keep_working(client, host):
+    assert client.get("/api/v1/meta", headers={"host": host}).status_code == 200
+    assert client.get("/api/v1/exports/nodes_roles.csv", headers={"host": host}).status_code == 200
+
+
+def test_duplicate_host_is_rejected(client):
+    response = client.get("/health", headers=[("host", "localhost"), ("host", "evil.test")])
+    assert response.status_code == 403
