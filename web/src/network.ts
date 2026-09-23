@@ -27,7 +27,7 @@ export function updateNetwork(cy: Core, graph: GraphResponse, selected: Gid | nu
   // Only layout distances are computed here; financial/role calculations stay on the API.
   const distances = new Map<string, number>();
   if (selected) cy.elements().bfs({ roots: cy.getElementById(`n:${selected}`), directed: false, visit: (node, _edge, _previous, _index, depth) => { distances.set(node.id(), depth); } });
-  cy.layout({ name: 'concentric', animate: false, padding: 40, minNodeSpacing: 35, fit: true,
+  cy.layout({ name: 'concentric', animate: false, padding: 30, minNodeSpacing: graph.nodes.length > 10 ? 10 : 35, fit: true,
     concentric: node => selected ? 100 - (distances.get(node.id()) ?? 99) : node.degree(),
     levelWidth: () => 1, nodeDimensionsIncludeLabels: true,
     sort: (a, b) => a.id().localeCompare(b.id()),

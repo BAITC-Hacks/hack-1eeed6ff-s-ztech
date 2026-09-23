@@ -36,11 +36,23 @@ export type GraphResponse = {
   nodes: GraphNode[]; edges: GraphEdge[];
   counts: { matched_nodes: number; shown_nodes: number; matched_edges: number; shown_edges: number }; truncated: boolean;
 };
+export type Direction = 'all' | 'in' | 'out';
+export type TransferPage = { run_id: string; items: Transfer[]; total: number; offset: number; limit: number; direction: Direction; sum_kzt: Kzt; in_kzt: Kzt; out_kzt: Kzt };
+export type Meta = {
+  run_id: string; schema_version: string; config_version: string; algorithm_version: string;
+  counts: { nodes: number; edges: number; transactions: number; seeds: number; isolates: number; boundary: number; clusters: number };
+  period: { start: string; end: string }; total_kzt: Kzt; limitations: string[];
+  duration_seconds: number; source_hashes: Record<string, string>;
+  features: { brief: boolean; removal: boolean; temporal: boolean; agent: boolean };
+};
+export type ClusterPage = { run_id: string; items: ClusterSummary[] };
+export const exportNames = ['nodes_roles.csv', 'clusters.csv', 'top_nodes.csv'] as const;
+export type ExportName = typeof exportNames[number];
 export type Filters = { role: Role | ''; cluster_id: string; boundary: boolean; is_seed: boolean };
 export const emptyFilters: Filters = { role: '', cluster_id: '', boundary: false, is_seed: false };
 
 export function validGid(value: unknown): value is Gid {
-  return typeof value === 'string' && /^[0-9]{1,19}$/.test(value) && BigInt(value) <= 9223372036854775807n;
+  return typeof value === 'string' && /^[0-9]{1,19}$/.test(value) && BigInt(value) > 0n && BigInt(value) <= 9223372036854775807n;
 }
 export function formatKzt(value: Kzt): string {
   const [whole, fraction] = value.split('.');

@@ -1,5 +1,5 @@
-import { parseGraph, parseNodeDetail, parseNodePage } from './contract';
-import { validGid, type Filters, type Gid } from './domain';
+import { parseClusterDetail, parseClusters, parseGraph, parseMeta, parseNodeDetail, parseNodePage, parseTransfers } from './contract';
+import { exportNames, validGid, type Direction, type ExportName, type Filters, type Gid } from './domain';
 
 export class ApiError extends Error {
   constructor(message: string, readonly status = 0, readonly code = 'NETWORK_ERROR') { super(message); this.name = 'ApiError'; }
@@ -59,6 +59,40 @@ export class ApiSession {
       throw new ApiError('API вернул граф другого среза.', 502, 'GRAPH_SCOPE_MISMATCH');
     }
     return this.accept(value);
+  }
+  async meta(signal: AbortSignal) {
+    const value = parseMeta(await requestJson('/api/v1/meta', signal)); signal.throwIfAborted(); return this.accept(value);
+  }
+  async clusters(signal: AbortSignal) {
+    const value = parseClusters(await requestJson('/api/v1/clusters', signal)); signal.throwIfAborted(); return this.accept(value);
+  }
+  async cluster(id: number, signal: AbortSignal) {
+    const value = parseClusterDetail(await requestJson(`/api/v1/clusters/${id}`, signal)); signal.throwIfAborted();
+    if (value.cluster_id !== id) throw new ApiError('API вернул другой кластер.', 502, 'CLUSTER_MISMATCH');
+    return this.accept(value);
+  }
+  async transfers(gid: Gid, direction: Direction, offset: number, signal: AbortSignal) {
+    const query = new URLSearchParams({ direction, offset: String(offset), limit: '50' });
+    const value = parseTransfers(await requestJson(`/api/v1/nodes/${encodeURIComponent(gid)}/transfers?${query}`, signal));
+    signal.throwIfAborted();
+    if (value.direction !== direction || value.items.some(t => (direction === 'in' ? t.dst !== gid : direction === 'out' ? t.src !== gid : t.src !== gid && t.dst !== gid))) {
+      throw new ApiError('API вернул переводы другого узла или направления.', 502, 'TRANSFER_SCOPE_MISMATCH');
+    }
+    return this.accept(value);
+  }
+  async download(name: ExportName, signal: AbortSignal): Promise<Blob> {
+    if (!exportNames.includes(name)) throw new ApiError('Неизвестная выгрузка.', 422, 'INVALID_EXPORT');
+    let response: Response;
+    try { response = await fetch(`/api/v1/exports/${name}`, { signal, cache: 'no-store' }); }
+    catch (error) { if (signal.aborted) throw error; throw new ApiError('API недоступен. Файл не скачан. Повторите запрос.'); }
+    if (!response.ok) throw new ApiError(`Не удалось скачать ${name} (HTTP ${response.status}).`, response.status);
+    const runId = response.headers.get('X-Run-Id');
+    if (!runId || !response.headers.get('content-type')?.includes('text/csv') || !response.headers.get('content-disposition')?.includes('attachment')) {
+      throw new ApiError('API не подтвердил CSV, attachment или X-Run-Id. Файл не скачан.', 502, 'INVALID_EXPORT_RESPONSE');
+    }
+    const blob = await response.blob(); signal.throwIfAborted(); this.accept({ run_id: runId });
+    if (!blob.size) throw new ApiError('API вернул пустой файл.', 502, 'EMPTY_EXPORT');
+    return blob;
   }
 }
 

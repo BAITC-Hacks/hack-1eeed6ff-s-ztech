@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import fixture from '../../contracts/v1.example.json';
 import { ApiSession, LatestRequest, requestJson, SnapshotChanged } from './api';
-import { parseGraph, parseNodeDetail, parseNodePage } from './contract';
+import { parseClusterDetail, parseClusters, parseGraph, parseMeta, parseNodeDetail, parseNodePage, parseTransfers } from './contract';
 import { emptyFilters, formatKzt, validGid } from './domain';
 
 afterEach(() => vi.unstubAllGlobals());
@@ -64,5 +64,28 @@ describe('published contract v1', () => {
   it('rejects a response for another exact gid', async () => {
     vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(fixture.node_detail))));
     await expect(new ApiSession().node('900000000000000001', new AbortController().signal)).rejects.toMatchObject({ code: 'GID_MISMATCH' });
+  });
+  it('parses meta, clusters and source rows without collapsing repeated transfers', () => {
+    expect(parseMeta(fixture.meta).counts.nodes).toBe(3);
+    expect(parseClusters(fixture.clusters).items).toHaveLength(2);
+    expect(parseClusterDetail(fixture.cluster_detail).n_nodes).toBe(2);
+    const page = parseTransfers(fixture.transfers);
+    expect(page.items).toHaveLength(2); expect(page.items[0].sum_kzt).toBe(page.items[1].sum_kzt);
+    expect(page.items[0].source_ref).not.toBe(page.items[1].source_ref);
+  });
+  it('rejects transfers returned for the wrong node or direction', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response(JSON.stringify(fixture.transfers))));
+    await expect(new ApiSession().transfers('123', 'all', 0, new AbortController().signal)).rejects.toMatchObject({ code: 'TRANSFER_SCOPE_MISMATCH' });
+  });
+  it('does not replace full-selection totals with sums of a page', () => {
+    const value = parseTransfers({ ...fixture.transfers, total: 100, sum_kzt: '1000000.00' });
+    expect(value.items).toHaveLength(2); expect(value.total).toBe(100); expect(value.sum_kzt).toBe('1000000.00');
+  });
+  it('refuses a CSV with a different run_id or missing provenance', async () => {
+    const api = new ApiSession(); api.accept({ run_id: 'current' });
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('gid,role\n', { headers: { 'content-type': 'text/csv', 'content-disposition': 'attachment', 'X-Run-Id': 'other' } })));
+    await expect(api.download('nodes_roles.csv', new AbortController().signal)).rejects.toThrow(SnapshotChanged);
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValue(new Response('gid,role\n', { headers: { 'content-type': 'text/csv' } })));
+    await expect(new ApiSession().download('nodes_roles.csv', new AbortController().signal)).rejects.toMatchObject({ code: 'INVALID_EXPORT_RESPONSE' });
   });
 });
