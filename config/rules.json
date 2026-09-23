@@ -1,0 +1,19 @@
+{
+  "version": "v1",
+  "seed_max_hops": 4,
+  "pagerank": {"alpha": 0.85, "tol": 1e-8, "max_iter": 500},
+  "betweenness": {"sample_size": 128, "seed": 42},
+  "louvain": {"resolution": 1.0, "threshold": 1e-7, "seed": 42},
+  "roles": {
+    "consolidator": {"min_in_degree": 3, "degree_scale": 8, "seed_scale": 3, "weights": [0.45, 0.25, 0.30]},
+    "distributor": {"min_out_degree": 5, "degree_scale": 20, "weights": [0.60, 0.40]},
+    "transit": {"ratio_min": 0.8, "ratio_max": 1.2, "ratio_width": 0.2, "degree_scale": 3, "weights": [0.60, 0.20, 0.20]},
+    "terminal": {"max_depth_exclusive": 4, "degree_scale": 3, "weights": [0.50, 0.25, 0.25]},
+    "coordinator": {"max_depth_exclusive": 4, "min_in_degree": 2, "min_out_degree": 2, "min_seed_reach": 2, "min_participation": 0.30, "min_betweenness_percentile": 0.90, "seed_scale": 5, "weights": [0.35, 0.25, 0.20, 0.20]},
+    "peripheral": {"observed_score": 0.20}
+  },
+  "tie_break": ["coordinator", "consolidator", "distributor", "transit", "terminal"],
+  "caps": {"coordinator": 0.55, "terminal": 0.65, "boundary": 0.65, "seed": 0.65, "low_observation": 0.45},
+  "priority": {"turnover": 0.30, "betweenness": 0.25, "seed_reach": 0.20, "degree": 0.15, "participation": 0.10, "seed_scale": 5},
+  "top_n": 50
+}
